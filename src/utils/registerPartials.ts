@@ -5,7 +5,7 @@ export default function registerPartials(templates: Record<string, string>) {
 
   data.map(([path, template]) => {
     const name = extractNameFromPath(path);
+    console.log(name);
+    if (name) Handlebars.registerPartial(name, template);
   });
-
-  console.log(data);
 }

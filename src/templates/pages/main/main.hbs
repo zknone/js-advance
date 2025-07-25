@@ -1,14 +1,14 @@
-<div class="mainPage">
-    <div class="main_sidebar">
-        {{> profile}}
+<div class="main-page">
+    <div class="main-page_sidebar">
+        {{> profileInfo}}
         {{> search}}
         {{> chatList}}
     </div>
-        <div class="main_chosen-chat">
+    <div class="main-page_chosen-chat">
         {{#if noChat}}
-            <span class="main_no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
+            <span class="main-page_no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
         {{/if}}
-        {{#if !noChat}}
+        {{#if hasChat}}
             {{> chatMenu }}
             {{> messageList}}
             {{> messageQuill}}
