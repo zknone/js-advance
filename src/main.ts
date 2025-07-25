@@ -6,7 +6,7 @@ import registerPartials from "./utils/registerPartials.ts";
 
 const app = document.querySelector("#app")!;
 
-const styles = import.meta.glob("./templates/components/**/*.scss", {
+const styles = import.meta.glob("./templates/**/**/*.scss", {
   eager: true,
 }) as Record<string, string>;
 

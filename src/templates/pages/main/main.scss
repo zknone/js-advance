@@ -7,4 +7,12 @@
 .main-page_sidebar {
     display: flex;
     flex-direction: column;
+    grid-column: 1;
+}
+
+
+.main-page_chosen-chat {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
 }
