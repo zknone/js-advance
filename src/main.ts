@@ -1,31 +1,36 @@
+import { registerPartial } from "handlebars";
 import "./style.css";
 
 import { renderComponent } from "./utils/renderComponent.ts";
+import registerPartials from "./utils/registerPartials.ts";
 
 const app = document.querySelector("#app")!;
 
-import.meta.glob("./templates/components/**/*.module.scss", { eager: true });
-const templatePathes = import.meta.glob("./templates/components/**/**/*.hbs", {
+const styles = import.meta.glob("./templates/components/**/*.scss", {
   eager: true,
-  import: "default",
 }) as Record<string, string>;
 
-const templates = import.meta.glob("./templates/components/**/**/*.hbs?raw", {
+const templates = import.meta.glob("./templates/components/**/*.hbs", {
+  as: "raw",
   eager: true,
-  import: "default",
 }) as Record<string, string>;
 
-console.log("templatesPathes", templatePathes);
-console.log("templates", templates);
-console.log(Object.keys(templates));
+const pages = import.meta.glob("./templates/pages/**/*.hbs", {
+  as: "raw",
+  eager: true,
+}) as Record<string, string>;
 
-const chatItemData = {
+console.log({ pages });
+
+const mainPageData = {
   name: "Андрей",
   time: "10:49",
   message: "Изображение",
   unreadCount: 2,
 };
 
-renderComponent("chatItem", templates, chatItemData).then((html) => {
+registerPartials(templates);
+
+renderComponent("main", pages, mainPageData, styles).then((html) => {
   app.innerHTML = html;
 });

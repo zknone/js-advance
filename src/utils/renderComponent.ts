@@ -4,14 +4,23 @@ import { getTemplate } from "./getTemplate";
 export async function renderComponent(
   name: string,
   templates: Record<string, string>,
-  data: any
+  data: any,
+  styles?: Record<string, string>
 ): Promise<string> {
+  if (styles) {
+    const styleName = `/${name}/${name}.scss`;
+
+    const styleKey = Object.keys(styles).find((path) =>
+      path.includes(styleName)
+    );
+
+    if (styleKey) {
+      await import(`../${styleKey}`);
+    } else {
+      console.warn(`⚠️ No style found for ${name}`);
+    }
+  }
   const templateString = getTemplate(name, templates);
-  console.log("template:", templateString);
-  console.log("type:", typeof templateString);
   const compiled = Handlebars.compile(templateString);
-
-  console.log(compiled);
-
   return compiled(data);
 }

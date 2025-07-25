@@ -5,13 +5,12 @@ export function getTemplate(
   templates: Record<string, string>
 ): string {
   const key = Object.keys(templates).find((path) =>
-    path.includes(`/components/${name}/${name}.hbs`)
+    path.includes(`/${name}/${name}.hbs`)
   );
 
   if (!key) throw new Error(`Template not found for: ${name}`);
 
   const raw = templates[key];
 
-  console.log("компайлед", raw);
   return raw;
 }
