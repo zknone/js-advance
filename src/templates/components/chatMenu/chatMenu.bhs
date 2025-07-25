@@ -1,0 +1,11 @@
+<div class="chat-menu">
+  <div class="chat-menu__avatar"></div>
+
+  <div class="chat-menu__name">
+    {{name}}
+  </div>
+
+  <button class="chat-menu__actions" aria-label="Открыть меню">
+    ⋮
+  </button>
+</div>

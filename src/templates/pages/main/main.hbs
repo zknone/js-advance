@@ -1,0 +1,20 @@
+<div class="main">
+    <div class="main_sidebar">
+        {{> profile}}
+        {{> search}}
+        {{> chatList}}
+    </div>
+        <div class="main_chosen-chat">
+        {{#if noChat}}
+            <span class="main_no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
+        {{/if}}
+        {{#if !noChat}}
+            {{> chatMenu }}
+            {{> messageList}}
+            {{> messageQuill}}
+        {{/if}}
+
+        </div>
+
+
+</div>

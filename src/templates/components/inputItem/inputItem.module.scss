@@ -1,0 +1,23 @@
+.input-item {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    label {
+        color: var(--color-grey);
+        padding: 7px;
+        border-bottom: 1px solid var(--color-blue);
+    }
+
+    input {
+        color: var(--color-primary);
+        &.error {
+        color: var(--color-red);
+        }
+    }
+
+    _error {
+        color: var(--color-error);
+        font-size: 0.875rem;
+    }
+}

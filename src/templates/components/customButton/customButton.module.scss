@@ -1,0 +1,25 @@
+.custom-button {
+  padding: 12px;
+  width: 100%;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+
+  &--link {
+    background: none;
+    padding: 8px 0;
+    width: auto;
+  }
+
+  &--color-blue {
+    color: var(--color-blue);
+  }
+
+  &--color-red {
+    color: var(--color-red);
+  }
+
+  &--color-white {
+    color: white;
+  }
+}

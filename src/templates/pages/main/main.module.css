@@ -1,0 +1,10 @@
+.main {
+    display: grid;
+    grid-template-columns: 25%;
+
+    &_sidebar {
+        display: flex;
+        flex-direction: column;
+    }
+}
+

@@ -1,0 +1,23 @@
+<div class="profile">
+  <div class="profile__avatar-wrapper">
+    <div class="profile__avatar">
+      <span class="profile__avatar-overlay">Поменять аватар</span>
+    </div>
+    <div class="profile__name">{{name}}</div>
+  </div>
+
+  <div class="profile__info">
+    {{#each fields}}
+      <div class="profile__row">
+        <span class="profile__label">{{label}}</span>
+        <span class="profile__value">{{value}}</span>
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="profile__actions">
+    {{> customButton text="Изменить данные" type="button" variant="link" color="blue" }}
+    {{> customButton text="Изменить пароль" type="button" variant="link" color="blue" }}
+    {{> customButton text="Выйти" type="button" variant="link" color="red" }}
+  </div>
+</div>
