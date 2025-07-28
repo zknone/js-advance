@@ -1,10 +1,6 @@
-import { registerPartial } from "handlebars";
 import "./style.css";
-
-import { renderComponent } from "./utils/renderComponent.ts";
 import registerPartials from "./utils/registerPartials.ts";
-
-const app = document.querySelector("#app")!;
+import { renderPage } from "./utils/renderPage.ts";
 
 const styles = import.meta.glob("./templates/**/**/*.scss", {
   eager: true,
@@ -19,8 +15,6 @@ const pages = import.meta.glob("./templates/pages/**/*.hbs", {
   as: "raw",
   eager: true,
 }) as Record<string, string>;
-
-console.log({ pages });
 
 const mainPageData = {
   noChat: false,
@@ -75,8 +69,21 @@ const mainPageData = {
   ],
 };
 
+const routes: Record<string, () => void> = {
+  main: () => renderPage("main", pages, mainPageData, styles),
+  profile: () => renderPage("main", pages, mainPageData, styles),
+  login: () => renderPage("main", pages, mainPageData, styles),
+};
+
 registerPartials(templates);
 
-renderComponent("main", pages, mainPageData, styles).then((html) => {
-  app.innerHTML = html;
+function getPage() {
+  const route = location.hash.replace("#", "") || "main";
+  return routes[route] || routes["main"];
+}
+
+window.addEventListener("hashchange", () => {
+  getPage()();
 });
+
+getPage()();
