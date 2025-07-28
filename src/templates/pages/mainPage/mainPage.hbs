@@ -1,11 +1,12 @@
 <div class="main-page">
-    <div class="main-page_sidebar">
+    <div class="main-page__sidebar">
+        <a></a>
         {{> search}}
         {{> chatList}}
     </div>
-    <div class="main-page_chosen-chat">
+    <div class="main-page__chosen-chat">
         {{#if noChat}}
-            <span class="main-page_no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
+            <span class="main-page__no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
         {{/if}}
         {{#if hasChat}}
             {{> chatMenu }}

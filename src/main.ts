@@ -94,10 +94,60 @@ const loginPageData = {
   ],
 };
 
+const registrationFormData = {
+  fields: [
+    {
+      title: "Почта",
+      name: "email",
+      type: "email",
+      placeholder: "Введите почту",
+    },
+    {
+      title: "Логин",
+      name: "login",
+      type: "text",
+      placeholder: "Введите логин",
+    },
+    {
+      title: "Имя",
+      name: "firstName",
+      type: "text",
+      placeholder: "Введите имя",
+    },
+    {
+      title: "Фамилия",
+      name: "lastName",
+      type: "text",
+      placeholder: "Введите фамилию",
+    },
+    {
+      title: "Телефон",
+      name: "phone",
+      type: "tel",
+      placeholder: "Введите номер телефона",
+    },
+    {
+      title: "Пароль",
+      name: "password",
+      type: "password",
+      placeholder: "Введите пароль",
+      error: "Пароли не совпадают",
+    },
+    {
+      title: "Пароль (ещё раз)",
+      name: "confirmPassword",
+      type: "password",
+      placeholder: "Повторите пароль",
+      error: "Пароли не совпадают",
+    },
+  ],
+};
+
 const routes: Record<string, () => void> = {
   main: () => renderPage("mainPage", pages, mainPageData, styles),
   profile: () => renderPage("profilePage", pages, profilePageData, styles),
   login: () => renderPage("loginPage", pages, loginPageData, styles),
+  signup: () => renderPage("signupPage", pages, registrationFormData, styles),
 };
 
 registerPartials(templates);
