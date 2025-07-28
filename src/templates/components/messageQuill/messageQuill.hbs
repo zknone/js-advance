@@ -1,7 +1,23 @@
 <div class="message-quill">
-  <button class="message-quill__attach" type="button" aria-label="Прикрепить файл">
-    📎
-  </button>
+  <div class="message-quill__attachment">
+    <button class="message-quill__attach-button" type="button" aria-label="Прикрепить файл">
+      <image src="/public/attach-icon.svg"></image>
+    </button>
+    <div class="message-quill__attachment-menu">
+      <button class="message-quill__attach-button" type="button" aria-label="Прикрепить картинку или видео">
+        <image src="/public/img-icon.svg"></image>
+        <span>Фото и видео</span>
+      </button>
+      <button class="message-quill__attach-button" type="button" aria-label="Прикрепить конкретный файл">
+      <image src="/public/file-icon.svg"></image>
+        <span>Файл</span>
+    </button>
+    <button class="message-quill__attach-button" type="button" aria-label="Прикрепить даннные о локации">
+      <image src="/public/location-icon.svg"></image>
+      <span>Локация</span>
+    </button>
+    </div>
+  </div>
 
   <input
     class="message-quill__input"
@@ -12,6 +28,6 @@
   />
 
   <button class="message-quill__send" type="submit" aria-label="Отправить">
-    ➤
+    <image src="/public/send-icon.svg" width="32" with="32"></image>
   </button>
 </div>
