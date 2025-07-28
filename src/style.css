@@ -20,9 +20,19 @@
   --color-grey: #999999;
   --color-message-own: #E4EDFD;
   --color-message: #F8F8F8;
+  --color-light-grey: #EAEAEA;
+  --color-bg-sidebar: #FBFBFB;
   
 }
 
 #app {
+  min-height: 100vh;
+  width: 100%;
   background-color: white;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }

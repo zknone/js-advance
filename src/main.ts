@@ -42,12 +42,36 @@ const mainPageData = {
     },
     { name: "Илья", time: "09:30", message: "Привет!", unreadCount: 1 },
     { name: "Сергей", time: "09:20", message: "Ок", unreadCount: 0 },
+    {
+      name: "Екатерина",
+      time: "10:49",
+      message: "Изображение",
+      unreadCount: 2,
+    },
+    { name: "Илья", time: "09:30", message: "Привет!", unreadCount: 1 },
+    { name: "Сергей", time: "09:20", message: "Ок", unreadCount: 0 },
+    {
+      name: "Екатерина",
+      time: "10:49",
+      message: "Изображение",
+      unreadCount: 2,
+    },
+    { name: "Илья", time: "09:30", message: "Привет!", unreadCount: 1 },
+    { name: "Сергей", time: "09:20", message: "Ок", unreadCount: 0 },
+    {
+      name: "Екатерина",
+      time: "10:49",
+      message: "Изображение",
+      unreadCount: 2,
+    },
+    { name: "Илья", time: "09:30", message: "Привет!", unreadCount: 1 },
+    { name: "Сергей", time: "09:20", message: "Ок", unreadCount: 0 },
   ],
 
   messages: [
     { text: "Привет!", time: "10:46" },
     { isOwn: true, text: "Как дела?", time: "10:47" },
-    { image: "/img/photo.png", time: "10:48" },
+    { image: "public/image.png", time: "10:48" },
   ],
 };
 
