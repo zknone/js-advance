@@ -69,17 +69,43 @@ const mainPageData = {
   ],
 };
 
+const profilePageData = {
+  name: "Андрей",
+  fields: [
+    { label: "Почта", value: "andrey@mail.ru" },
+    { label: "Телефон", value: "+7 (912) 123‑45‑67" },
+  ],
+};
+
+const loginPageData = {
+  fields: [
+    {
+      title: "Login",
+      name: "login",
+      type: "text",
+      placeholder: "Enter login",
+    },
+    {
+      title: "Password",
+      name: "password",
+      type: "password",
+      placeholder: "Enter password",
+    },
+  ],
+};
+
 const routes: Record<string, () => void> = {
-  main: () => renderPage("main", pages, mainPageData, styles),
-  profile: () => renderPage("main", pages, mainPageData, styles),
-  login: () => renderPage("main", pages, mainPageData, styles),
+  main: () => renderPage("mainPage", pages, mainPageData, styles),
+  profile: () => renderPage("profilePage", pages, profilePageData, styles),
+  login: () => renderPage("loginPage", pages, loginPageData, styles),
 };
 
 registerPartials(templates);
 
 function getPage() {
-  const route = location.hash.replace("#", "") || "main";
-  return routes[route] || routes["main"];
+  const pathRoute = location.pathname.replace("/", "");
+
+  return routes[pathRoute] || routes["main"];
 }
 
 window.addEventListener("hashchange", () => {
