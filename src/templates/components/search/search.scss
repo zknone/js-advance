@@ -1,11 +1,14 @@
 .search {
-  position: relative;
+  display: flex;
+  flex-shrink: 0;
   width: 100%;
+  border-bottom: 1px solid var(--color-light-grey);
+  padding-bottom: 14px;
 }
 
 .search__input {
   width: 100%;
-  padding: 12px 16px 12px 40px;
+  padding: 7px 12px 7px 32px;
   border: none;
   border-radius: 10px;
   background-color: #f0f0f0;
@@ -16,8 +19,7 @@
     color: #999;
   }
 
-  // Иконка поиска через before
-  background-image: url('data:image/svg+xml,%3Csvg fill="%23999" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.07 5.59 12.53 3 9.5 3S3.93 5.59 3.93 8.39c0 2.8 2.54 5.39 5.57 5.39a6.471 6.471 0 005.34-1.48l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5s4.5 2.01 4.5 4.5S11.99 14 9.5 14z"/%3E%3C/svg%3E');
+  background-image: url('/public/search-icon.svg');
   background-repeat: no-repeat;
   background-position: 12px center;
   background-size: 20px 20px;
