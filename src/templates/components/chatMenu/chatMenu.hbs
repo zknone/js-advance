@@ -5,7 +5,27 @@
     {{name}}
   </div>
 
-  <button class="chat-menu__actions" aria-label="Открыть меню">
-    ⋮
-  </button>
+  <div class="chat-menu__actions-container">
+    <button class="chat-menu__actions-main-button" aria-label="Открыть меню">
+      <image src="/public/menu-icon.svg"></image>
+    </button>
+    <div class="chat-menu__actions-menu">
+      <button class="chat-menu__actions-button" type="button" aria-label="Прикрепить картинку или видео">
+        <div class="chat-menu__icon">
+          <image class="chat-menu__icon-background" src="/public/add-icon.svg"></image>
+          <image class="chat-menu__add-icon" src="/public/add-cross.svg"></image>
+        </div>
+
+        <span>Добавить пользователя</span>
+      </button>
+      <button class="chat-menu__actions-button" type="button" aria-label="Прикрепить картинку или видео">
+        <div class="chat-menu__icon">
+          <image class="chat-menu__icon-background" src="/public/delete-icon.svg"></image>
+          <image class="chat-menu__delete-icon" src="/public/delete-cross.svg"></image>
+        </div>
+        <span>Удалить пользователя</span>
+      </button>
+    </div>
+
+  </div>
 </div>
