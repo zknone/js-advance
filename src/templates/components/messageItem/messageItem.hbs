@@ -1,5 +1,5 @@
-<div class="message-item {{#if isOwn}}message-item_own{{/if}}">
-  <div class="message-item__content">
+<div class="message-item {{#if isOwn}}message-item--own{{/if}}">
+  <div class="message-item__content {{#if isOwn}}message-item__content--own{{/if}}">
     {{#if text}}
       <div class="message-item__bubble">
         <div class="message-item__text">{{text}}</div>
@@ -9,7 +9,7 @@
 
     {{#if image}}
       <div class="message-item__bubble">
-        <img src="{{image}}" alt="image" class="message-item__image" />
+        <img src="{{image}}" alt="image" class="message-item__image" width="300" height="300"/>
         <div class="message-item__time">{{time}}</div>
       </div>
     {{/if}}

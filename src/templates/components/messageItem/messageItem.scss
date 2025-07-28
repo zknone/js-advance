@@ -2,26 +2,31 @@
   display: flex;
   justify-content: flex-start;
   margin-bottom: 8px;
- background-color: var(--color-message);
+  color: var(--color-primary);
 
-  &_own {
+  &--own {
     justify-content: flex-end;
-    background-color: var(--color-message-own);
   }
 
   &__content {
+    background-color: var(--color-message);
     max-width: 70%;
+    min-width: 120px;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    border-radius: 16px;
+
+    &--own {
+    background-color: var(--color-message-own);
+  }
   }
 
   &__bubble {
-    border-radius: 12px;
-    padding: 10px 14px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-    position: relative;
-    display: inline-block;
+
+    display: flex;
+    flex-direction: column;
+    padding: 11px;
   }
 
   &__text {
@@ -30,7 +35,8 @@
   }
 
   &__image {
-    max-width: 100%;
+    width: 100%;
+    height: auto;
     border-radius: 12px;
     display: block;
   }
@@ -38,8 +44,6 @@
   &__time {
     font-size: 11px;
     color: var(--color-grey);
-    position: absolute;
-    bottom: 4px;
-    right: 10px;
+    align-self: flex-end;
   }
 }
