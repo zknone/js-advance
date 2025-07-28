@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding: 12px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-light-grey);
   cursor: pointer;
 
   &__avatar {
