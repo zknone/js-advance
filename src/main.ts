@@ -2,9 +2,9 @@ import "./style.css";
 import registerPartials from "./utils/registerPartials.ts";
 import { renderPage } from "./utils/renderPage.ts";
 
-const styles = import.meta.glob("./templates/**/**/*.scss", {
+import.meta.glob("./templates/**/**/*.scss", {
   eager: true,
-}) as Record<string, string>;
+});
 
 const templates = import.meta.glob("./templates/components/**/*.hbs", {
   as: "raw",
@@ -65,14 +65,18 @@ const mainPageData = {
   messages: [
     { text: "Привет!", time: "10:46" },
     { isOwn: true, text: "Как дела?", time: "10:47" },
-    { image: "public/image.png", time: "10:48" },
+    { image: "image.png", time: "10:48" },
   ],
 };
 
 const profilePageData = {
-  name: "Андрей",
+  name: "Иван",
   fields: [
-    { label: "Почта", value: "andrey@mail.ru" },
+    { label: "Почта", value: "ivanov@mail.ru" },
+    { label: "Логин", value: "ivanivanov" },
+    { label: "Имя", value: "Иван" },
+    { label: "Фамилия", value: "Иванов" },
+    { label: "Имя в чате", value: "Иван" },
     { label: "Телефон", value: "+7 (912) 123‑45‑67" },
   ],
 };
@@ -144,10 +148,12 @@ const registrationFormData = {
 };
 
 const routes: Record<string, () => void> = {
-  main: () => renderPage("mainPage", pages, mainPageData, styles),
-  profile: () => renderPage("profilePage", pages, profilePageData, styles),
-  login: () => renderPage("loginPage", pages, loginPageData, styles),
-  signup: () => renderPage("signupPage", pages, registrationFormData, styles),
+  main: () => renderPage("mainPage", pages, mainPageData),
+  profile: () => renderPage("profilePage", pages, profilePageData),
+  login: () => renderPage("loginPage", pages, loginPageData),
+  signup: () => renderPage("signupPage", pages, registrationFormData),
+  404: () => renderPage("notFoundPage", pages, {}),
+  500: () => renderPage("loadingErrorPage", pages, {}),
 };
 
 registerPartials(templates);

@@ -1,5 +1,3 @@
-import Handlebars from "handlebars";
-
 export function getTemplate(
   name: string,
   templates: Record<string, string>
