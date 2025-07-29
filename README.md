@@ -1,4 +1,5 @@
 Это СПА чат.
+Вот макет: https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0-1&p=f&t=Ep9AitgclTO1jcXC-0
 Для запуска в дев режиме – npm run dev
 для запуска с билдом - npm run start
 посмотреть деплой
