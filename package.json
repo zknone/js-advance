@@ -10,6 +10,9 @@
     "preview": "vite preview",
     "format": "prettier --write ."
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "prettier": "^3.6.2",
     "sass": "^1.89.2",
