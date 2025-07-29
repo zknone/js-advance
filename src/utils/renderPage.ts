@@ -1,4 +1,4 @@
-import { renderComponent } from "./renderComponent";
+import { renderComponent } from './renderComponent';
 
 export async function renderPage(
   pageName: string,
@@ -7,7 +7,7 @@ export async function renderPage(
 ) {
   const html = await renderComponent(pageName, pages, data);
 
-  const app = document.querySelector("#app")!;
+  const app = document.querySelector('#app')!;
 
   app.innerHTML = html;
 }

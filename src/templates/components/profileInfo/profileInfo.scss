@@ -1,61 +1,59 @@
 .profile-info {
-    color: var(--color-primary);
-    min-width: 33%;
+  color: var(--color-primary);
+  min-width: 33%;
 
+  &__avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    &__avatar-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
 
-        text-align: center;
-        gap: 20px;
+  &__avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 130px;
+    height: 130px;
+    background-color: var(--color-light-grey);
+    border-radius: 50%;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid var(--color-light-grey);
+    padding: 10px 0;
+
+    dt {
+      font-weight: 500;
     }
 
-    &__avatar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        width: 130px;
-        height: 130px;
-        background-color: var(--color-light-grey);
-        border-radius: 50%;
+    dd {
+      color: var(--color-grey);
     }
+  }
 
-    &__row {
-        display: flex;
-        justify-content: space-between;
+  &__info {
+    margin-bottom: 50px;
+  }
 
-        font-size: 13px;
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-        border-bottom: 1px solid var(--color-light-grey);
-        padding: 10px 0;
-
-        dt {
-            font-weight: 500;
-        }
-
-        dd {
-            color: var(--color-grey)
-        }
+    button {
+      width: 100%;
+      border-bottom: 1px solid var(--color-light-grey);
+      text-align: left;
     }
-
-    &__info {
-        margin-bottom: 50px;
-    }
-
-    &__actions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-
-        button {
-            width: 100%;
-            border-bottom: 1px solid var(--color-light-grey);
-            text-align: left;
-        }
-    }
+  }
 }

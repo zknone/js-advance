@@ -1,5 +1,5 @@
-import Handlebars from "handlebars";
-import { getTemplate } from "./getTemplate";
+import Handlebars from 'handlebars';
+import { getTemplate } from './getTemplate';
 
 export async function renderComponent(
   name: string,

@@ -18,12 +18,11 @@
     border-radius: 16px;
 
     &--own {
-    background-color: var(--color-message-own);
-  }
+      background-color: var(--color-message-own);
+    }
   }
 
   &__bubble {
-
     display: flex;
     flex-direction: column;
     padding: 11px;

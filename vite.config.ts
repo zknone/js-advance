@@ -1,8 +1,8 @@
 // vite.config.ts
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  assetsInclude: ["**/*.hbs"],
+  assetsInclude: ['**/*.hbs'],
   server: {
     port: 3000,
   },

@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "start": "npm run build && npm run preview",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write ."
   },
   "devDependencies": {
+    "prettier": "^3.6.2",
     "sass": "^1.89.2",
     "typescript": "~5.8.3",
     "vite": "^5.2.10"

@@ -1,5 +1,5 @@
-import extractNameFromPath from "./extractNameFromPath";
-import Handlebars from "handlebars";
+import extractNameFromPath from './extractNameFromPath';
+import Handlebars from 'handlebars';
 export default function registerPartials(templates: Record<string, string>) {
   const data = Object.entries(templates);
 
