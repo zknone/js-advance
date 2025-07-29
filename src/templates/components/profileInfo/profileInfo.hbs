@@ -1,19 +1,19 @@
 <div class="profile-info">
   <div class="profile-info__avatar-wrapper">
     <div class="profile-info__avatar">
-      <span class="profile-info__avatar-overlay">Поменять аватар</span>
+      <image src="/avatar-replacement-icon.svg"></image>
     </div>
     <div class="profile-info__name">{{name}}</div>
   </div>
 
-  <div class="profile-info__info">
+  <dl class="profile-info__info">
     {{#each fields}}
       <div class="profile-info__row">
-        <span class="profile-info__label">{{label}}</span>
-        <span class="profile-info__value">{{value}}</span>
+        <dt class="profile-info__label">{{label}}</dt>
+        <dd class="profile-info__value">{{value}}</dd>
       </div>
     {{/each}}
-  </div>
+  </dl>
 
   <div class="profile-info__actions">
     {{> customButton text="Изменить данные" type="button" variant="link" color="blue" }}
