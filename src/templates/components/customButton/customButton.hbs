@@ -1,7 +1,18 @@
-<button   
-    class="custom-button
-    {{#if variant}} custom-button--{{variant}}{{/if}}
-    {{#if color}} custom-button--color-{{color}}{{/if}}"
-    type="{{type}}">
-    {{text}}
-</button>
+ {{#if (eq variant "primary")}}
+    <button
+        class="custom-button
+        {{#if color}} custom-button--color-{{color}}{{/if}}"
+        type="{{type}}">
+        {{text}}
+    </button>
+{{/if}}
+
+ {{#if (eq variant "link")}}
+    <a
+        class="custom-button custom-button--link
+        {{#if color}} custom-button--color-{{color}}{{/if}}"
+        type="{{type}}"
+        href={{href}}>
+        {{text}}
+    </a>
+{{/if}}

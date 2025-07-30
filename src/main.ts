@@ -70,6 +70,7 @@ const mainPageData = {
 };
 
 const profilePageData = {
+  mode: 'view',
   name: 'Иван',
   fields: [
     { label: 'Почта', value: 'ivanov@mail.ru' },
@@ -78,6 +79,38 @@ const profilePageData = {
     { label: 'Фамилия', value: 'Иванов' },
     { label: 'Имя в чате', value: 'Иван' },
     { label: 'Телефон', value: '+7 (912) 123‑45‑67' },
+  ],
+};
+
+const editCredentialsPageData = {
+  mode: 'edit',
+  name: 'Иван',
+  fields: [
+    { label: 'Почта', value: 'ivanov@mail.ru', name: 'email', type: 'email' },
+    { label: 'Логин', value: 'ivanivanov', name: 'login', type: 'text' },
+    { label: 'Имя', value: 'Иван', name: 'first_name', type: 'text' },
+    { label: 'Фамилия', value: 'Иванов', name: 'second_name', type: 'text' },
+    { label: 'Имя в чате', value: 'Иван', name: 'nickname', type: 'text' },
+    { label: 'Телефон', value: '+7 (912) 123‑45‑67', name: 'phone', type: 'tel' },
+  ],
+};
+
+const editPassPageData = {
+  mode: 'edit',
+  name: 'Иван',
+  fields: [
+    {
+      label: 'Старый пароль',
+      name: 'oldPassword',
+      type: 'text',
+      placeholder: 'Введите старый пароль',
+    },
+    {
+      label: 'Новый пароль',
+      name: 'newPasswords',
+      type: 'password',
+      placeholder: 'Введите новый пароль',
+    },
   ],
 };
 
@@ -125,6 +158,12 @@ const registrationFormData = {
       placeholder: 'Введите фамилию',
     },
     {
+      title: 'Имя в чате',
+      name: 'nicname',
+      type: 'text',
+      placeholder: 'Введите имя для отображения в чате',
+    },
+    {
       title: 'Телефон',
       name: 'phone',
       type: 'tel',
@@ -154,6 +193,10 @@ const routes: Record<string, () => void> = {
   signup: () => renderPage('signupPage', pages, registrationFormData),
   404: () => renderPage('notFoundPage', pages, {}),
   500: () => renderPage('loadingErrorPage', pages, {}),
+  'profile/edit-pass': () => renderPage('editPassPage', pages, editPassPageData),
+  'profile/edit-credentials': () =>
+    renderPage('editCredentialsPage', pages, editCredentialsPageData),
+  'profile/edit-avatar': () => renderPage('profilePage', pages, editPassPageData),
 };
 
 registerPartials(templates);
@@ -166,6 +209,18 @@ function getPage() {
 
 window.addEventListener('hashchange', () => {
   getPage()();
+});
+
+document.addEventListener('click', (e) => {
+  const target = e.target as HTMLElement;
+
+  if (target.closest('.profile-info__avatar')) {
+    document.getElementById('avatarModal')?.classList.add('open');
+  }
+
+  if (target.closest('.modal__close')) {
+    document.getElementById('avatarModal')?.classList.remove('open');
+  }
 });
 
 getPage()();
