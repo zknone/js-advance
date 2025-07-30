@@ -218,7 +218,7 @@ document.addEventListener('click', (e) => {
     document.getElementById('avatarModal')?.classList.add('open');
   }
 
-  if (target.closest('.modal__close')) {
+  if (target.closest('.modal__close-button')) {
     document.getElementById('avatarModal')?.classList.remove('open');
   }
 });
