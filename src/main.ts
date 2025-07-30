@@ -114,13 +114,13 @@ const registrationFormData = {
     },
     {
       title: 'Имя',
-      name: 'firstName',
+      name: 'first_name',
       type: 'text',
       placeholder: 'Введите имя',
     },
     {
       title: 'Фамилия',
-      name: 'lastName',
+      name: 'second_name',
       type: 'text',
       placeholder: 'Введите фамилию',
     },
@@ -139,7 +139,7 @@ const registrationFormData = {
     },
     {
       title: 'Пароль (ещё раз)',
-      name: 'confirmPassword',
+      name: 'confirm_password',
       type: 'password',
       placeholder: 'Повторите пароль',
       error: 'Пароли не совпадают',
