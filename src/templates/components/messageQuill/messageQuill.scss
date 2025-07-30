@@ -4,6 +4,13 @@
   gap: 8px;
   padding-bottom: 10px;
 
+  form {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-grow: 1;
+  }
+
   &__attachment {
     display: flex;
     position: relative;
@@ -61,11 +68,15 @@
   }
 
   &__send {
+    margin-top: auto;
+    margin-bottom: auto;
     display: inline-flex;
     background-color: transparent;
     padding: 0;
     border: none;
     cursor: pointer;
+    width: 32px;
+    height: 32px;
 
     img {
       height: 100%;
