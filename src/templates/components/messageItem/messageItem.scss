@@ -1,0 +1,48 @@
+.message-item {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  color: var(--color-primary);
+
+  &--own {
+    justify-content: flex-end;
+  }
+
+  &__content {
+    background-color: var(--color-message);
+    max-width: 70%;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 16px;
+
+    &--own {
+      background-color: var(--color-message-own);
+    }
+  }
+
+  &__bubble {
+    display: flex;
+    flex-direction: column;
+    padding: 11px;
+  }
+
+  &__text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+  }
+
+  &__time {
+    font-size: 11px;
+    color: var(--color-grey);
+    align-self: flex-end;
+  }
+}

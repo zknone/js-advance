@@ -1,0 +1,39 @@
+.input-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--color-primary);
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: var(--color-grey);
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--color-blue);
+    width: 100%;
+
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+    &.error {
+      color: var(--color-red);
+    }
+  }
+
+  &__error-input {
+    color: var(--color-red);
+  }
+
+  &__error {
+    width: 100%;
+    color: var(--color-red);
+    font-size: 8px;
+  }
+}
