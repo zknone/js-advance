@@ -1,9 +1,9 @@
 import { renderComponent } from './renderComponent';
 
-export async function renderPage(
+export async function renderPage<T>(
   pageName: string,
   pages: Record<string, string>,
-  data: Record<string, any>
+  data: Record<string, T>
 ) {
   const html = await renderComponent(pageName, pages, data);
 

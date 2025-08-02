@@ -11,8 +11,8 @@ export abstract class AbstractViewImpl<T> extends HTMLElement implements Abstrac
     return null;
   }
 
-  render({ selector, outerHtml }: { selector: string; outerHtml?: string }) {
-    if (outerHtml) {
+  render(selector?: string, outerHtml?: string) {
+    if (outerHtml && selector) {
       const element = this.querySelector(selector);
 
       if (element) {
