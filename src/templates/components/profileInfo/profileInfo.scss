@@ -7,7 +7,6 @@
   min-height: 50%;
   gap: 20px;
 
-
   &__avatar-wrapper {
     display: flex;
     flex-direction: column;
@@ -58,7 +57,7 @@
     }
 
     span {
-      display:none;
+      display: none;
       position: absolute;
       z-index: 1;
       color: white;
@@ -87,11 +86,13 @@
     border-bottom: 1px solid var(--color-light-grey);
     padding: 10px 0;
 
-    dt, label {
+    dt,
+    label {
       font-weight: 500;
     }
 
-    dd, input {
+    dd,
+    input {
       color: var(--color-grey);
       border: none;
       flex: 1;
@@ -116,9 +117,8 @@
     }
   }
 
-
   &__submit {
-      button {
+    button {
       background-color: var(--color-blue);
       color: white;
       border-radius: 8px;

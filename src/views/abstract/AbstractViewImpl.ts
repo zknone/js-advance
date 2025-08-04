@@ -2,6 +2,7 @@ import type AbstractView from '../../types/views/AbstractView';
 
 export abstract class AbstractViewImpl<T> extends HTMLElement implements AbstractView<T> {
   state: T | null;
+
   constructor() {
     super();
     this.state = null as unknown as T;

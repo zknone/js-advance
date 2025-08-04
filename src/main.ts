@@ -1,6 +1,6 @@
 import './style.css';
-import registerPartials from './utils/registerPartials.ts';
-import { renderPage } from './utils/renderPage.ts';
+import registerPartials from './utils/registerPartials';
+import { renderPage } from './utils/renderPage';
 
 import.meta.glob('./templates/**/**/*.scss', {
   eager: true,
@@ -34,32 +34,72 @@ const mainPageData = {
       message: 'Изображение',
       unreadCount: 2,
     },
-    { name: 'Илья', time: '09:30', message: 'Привет!', unreadCount: 1 },
-    { name: 'Сергей', time: '09:20', message: 'Ок', unreadCount: 0 },
+    {
+      name: 'Илья',
+      time: '09:30',
+      message: 'Привет!',
+      unreadCount: 1,
+    },
+    {
+      name: 'Сергей',
+      time: '09:20',
+      message: 'Ок',
+      unreadCount: 0,
+    },
     {
       name: 'Екатерина',
       time: '10:49',
       message: 'Изображение',
       unreadCount: 2,
     },
-    { name: 'Илья', time: '09:30', message: 'Привет!', unreadCount: 1 },
-    { name: 'Сергей', time: '09:20', message: 'Ок', unreadCount: 0 },
+    {
+      name: 'Илья',
+      time: '09:30',
+      message: 'Привет!',
+      unreadCount: 1,
+    },
+    {
+      name: 'Сергей',
+      time: '09:20',
+      message: 'Ок',
+      unreadCount: 0,
+    },
     {
       name: 'Екатерина',
       time: '10:49',
       message: 'Изображение',
       unreadCount: 2,
     },
-    { name: 'Илья', time: '09:30', message: 'Привет!', unreadCount: 1 },
-    { name: 'Сергей', time: '09:20', message: 'Ок', unreadCount: 0 },
+    {
+      name: 'Илья',
+      time: '09:30',
+      message: 'Привет!',
+      unreadCount: 1,
+    },
+    {
+      name: 'Сергей',
+      time: '09:20',
+      message: 'Ок',
+      unreadCount: 0,
+    },
     {
       name: 'Екатерина',
       time: '10:49',
       message: 'Изображение',
       unreadCount: 2,
     },
-    { name: 'Илья', time: '09:30', message: 'Привет!', unreadCount: 1 },
-    { name: 'Сергей', time: '09:20', message: 'Ок', unreadCount: 0 },
+    {
+      name: 'Илья',
+      time: '09:30',
+      message: 'Привет!',
+      unreadCount: 1,
+    },
+    {
+      name: 'Сергей',
+      time: '09:20',
+      message: 'Ок',
+      unreadCount: 0,
+    },
   ],
 
   messages: [
@@ -86,12 +126,42 @@ const editCredentialsPageData = {
   mode: 'edit',
   name: 'Иван',
   fields: [
-    { label: 'Почта', value: 'ivanov@mail.ru', name: 'email', type: 'email' },
-    { label: 'Логин', value: 'ivanivanov', name: 'login', type: 'text' },
-    { label: 'Имя', value: 'Иван', name: 'first_name', type: 'text' },
-    { label: 'Фамилия', value: 'Иванов', name: 'second_name', type: 'text' },
-    { label: 'Имя в чате', value: 'Иван', name: 'display_name', type: 'text' },
-    { label: 'Телефон', value: '+7 (912) 123‑45‑67', name: 'phone', type: 'tel' },
+    {
+      label: 'Почта',
+      value: 'ivanov@mail.ru',
+      name: 'email',
+      type: 'email',
+    },
+    {
+      label: 'Логин',
+      value: 'ivanivanov',
+      name: 'login',
+      type: 'text',
+    },
+    {
+      label: 'Имя',
+      value: 'Иван',
+      name: 'first_name',
+      type: 'text',
+    },
+    {
+      label: 'Фамилия',
+      value: 'Иванов',
+      name: 'second_name',
+      type: 'text',
+    },
+    {
+      label: 'Имя в чате',
+      value: 'Иван',
+      name: 'display_name',
+      type: 'text',
+    },
+    {
+      label: 'Телефон',
+      value: '+7 (912) 123‑45‑67',
+      name: 'phone',
+      type: 'tel',
+    },
   ],
 };
 
@@ -204,12 +274,10 @@ registerPartials(templates);
 function getPage() {
   const pathRoute = location.pathname.replace('/', '');
 
-  return routes[pathRoute] || routes['main'];
+  return routes[pathRoute] || routes.main;
 }
 
-window.addEventListener('hashchange', () => {
-  getPage()();
-});
+window.addEventListener('hashchange', () => getPage()());
 
 document.addEventListener('click', (e) => {
   const target = e.target as HTMLElement;

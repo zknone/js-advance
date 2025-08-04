@@ -6,6 +6,7 @@ export default class AbstractPresenterImp<
   V extends AbstractViewImpl<null>,
 > {
   protected model: M;
+
   protected view: V;
 
   constructor(model: M, view: V) {
