@@ -1,6 +1,6 @@
+import CustomButton from './components/button/CustomButton';
+import TemplateEngine from './core/templateEngine/TemplateEngine';
 import './style.css';
-import registerPartials from './utils/registerPartials';
-import { renderPage } from './utils/renderPage';
 
 import.meta.glob('./templates/**/**/*.scss', {
   eager: true,
@@ -256,20 +256,41 @@ const registrationFormData = {
   ],
 };
 
-const routes: Record<string, () => void> = {
-  main: () => renderPage('mainPage', pages, mainPageData),
-  profile: () => renderPage('profilePage', pages, profilePageData),
-  login: () => renderPage('loginPage', pages, loginPageData),
-  signup: () => renderPage('signupPage', pages, registrationFormData),
-  404: () => renderPage('notFoundPage', pages, {}),
-  500: () => renderPage('loadingErrorPage', pages, {}),
-  'profile/edit-pass': () => renderPage('editPassPage', pages, editPassPageData),
-  'profile/edit-credentials': () =>
-    renderPage('editCredentialsPage', pages, editCredentialsPageData),
-  'profile/edit-avatar': () => renderPage('profilePage', pages, editPassPageData),
-};
+const templateEngine = TemplateEngine.init(templates, pages);
 
-registerPartials(templates);
+const routes: Record<string, () => void> = {
+  main: () => templateEngine.renderPage('mainPage', mainPageData),
+  profile: () => templateEngine.renderPage('profilePage', profilePageData),
+  login: () => templateEngine.renderPage('loginPage', loginPageData),
+  signup: () => templateEngine.renderPage('signupPage', registrationFormData),
+  404: () => templateEngine.renderPage('notFoundPage', {}),
+  500: () => templateEngine.renderPage('loadingErrorPage', {}),
+  sandbox: () => {
+    const root = document.getElementById('app');
+
+    if (root) {
+      templateEngine.renderPage('sandBoxPage', {});
+
+      const button = new CustomButton({
+        text: 'Нажми меня',
+        type: 'button',
+        events: {
+          click: () => alert('Привет из сендбокса!'),
+        },
+      });
+
+      const sandboxPage = document.querySelector('.sandbox-page');
+      if (sandboxPage) {
+        sandboxPage.appendChild(button.getContent()!);
+        button.dispatchComponentDidMount();
+      }
+    }
+  },
+  'profile/edit-pass': () => templateEngine.renderPage('editPassPage', editPassPageData),
+  'profile/edit-credentials': () =>
+    templateEngine.renderPage('editCredentialsPage', editCredentialsPageData),
+  'profile/edit-avatar': () => templateEngine.renderPage('profilePage', editPassPageData),
+};
 
 function getPage() {
   const pathRoute = location.pathname.replace('/', '');
