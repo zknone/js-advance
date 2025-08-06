@@ -28,8 +28,6 @@ class Block<P extends Record<string, any> = object> {
   constructor(tagName = 'div', props: WithEvents<P> = {} as WithEvents<P>) {
     const eventBus = new EventBus();
 
-    console.log({ tagName }, { props });
-
     this._meta = {
       tagName,
       props,
@@ -113,19 +111,31 @@ class Block<P extends Record<string, any> = object> {
   }
 
   _render() {
-    const block = this.render();
-    if (this._element) {
-      this._removeEvents();
-      this._element.innerHTML = block;
-      this._addEvents();
-    } else {
-      this._notify('Nothing to render');
+    const html = this.render();
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+
+    const newElement = template.content.firstElementChild as HTMLElement;
+
+    if (!newElement) {
+      this._notify('Template must return a root element');
+      return;
     }
+
+    this._removeEvents();
+
+    if (this._element?.parentNode) {
+      this._element.replaceWith(newElement);
+    }
+
+    this._element = newElement;
+
+    this._addEvents();
   }
 
   render(): string {
     const children = `${this.props.children?.map((child: WithEvents<P>) => child.getContent()?.outerHtml).join('') ?? ''}`;
-    return `<div>${children}</div>`;
+    return children;
   }
 
   getContent() {

@@ -1,11 +1,11 @@
 import Handlebars from 'handlebars';
 import extractNameFromPath from '../../utils/extractNameFromPath';
 
-const getTemplateFrom = (tagName: string, templates: Record<string, string>): string => {
-  const key = Object.keys(templates).find((path) => path.includes(`/${tagName}/${tagName}.hbs`));
-  console.log('tagName:', tagName);
-  console.log('templates:', templates);
-  if (!key) throw new Error(`Template not found for: ${tagName}`);
+const getTemplateFrom = (templateName: string, templates: Record<string, string>): string => {
+  const key = Object.keys(templates).find((path) =>
+    path.includes(`/${templateName}/${templateName}.hbs`)
+  );
+  if (!key) throw new Error(`Template not found for: ${templateName}`);
   return templates[key];
 };
 
@@ -47,12 +47,16 @@ class TemplateEngine {
     });
   }
 
+  getAllTemplates() {
+    return this.templates;
+  }
+
   renderComponent<T>(
-    tagName: string,
+    templateName: string,
     data: Record<string, T>,
     currentTemplates = this.templates
   ): string {
-    const templateString = getTemplateFrom(tagName, currentTemplates);
+    const templateString = getTemplateFrom(templateName, currentTemplates);
     const compiled = Handlebars.compile(templateString);
     return compiled(data);
   }

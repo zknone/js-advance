@@ -1,17 +1,23 @@
-import CustomButton from './components/button/CustomButton';
+import ChatItem from './components/chatItem/ChatItem';
+import ChatList from './components/chatList/СhatList';
+import CustomButton from './components/customButton/CustomButton';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import './style.css';
 
-import.meta.glob('./templates/**/**/*.scss', {
+import.meta.glob('./components/**/*.scss', {
   eager: true,
 });
 
-const templates = import.meta.glob('./templates/components/**/*.hbs', {
+import.meta.glob('./pages/**/*.scss', {
+  eager: true,
+});
+
+const templates = import.meta.glob('./components/**/*.hbs', {
   as: 'raw',
   eager: true,
 }) as Record<string, string>;
 
-const pages = import.meta.glob('./templates/pages/**/*.hbs', {
+const pages = import.meta.glob('./pages/**/*.hbs', {
   as: 'raw',
   eager: true,
 }) as Record<string, string>;
@@ -274,15 +280,56 @@ const routes: Record<string, () => void> = {
       const button = new CustomButton({
         text: 'Нажми меня',
         type: 'button',
+        className: 'new-button',
         events: {
           click: () => alert('Привет из сендбокса!'),
         },
       });
 
+      const message = {
+        name: 'Иван',
+        message: '123',
+        time: '123',
+        className: '123',
+        events: {
+          click: () => alert('Привет из сендбокса!'),
+        },
+      };
+
+      const messageFirst = {
+        name: 'Иван',
+        message: '1212121213',
+        time: '123',
+        className: '123',
+        events: {
+          click: () => alert('Привет из сендбокса!'),
+        },
+      };
+
+      const messageSecond = {
+        name: 'Ивsdsdан',
+        message: '1121sxs23',
+        time: '123',
+        className: '1212123',
+        events: {
+          click: () => alert('Привет из сендбокса!'),
+        },
+      };
+
+      const messageItem = new ChatItem(message);
+
+      const listItem = new ChatList({ chats: [messageFirst, messageSecond] });
+
       const sandboxPage = document.querySelector('.sandbox-page');
       if (sandboxPage) {
         sandboxPage.appendChild(button.getContent()!);
         button.dispatchComponentDidMount();
+
+        sandboxPage.appendChild(messageItem.getContent()!);
+        messageItem.dispatchComponentDidMount();
+
+        sandboxPage.appendChild(listItem.getContent()!);
+        listItem.dispatchComponentDidMount();
       }
     }
   },
