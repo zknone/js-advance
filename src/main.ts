@@ -282,6 +282,9 @@ const routes: Record<string, () => void> = {
         text: 'Нажми меня',
         type: 'button',
         className: 'new-button',
+        settings: {
+          withInternalID: false,
+        },
         events: {
           click: () => alert('Привет из сендбокса!'),
         },
@@ -302,6 +305,7 @@ const routes: Record<string, () => void> = {
         message: '1212121213',
         time: '123',
         className: '123',
+        settings: { withInternalID: false },
         events: {
           click: () => alert('Привет из сендбокса!'),
         },
@@ -312,6 +316,7 @@ const routes: Record<string, () => void> = {
         message: '1121sxs23',
         time: '123',
         className: '1212123',
+        settings: { withInternalID: false },
         events: {
           click: () => alert('Привет из сендбокса!'),
         },
@@ -319,7 +324,9 @@ const routes: Record<string, () => void> = {
 
       const messageItem = new ChatItem(message);
 
-      const listItem = new ChatList({ chats: [messageFirst, messageSecond] });
+      const listItem = new ChatList({
+        chats: [messageFirst, messageSecond],
+      });
 
       const sandboxPage = document.querySelector('.sandbox-page');
       if (sandboxPage) {
