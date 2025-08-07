@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
+import { v4 as makeUUID } from 'uuid';
 import EventBus from '../eventBus/EventBus';
 
 type EventsMap = Record<string, EventListenerOrEventListenerObject>;
@@ -23,17 +24,21 @@ class Block<P extends Record<string, any> = object> {
 
   _meta: Meta<P> = null;
 
+  _id: string | null = null;
+
   private eventBus: () => EventBus;
 
   constructor(tagName = 'div', props: WithEvents<P> = {} as WithEvents<P>) {
     const eventBus = new EventBus();
+
+    this._id = makeUUID();
 
     this._meta = {
       tagName,
       props,
     };
 
-    this.props = this._makePropsProxy(props);
+    this.props = this._makePropsProxy({ ...props, __id: this._id });
 
     this.eventBus = () => eventBus;
 
@@ -117,20 +122,26 @@ class Block<P extends Record<string, any> = object> {
 
     const newElement = template.content.firstElementChild as HTMLElement;
 
-    if (!newElement) {
-      this._notify('Template must return a root element');
-      return;
+    const id = this._id;
+
+    if (id) {
+      if (!newElement) {
+        this._notify('Template must return a root element');
+        return;
+      }
+
+      newElement.setAttribute('data-id', id);
+
+      this._removeEvents();
+
+      if (this._element?.parentNode) {
+        this._element.replaceWith(newElement);
+      }
+
+      this._element = newElement;
+
+      this._addEvents();
     }
-
-    this._removeEvents();
-
-    if (this._element?.parentNode) {
-      this._element.replaceWith(newElement);
-    }
-
-    this._element = newElement;
-
-    this._addEvents();
   }
 
   render(): string {
@@ -167,7 +178,6 @@ class Block<P extends Record<string, any> = object> {
       set: (target, prop: string, value) => {
         const oldProps = { ...target };
 
-        console.log({ oldProps }, this);
         // eslint-disable-next-line no-param-reassign
         target[prop as keyof P] = value;
 
@@ -186,7 +196,8 @@ class Block<P extends Record<string, any> = object> {
   }
 
   _createDocumentElement(tagName: string) {
-    return document.createElement(tagName);
+    const element = document.createElement(tagName);
+    return element;
   }
 
   show() {
