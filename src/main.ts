@@ -1,8 +1,9 @@
 import ChatItem from './components/chatItem/ChatItem';
-import ChatList from './components/chatList/СhatList';
+import ChatList from './components/chatList/ChatList';
 import CustomButton from './components/customButton/CustomButton';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import './style.css';
+import renderComponentSomewhere from './utils/renderCompopentsSomewhere';
 
 import.meta.glob('./components/**/*.scss', {
   eager: true,
@@ -322,14 +323,9 @@ const routes: Record<string, () => void> = {
 
       const sandboxPage = document.querySelector('.sandbox-page');
       if (sandboxPage) {
-        sandboxPage.appendChild(button.getContent()!);
-        button.dispatchComponentDidMount();
-
-        sandboxPage.appendChild(messageItem.getContent()!);
-        messageItem.dispatchComponentDidMount();
-
-        sandboxPage.appendChild(listItem.getContent()!);
-        listItem.dispatchComponentDidMount();
+        renderComponentSomewhere('.sandbox-page', button);
+        renderComponentSomewhere('.sandbox-page', messageItem);
+        renderComponentSomewhere('.sandbox-page', listItem);
       }
     }
   },

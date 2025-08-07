@@ -36,5 +36,7 @@ module.exports = {
     'no-restricted-globals': 'off',
     'implicit-arrow-linebreak': 'off',
     '@typescript-eslint/comma-dangle': 'off',
+    'no-nested-ternary': 'off',
+    'operator-linebreak': 'off',
   },
 };

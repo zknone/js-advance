@@ -15,20 +15,7 @@ export interface ChatListProps extends Record<string, unknown> {
 class ChatList extends TemplateBlock<ChatListProps> {
   constructor(chats: ChatListProps) {
     super('chatList', chats);
-    this.generateChatList();
-  }
-
-  generateChatList() {
-    this.props.chats.forEach((chat) => {
-      const chatItem = new ChatItem({ ...chat });
-
-      const { element } = this;
-
-      if (element) {
-        element?.appendChild(chatItem.getContent()!);
-        chatItem.dispatchComponentDidMount();
-      }
-    });
+    this.renderList(ChatItem, this.props.chats);
   }
 }
 

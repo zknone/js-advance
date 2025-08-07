@@ -1,3 +1,4 @@
+import renderComponentSomewhere from '../../utils/renderCompopentsSomewhere';
 import Block from '../block/Block';
 import TemplateEngine from '../templateEngine/TemplateEngine';
 
@@ -12,6 +13,21 @@ class TemplateBlock<P extends Record<string, unknown>> extends Block<P> {
       ...this.props,
     });
     return template;
+  }
+
+  renderList<ComponentProps extends Record<string, unknown>>(
+    ComponentClass: new (props: ComponentProps) => TemplateBlock<ComponentProps>,
+    data: ComponentProps[]
+  ) {
+    const { element } = this;
+    const isListReady = Array.isArray(data) && data.length > 0;
+
+    if (element && isListReady) {
+      data.forEach((chat) => {
+        const component = new ComponentClass({ ...chat });
+        renderComponentSomewhere(element, component);
+      });
+    }
   }
 }
 
