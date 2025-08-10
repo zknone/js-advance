@@ -1,10 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import type { ChatItemProps } from '../../types/chat';
-import type { AdditionalField, BlockBasics } from '../../types/core';
+import type { ChatListProps } from '../../types/chat';
 
-export interface ChatListProps extends BlockBasics<AdditionalField> {
-  chats: ChatItemProps[];
-}
 /**
  * ChatList
  *
@@ -13,14 +9,13 @@ export interface ChatListProps extends BlockBasics<AdditionalField> {
 }
  */
 class ChatList extends TemplateBlock<ChatListProps> {
-  constructor(chats: ChatListProps) {
+  constructor(props: ChatListProps) {
     super('chatList', {
-      ...chats,
+      ...props,
       settings: {
         withInternalID: true,
       },
     });
-    this.render();
   }
 }
 

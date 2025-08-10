@@ -1,5 +1,6 @@
 import ChatItem from './components/chatItem/ChatItem';
 import ChatList from './components/chatList/ChatList';
+import ChatMenu from './components/chatMenu/ChatMenu';
 import CustomButton from './components/customButton/CustomButton';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import './style.css';
@@ -328,11 +329,14 @@ const routes: Record<string, () => void> = {
         chats: [messageFirst, messageSecond],
       });
 
+      const chatMenu = new ChatMenu({ name: 'Иван Иваныч' });
+
       const sandboxPage = document.querySelector('.sandbox-page');
       if (sandboxPage) {
         renderComponentSomewhere('.sandbox-page', button);
         renderComponentSomewhere('.sandbox-page', messageItem);
         renderComponentSomewhere('.sandbox-page', listItem);
+        renderComponentSomewhere('.sandbox-page', chatMenu);
       }
     }
   },

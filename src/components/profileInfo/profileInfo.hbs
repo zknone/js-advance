@@ -1,15 +1,20 @@
-<div class="profile-info">
+<div class="profile-info {{className}}">
   <div class="profile-info__avatar-wrapper">
-    <div class="profile-info__avatar" onclick="openModal()">
+    <div class="profile-info__avatar" data-action="open-avatar-modal">
       <div class="profile-info__avatar-container">
-        <img src="/avatar-replacement-icon.svg" alt="Заменить аватар" width="40" height="40"></img>
+        <img
+          src="{{avatar.iconSrc}}"
+          alt="{{avatar.iconAlt}}"
+          width="{{avatar.iconW}}"
+          height="{{avatar.iconH}}"
+        />
       </div>
-      <span>Поменять<br />аватар</span>
+      <span>{{{avatar.changeText}}}</span>
     </div>
     <div class="profile-info__name">{{name}}</div>
   </div>
 
- {{#if (eq mode "view")}}
+  {{#if (eq mode "view")}}
     <dl class="profile-info__info">
       {{#each fields}}
         <div class="profile-info__row">
@@ -20,9 +25,9 @@
     </dl>
 
     <div class="profile-info__actions">
-      {{> customButton text="Изменить данные" type="button" variant="link" color="blue" href="profile/edit-credentials"}}
-      {{> customButton text="Изменить пароль" type="button" variant="link" color="blue" href="profile/edit-pass"}}
-      {{> customButton text="Выйти" type="button" variant="link" color="red" href="/" }}
+      {{> customButton text=../actions.editCredentials.text type="button" variant=../actions.editCredentials.variant color=../actions.editCredentials.color href=../actions.editCredentials.href }}
+      {{> customButton text=../actions.editPass.text type="button" variant=../actions.editPass.variant color=../actions.editPass.color href=../actions.editPass.href }}
+      {{> customButton text=../actions.logout.text type="button" variant=../actions.logout.variant color=../actions.logout.color href=../actions.logout.href }}
     </div>
   {{/if}}
 
@@ -32,7 +37,14 @@
         {{#each fields}}
           <div class="profile-info__row">
             <label class="profile-info__label" for="{{name}}">{{label}}</label>
-            <input class="profile-info__input" id={{name}} name="{{name}}" value="{{value}}" placeholder="{{placeholder}}" />
+            <input
+              class="profile-info__input"
+              id="{{name}}"
+              name="{{name}}"
+              type="{{#if type}}{{type}}{{else}}text{{/if}}"
+              value="{{value}}"
+              placeholder="{{placeholder}}"
+            />
           </div>
         {{/each}}
       </div>
@@ -42,5 +54,7 @@
     </form>
   {{/if}}
 
-{{> modalItem}}
+  {{#if showModal}}
+    {{> modalItem modalProps}}
+  {{/if}}
 </div>

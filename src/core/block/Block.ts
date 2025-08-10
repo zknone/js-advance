@@ -157,10 +157,9 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   _render() {
     const element = this._element;
 
-    this._removeEvents();
-
     if (element) {
       const out = this.render();
+      this._removeEvents();
 
       if (typeof out === 'string') {
         const tpl = document.createElement('template');

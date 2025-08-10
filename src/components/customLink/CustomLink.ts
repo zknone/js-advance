@@ -1,19 +1,16 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import type { CustomButtonProps } from '../../types/chat';
+import type { CustomLinkProps } from '../../types/chat';
 
 /**
  * CustomButton
  *
  * @param props Props inside: {text, type, variant, classname и events}
  */
-class CustomButton extends TemplateBlock<CustomButtonProps> {
-  constructor(props: CustomButtonProps) {
-    const defaultProps: Partial<CustomButtonProps> = {
-      type: 'button',
-      variant: 'primary',
-    };
+class CustomButton extends TemplateBlock<CustomLinkProps> {
+  constructor(props: CustomLinkProps) {
+    const defaultProps: Partial<CustomLinkProps> = {};
 
-    super('customButton', {
+    super('customLink', {
       ...defaultProps,
       ...props,
       settings: {
