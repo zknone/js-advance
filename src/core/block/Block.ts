@@ -160,8 +160,15 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     this._removeEvents();
 
     if (element) {
-      const elementToAppend = this.render();
-      element.replaceChildren(elementToAppend);
+      const out = this.render();
+
+      if (typeof out === 'string') {
+        const tpl = document.createElement('template');
+        tpl.innerHTML = out;
+        element.replaceChildren(tpl.content);
+      } else {
+        element.replaceChildren(out);
+      }
     }
 
     this._addEvents();
@@ -225,6 +232,12 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   _createDocumentElement(tagName: string) {
     const element = document.createElement(tagName);
+
+    const withInternalID = (this.props as any)?.settings?.withInternalID;
+    if (withInternalID && this.__id) {
+      element.setAttribute('data-id', this.__id);
+    }
+
     return element;
   }
 

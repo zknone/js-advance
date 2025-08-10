@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import type { AdditionalField } from '../../types/core';
 import Block from '../block/Block';
 import TemplateEngine from '../templateEngine/TemplateEngine';
@@ -7,17 +8,16 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
     super(tagName, { ...props, templateName });
   }
 
-  compileToFragment(html) {
+  compileToFragment(html: string) {
     // eslint-disable-next-line no-underscore-dangle
     const tpl = this._createDocumentElement('template') as HTMLTemplateElement;
     tpl.innerHTML = html;
 
-    console.log({ tpl });
+    // eslint-disable-next-line no-underscore-dangle
 
     Object.values(this.children).forEach((child) => {
-      const stub = tpl.content.querySelector(`[data-id="${child.id}"]`);
+      const stub = tpl.content.querySelector(`[data-id="${child.__id}"]`);
       if (stub) {
-        console.log({ stub });
         const content = child.getContent();
         if (content) stub.replaceWith(content);
       }
@@ -34,10 +34,8 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
 
     const propsAndStubs: Record<string, unknown> = { ...rest };
     Object.entries(this.children).forEach(([key, child]) => {
-      propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
+      propsAndStubs[key] = `<div data-id="${child.__id}"></div>`;
     });
-
-    console.log({ propsAndStubs });
 
     const html = TemplateEngine.getRegistry().renderComponent(templateName, propsAndStubs);
 
