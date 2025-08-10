@@ -24,6 +24,10 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       },
     });
   }
+
+  render() {
+    return this.compile('chatItem', this.props);
+  }
 }
 
 export default ChatItem;

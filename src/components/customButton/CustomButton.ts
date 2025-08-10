@@ -21,6 +21,10 @@ class CustomButton extends TemplateBlock<CustomButtonProps> {
       },
     });
   }
+
+  render() {
+    return this.compile('customButton', this.props);
+  }
 }
 
 export default CustomButton;

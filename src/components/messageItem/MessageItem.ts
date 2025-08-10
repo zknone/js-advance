@@ -18,6 +18,10 @@ class MessageItem extends TemplateBlock<MessageItemProps> {
         withInternalID: true,
       },
     });
+
+    //   this.children.button = new Button({
+    //     text: this.props.buttonText
+    // });
   }
 }
 
