@@ -1,33 +1,47 @@
-import renderComponentSomewhere from '../../utils/renderCompopentsSomewhere';
+import type { AdditionalField } from '../../types/core';
 import Block from '../block/Block';
 import TemplateEngine from '../templateEngine/TemplateEngine';
 
-class TemplateBlock<P extends Record<string, unknown>> extends Block<P> {
+class TemplateBlock<P extends AdditionalField> extends Block<P> {
   constructor(templateName: string, props: P, tagName = 'div') {
     super(tagName, { ...props, templateName });
   }
 
-  render(): string {
-    const { templateName } = this.props;
-    const template = TemplateEngine.getRegistry().renderComponent(templateName as string, {
-      ...this.props,
+  compileToFragment(html) {
+    // eslint-disable-next-line no-underscore-dangle
+    const tpl = this._createDocumentElement('template') as HTMLTemplateElement;
+    tpl.innerHTML = html;
+
+    console.log({ tpl });
+
+    Object.values(this.children).forEach((child) => {
+      const stub = tpl.content.querySelector(`[data-id="${child.id}"]`);
+      if (stub) {
+        console.log({ stub });
+        const content = child.getContent();
+        if (content) stub.replaceWith(content);
+      }
     });
-    return template;
+
+    return tpl.content;
   }
 
-  renderList<ComponentProps extends Record<string, unknown>>(
-    ComponentClass: new (props: ComponentProps) => TemplateBlock<ComponentProps>,
-    data: ComponentProps[]
-  ) {
-    const { element } = this;
-    const isListReady = Array.isArray(data) && data.length > 0;
+  render(): DocumentFragment {
+    const { templateName, ...rest } = this.getProps() as unknown as {
+      templateName: string;
+      [k: string]: unknown;
+    };
 
-    if (element && isListReady) {
-      data.forEach((chat) => {
-        const component = new ComponentClass({ ...chat });
-        renderComponentSomewhere(element, component);
-      });
-    }
+    const propsAndStubs: Record<string, unknown> = { ...rest };
+    Object.entries(this.children).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
+    });
+
+    console.log({ propsAndStubs });
+
+    const html = TemplateEngine.getRegistry().renderComponent(templateName, propsAndStubs);
+
+    return this.compileToFragment(html);
   }
 }
 

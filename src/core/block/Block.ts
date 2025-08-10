@@ -5,48 +5,66 @@
 /* eslint-disable no-underscore-dangle */
 import { v4 as makeUUID } from 'uuid';
 import EventBus from '../eventBus/EventBus';
+import type { AdditionalField, Meta, BlockBasics } from '../../types/core';
 
-type EventsMap = Record<string, EventListenerOrEventListenerObject>;
-type WithEvents<T> = T & { events?: EventsMap };
-
-type Meta<T> = { tagName: string; props: WithEvents<T> } | null;
-
-class Block<P extends Record<string, any> = object> {
+class Block<RawProps extends BlockBasics<AdditionalField>> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_RENDER: 'flow:render',
   };
 
-  protected props: WithEvents<P>;
+  public children: Record<string, Block<any>> = {};
+
+  protected props!: RawProps;
 
   _element: HTMLElement | null = null;
 
-  _meta: Meta<P> = null;
+  _meta: Meta<RawProps> = null;
 
-  _id: string | null = null;
+  __id: string | null = null;
 
   private eventBus: () => EventBus;
 
-  constructor(tagName = 'div', props: WithEvents<P> = {} as WithEvents<P>) {
-    const eventBus = new EventBus();
+  id: any;
 
-    this._id = makeUUID();
+  constructor(
+    tagName = 'div',
+    propsAndChildren: BlockBasics<RawProps> = {} as BlockBasics<RawProps>
+  ) {
+    const eventBus = new EventBus();
+    const defaultSettings = { withInternalID: true };
+
+    const { children, props } = this._getChildren(propsAndChildren);
+
+    this.children = children;
+
+    this.__id = makeUUID();
 
     this._meta = {
       tagName,
-      props,
+      props: {} as RawProps,
     };
 
-    this.props = this._makePropsProxy({ ...props, __id: this._id });
+    const fullProps = {
+      ...(props as Partial<RawProps>),
+      children: Object.values(children) as RawProps['children'],
+      settings: {
+        ...defaultSettings,
+        ...((props as any).settings ?? {}),
+      },
+      __id: this.__id,
+    } as RawProps;
 
+    this.props = this._makePropsProxy(fullProps);
+    this._meta.props = this.props;
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  protected getProps(): WithEvents<P> {
+  protected getProps(): BlockBasics<RawProps> {
     return this.props;
   }
 
@@ -54,6 +72,24 @@ class Block<P extends Record<string, any> = object> {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+  }
+
+  _getChildren(propsAndChildren: BlockBasics<AdditionalField>): {
+    children: Record<string, Block<any>>;
+    props: Partial<RawProps>;
+  } {
+    const children: Record<string, Block<any>> = {};
+    const props: Partial<RawProps> = {};
+
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        (props as Record<string, unknown>)[key] = value;
+      }
+    });
+
+    return { children, props };
   }
 
   _notify(message: string) {
@@ -79,10 +115,13 @@ class Block<P extends Record<string, any> = object> {
 
   _componentDidMount() {
     this.componentDidMount();
+    Object.values(this.children).forEach((child) => {
+      child.dispatchComponentDidMount();
+    });
   }
 
   // @ts-ignore
-  componentDidMount(oldProps?: P) {
+  componentDidMount(oldProps?: RawProps) {
     return true;
   }
 
@@ -90,7 +129,7 @@ class Block<P extends Record<string, any> = object> {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps?: P, newProps?: P) {
+  _componentDidUpdate(oldProps?: RawProps, newProps?: RawProps) {
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
 
     if (shouldUpdate) {
@@ -99,11 +138,11 @@ class Block<P extends Record<string, any> = object> {
   }
 
   // @ts-ignore
-  componentDidUpdate(oldProps?: P, newProps?: P) {
+  componentDidUpdate(oldProps?: RawProps, newProps?: RawProps) {
     return true;
   }
 
-  setProps = (nextProps: P) => {
+  setProps = (nextProps: RawProps) => {
     if (!nextProps) {
       return;
     }
@@ -116,37 +155,26 @@ class Block<P extends Record<string, any> = object> {
   }
 
   _render() {
-    const html = this.render();
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
+    const element = this._element;
 
-    const newElement = template.content.firstElementChild as HTMLElement;
+    this._removeEvents();
 
-    const id = this._id;
-
-    if (id) {
-      if (!newElement) {
-        this._notify('Template must return a root element');
-        return;
-      }
-
-      newElement.setAttribute('data-id', id);
-
-      this._removeEvents();
-
-      if (this._element?.parentNode) {
-        this._element.replaceWith(newElement);
-      }
-
-      this._element = newElement;
-
-      this._addEvents();
+    if (element) {
+      const elementToAppend = this.render();
+      element.replaceChildren(elementToAppend);
     }
+
+    this._addEvents();
   }
 
-  render(): string {
-    const children = `${this.props.children?.map((child: WithEvents<P>) => child.getContent()?.outerHtml).join('') ?? ''}`;
-    return children;
+  render(): DocumentFragment {
+    const fragment = document.createDocumentFragment();
+
+    (this.props.children ?? []).forEach((child: Block<BlockBasics<AdditionalField>>) => {
+      const node = child.getContent();
+      if (node) fragment.appendChild(node);
+    });
+    return fragment;
   }
 
   getContent() {
@@ -173,13 +201,13 @@ class Block<P extends Record<string, any> = object> {
     });
   }
 
-  _makePropsProxy(props: P) {
+  _makePropsProxy(props: RawProps) {
     return new Proxy(props, {
       set: (target, prop: string, value) => {
         const oldProps = { ...target };
 
         // eslint-disable-next-line no-param-reassign
-        target[prop as keyof P] = value;
+        target[prop as keyof RawProps] = value;
 
         const isUpdated = this.componentDidUpdate(oldProps, target);
 

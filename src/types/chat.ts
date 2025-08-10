@@ -1,4 +1,4 @@
-export type AdditionalField = Record<string, unknown>;
+import type { AdditionalField } from './core';
 
 export interface ChatItemProps extends AdditionalField {
   name: string;

@@ -16,7 +16,13 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       unreadCount: 0,
     };
 
-    super('chatItem', { ...defaultProps, ...props });
+    super('chatItem', {
+      ...defaultProps,
+      ...props,
+      settings: {
+        withInternalID: true,
+      },
+    });
   }
 }
 
