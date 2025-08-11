@@ -54,23 +54,11 @@ class TemplateEngine {
   renderComponent<T>(
     templateName: string,
     data: Record<string, T>,
-    currentTemplates = this.templates
+    currentTemplates = { ...this.templates, ...this.pages }
   ): string {
     const templateString = getTemplateFrom(templateName, currentTemplates);
     const compiled = Handlebars.compile(templateString);
     return compiled(data);
-  }
-
-  renderPage<T>(pageName: string, pageData: Record<string, T>) {
-    const html = this.renderComponent(pageName, pageData, this.pages);
-
-    const app = document.querySelector('#app')!;
-
-    if (!app) {
-      throw new Error('App container not found in DOM');
-    }
-
-    app.innerHTML = html;
   }
 }
 

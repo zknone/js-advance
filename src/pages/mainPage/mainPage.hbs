@@ -1,17 +1,17 @@
 <div class="main-page">
     <div class="main-page__sidebar">
-        {{> customLink title="Профиль >" link="/profile"}}
-        {{> search}}
-        {{> chatList}}
+        {{{customLink}}}
+        {{{search}}}
+        {{{chatList}}}
     </div>
     <div class="main-page__chosen-chat">
         {{#if noChat}}
             <span class="main-page__no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
         {{/if}}
         {{#if hasChat}}
-            {{> chatMenu }}
-            {{> messageList}}
-            {{> messageQuill}}
+            {{{chatMenu}}}
+            {{{messageList}}}
+            {{{messageQuill}}}
         {{/if}}
     </div>
 </div>

@@ -1,9 +1,12 @@
 import ChatList from './components/chatList/ChatList';
 import CustomForm from './components/customForm/CustomForm';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
+import LoadingErrorPage from './pages/loadingErrorPage/LoadingErrorPage';
+import NotFoundPage from './pages/notFoundPage/NotFoundPage';
 import './style.css';
 import type { InputItemProps } from './types/chat';
 import renderComponentSomewhere from './utils/renderCompopentsSomewhere';
+import renderPage from './utils/renderPage';
 
 import.meta.glob('./components/**/*.scss', {
   eager: true,
@@ -22,6 +25,8 @@ const pages = import.meta.glob('./pages/**/*.hbs', {
   as: 'raw',
   eager: true,
 }) as Record<string, string>;
+
+TemplateEngine.init(templates, pages);
 
 const mainPageData = {
   noChat: false,
@@ -263,21 +268,35 @@ const registrationFormData = {
   ],
 };
 
-const templateEngine = TemplateEngine.init(templates, pages);
-
 const routes: Record<string, () => void> = {
-  main: () => templateEngine.renderPage('mainPage', mainPageData),
-  profile: () => templateEngine.renderPage('profilePage', profilePageData),
+  main: () => {},
+  profile: () => {},
   login: () => null,
-  signup: () => templateEngine.renderPage('signupPage', registrationFormData),
-  404: () => templateEngine.renderPage('notFoundPage', {}),
-  500: () => templateEngine.renderPage('loadingErrorPage', {}),
+  signup: () => {},
+  404: () => {
+    const notFoundPage = new NotFoundPage({
+      customLink: {
+        text: 'Назад',
+        link: '/',
+      },
+    });
+
+    renderPage(notFoundPage);
+  },
+  500: () => {
+    const loadingErrorPageItem = new LoadingErrorPage({
+      customLink: {
+        text: 'Назад',
+        link: '/',
+      },
+    });
+
+    renderPage(loadingErrorPageItem);
+  },
   sandbox: () => {
     const root = document.getElementById('app');
 
     if (root) {
-      templateEngine.renderPage('sandBoxPage', {});
-
       const chatList = new ChatList({ chats: mainPageData.chats });
 
       const customForm = new CustomForm({
@@ -304,17 +323,13 @@ const routes: Record<string, () => void> = {
         },
       });
 
-      const sandboxPage = document.querySelector('.sandbox-page');
-      if (sandboxPage) {
-        renderComponentSomewhere('.sandbox-page', customForm);
-        renderComponentSomewhere('.sandbox-page', chatList);
-      }
+      renderComponentSomewhere(root, customForm);
+      renderComponentSomewhere(root, chatList);
     }
   },
-  'profile/edit-pass': () => templateEngine.renderPage('editPassPage', editPassPageData),
-  'profile/edit-credentials': () =>
-    templateEngine.renderPage('editCredentialsPage', editCredentialsPageData),
-  'profile/edit-avatar': () => templateEngine.renderPage('profilePage', editPassPageData),
+  'profile/edit-pass': () => {},
+  'profile/edit-credentials': () => {},
+  'profile/edit-avatar': () => {},
 };
 
 function getPage() {
