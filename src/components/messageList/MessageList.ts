@@ -5,6 +5,10 @@ import type { MessageListProps } from '../../types/chat';
  * MessageList
  *
  * @param props Props inside: {
+ * messages: Array<Message>;
+ * className?: string;
+ * loading?: boolean;
+ * error?: string;
 }
  */
 class MessageList extends TemplateBlock<MessageListProps> {
@@ -15,6 +19,10 @@ class MessageList extends TemplateBlock<MessageListProps> {
         withInternalID: true,
       },
     });
+  }
+
+  render() {
+    return this.compile('messageList', this.props);
   }
 }
 

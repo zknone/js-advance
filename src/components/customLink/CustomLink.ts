@@ -2,13 +2,20 @@ import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { CustomLinkProps } from '../../types/chat';
 
 /**
- * CustomButton
+ * CustomLink component for rendering a customizable link.
  *
- * @param props Props inside: {text, type, variant, classname и events}
+ * @param props Props inside: {link: string; text: string; className?: string;}
  */
-class CustomButton extends TemplateBlock<CustomLinkProps> {
+class CustomLink extends TemplateBlock<CustomLinkProps> {
   constructor(props: CustomLinkProps) {
-    const defaultProps: Partial<CustomLinkProps> = {};
+    const defaultProps: Partial<CustomLinkProps> = {
+      link: '',
+      text: '',
+      className: '',
+      settings: {
+        withInternalID: true,
+      },
+    };
 
     super('customLink', {
       ...defaultProps,
@@ -18,6 +25,10 @@ class CustomButton extends TemplateBlock<CustomLinkProps> {
       },
     });
   }
+
+  render() {
+    return this.compile('customLink', this.props);
+  }
 }
 
-export default CustomButton;
+export default CustomLink;

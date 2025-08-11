@@ -1,6 +1,18 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ProfileInfoProps } from '../../types/chat';
 
+/**
+ * ProfileInfo component for displaying and editing user profile information.
+ *
+ * @param props Props inside: { className?: string;
+ *  mode?: 'view' | 'edit';
+ *  fields: Array<{ label: string; value: string }>;
+ *  actions: Record<string, { text: string; href: string; variant: string; color: string }>;
+ *  avatar?: { changeText: string; iconSrc: string; iconAlt: string; iconW: number; iconH: number };
+ *  showModal?: boolean;
+ *  modalProps?: Record<string, unknown> }
+ */
+
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   constructor(props: ProfileInfoProps) {
     const defaultProps: Partial<ProfileInfoProps> = {
@@ -43,6 +55,10 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       ...props,
       settings: { withInternalID: true },
     });
+  }
+
+  render(): DocumentFragment {
+    return this.compile('profileInfo', this.props);
   }
 }
 

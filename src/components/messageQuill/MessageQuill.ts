@@ -4,7 +4,25 @@ import type { MessageQuillProps } from '../../types/chat';
 /**
  * MessageQuill
  *
- * @param props Props inside: {}
+ * @param props Props inside: { className?: string;
+ *  placeholder?: string;
+ *  inputName?: string;
+ *  autoComplete?: string;
+ *  value?: string;
+ *  disabled?: boolean;
+ *  showAttachmentMenu?: boolean;
+ *  attachIcon?: IconSpec;
+ *  imgIcon?: IconSpec;
+ *  fileIcon?: IconSpec;
+ *  locationIcon?: IconSpec;
+ *  sendIcon?: IconSpec;
+ *  labels?: {
+ *    attach?: string;
+ *    photoVideo?: string;
+ *    file?: string;
+ *    location?: string;
+ *    send?: string;
+ *  } }
  */
 
 class MessageQuill extends TemplateBlock<MessageQuillProps> {
@@ -63,6 +81,10 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
         withInternalID: true,
       },
     });
+  }
+
+  render(): DocumentFragment {
+    return this.compile('messageQuill', this.props);
   }
 }
 

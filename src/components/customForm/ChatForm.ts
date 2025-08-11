@@ -18,6 +18,10 @@ class ChatForm extends TemplateBlock<ChatFormProps> {
       },
     });
   }
+
+  render() {
+    return this.compile('chatForm', this.props);
+  }
 }
 
 export default ChatForm;

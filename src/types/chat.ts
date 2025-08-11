@@ -166,3 +166,10 @@ export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   showModal?: boolean;
   modalProps?: Record<string, unknown>;
 }
+
+export interface SearchProps extends BlockBasics<AdditionalField> {
+  value?: string;
+  className?: string;
+  placeholder?: string;
+  name?: string;
+}

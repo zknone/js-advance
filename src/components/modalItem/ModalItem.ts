@@ -2,9 +2,12 @@ import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ModalItemProps } from '../../types/chat';
 
 /**
- * ModalItem
+ * ModalItem component for displaying a modal dialog with file upload functionality.
  *
- * @param props Props inside: {}
+ * @param props Props inside: { className?: string;
+ *  modalId?: string;
+ *  inputId?: string;
+ *  title?: string; }
  */
 
 class ModalItem extends TemplateBlock<ModalItemProps> {
@@ -33,6 +36,10 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
         withInternalID: true,
       },
     });
+  }
+
+  render() {
+    return this.compile('modalItem', this.props);
   }
 }
 

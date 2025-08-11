@@ -60,6 +60,10 @@ class ChatList extends TemplateBlock<ChatMenuProps> {
       },
     });
   }
+
+  render() {
+    return this.compile('chatMenu', this.props);
+  }
 }
 
 export default ChatList;

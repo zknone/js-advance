@@ -7,9 +7,19 @@ import type { InputItemProps } from '../../types/chat';
  * @param props Props inside: {}
  */
 
-class CustomButton extends TemplateBlock<InputItemProps> {
+class InputItem extends TemplateBlock<InputItemProps> {
   constructor(props: InputItemProps) {
-    const defaultProps: Partial<InputItemProps> = {};
+    const defaultProps: Partial<InputItemProps> = {
+      placeholder: '',
+      value: '',
+      type: 'text',
+      name: '',
+      title: '',
+      className: '',
+      settings: {
+        withInternalID: true,
+      },
+    };
 
     super('inputItem', {
       ...defaultProps,
@@ -19,6 +29,10 @@ class CustomButton extends TemplateBlock<InputItemProps> {
       },
     });
   }
+
+  render() {
+    return this.compile('inputItem', this.props);
+  }
 }
 
-export default CustomButton;
+export default InputItem;
