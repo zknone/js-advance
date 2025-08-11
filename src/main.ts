@@ -1,10 +1,5 @@
-import ChatItem from './components/chatItem/ChatItem';
 import ChatList from './components/chatList/ChatList';
-import ChatMenu from './components/chatMenu/ChatMenu';
-import CustomButton from './components/customButton/CustomButton';
 import CustomForm from './components/customForm/CustomForm';
-import CustomLink from './components/customLink/CustomLink';
-import InputItem from './components/inputItem/InputItem';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import './style.css';
 import type { InputItemProps } from './types/chat';
@@ -283,53 +278,10 @@ const routes: Record<string, () => void> = {
     if (root) {
       templateEngine.renderPage('sandBoxPage', {});
 
-      const button = new CustomButton({
-        text: 'Нажми меня',
-        type: 'button',
-        className: 'new-button',
-        settings: {
-          withInternalID: false,
-        },
-        events: {
-          click: () => alert('Привет из сендбокса!'),
-        },
-      });
-
-      const message = {
-        name: 'Иван',
-        message: '123',
-        time: '123',
-        className: '123',
-        events: {
-          click: () => alert('Привет из сендбокса!'),
-        },
-      };
-
-      const messageFirst = {
-        name: 'Иван',
-        message: '1212121213',
-        time: '123',
-        className: '123',
-        settings: { withInternalID: false },
-        events: {
-          click: () => alert('Привет из сендбокса!'),
-        },
-      };
-
-      const messageSecond = {
-        name: 'Ивsdsdан',
-        message: '1121sxs23',
-        time: '123',
-        className: '1212123',
-        settings: { withInternalID: false },
-        events: {
-          click: () => alert('Привет из сендбокса!'),
-        },
-      };
-
-      const chatMenu = new ChatMenu({ name: 'Иван Иваныч' });
+      const chatList = new ChatList({ chats: mainPageData.chats });
 
       const customForm = new CustomForm({
+        text: '123',
         title: 'Форма',
         inputFields: loginPageData,
         customButton: {
@@ -355,6 +307,7 @@ const routes: Record<string, () => void> = {
       const sandboxPage = document.querySelector('.sandbox-page');
       if (sandboxPage) {
         renderComponentSomewhere('.sandbox-page', customForm);
+        renderComponentSomewhere('.sandbox-page', chatList);
       }
     }
   },

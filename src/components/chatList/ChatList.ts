@@ -1,5 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatListProps } from '../../types/chat';
+import ChatItem from '../chatItem/ChatItem';
 /**
  * ChatList
  *
@@ -15,12 +16,11 @@ class ChatList extends TemplateBlock<ChatListProps> {
         withInternalID: true,
       },
     });
-
-    // this.children = props.chats.map((chat) => new ChatItem(chat));
   }
 
   render() {
-    return this.compile('chatList', { chats: this.props.chats });
+    this.children.chats = this.props.chats.map((chat) => new ChatItem(chat));
+    return this.compile('chatList', this.props);
   }
 }
 
