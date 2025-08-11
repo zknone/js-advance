@@ -22,9 +22,11 @@ class CustomForm extends TemplateBlock<CustomFormProps> {
       },
     });
   }
-  // componentDidUpdate(
-  // ): boolean {
-  // }
+
+  componentDidUpdate(oldProps: CustomFormProps, newProps: CustomFormProps): boolean {
+    (this.children.customButton as CustomButton).setProps(newProps);
+    return true;
+  }
 
   render() {
     this.children.customButton = new CustomButton(this.props.customButton);
