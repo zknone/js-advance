@@ -2,8 +2,12 @@ import ChatItem from './components/chatItem/ChatItem';
 import ChatList from './components/chatList/ChatList';
 import ChatMenu from './components/chatMenu/ChatMenu';
 import CustomButton from './components/customButton/CustomButton';
+import CustomForm from './components/customForm/CustomForm';
+import CustomLink from './components/customLink/CustomLink';
+import InputItem from './components/inputItem/InputItem';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import './style.css';
+import type { InputItemProps } from './types/chat';
 import renderComponentSomewhere from './utils/renderCompopentsSomewhere';
 
 import.meta.glob('./components/**/*.scss', {
@@ -192,22 +196,22 @@ const editPassPageData = {
   ],
 };
 
-const loginPageData = {
-  fields: [
-    {
-      title: 'Login',
-      name: 'login',
-      type: 'text',
-      placeholder: 'Enter login',
-    },
-    {
-      title: 'Password',
-      name: 'password',
-      type: 'password',
-      placeholder: 'Enter password',
-    },
-  ],
-};
+const loginPageData: InputItemProps[] = [
+  {
+    title: 'Login',
+    name: 'login',
+    type: 'text',
+    placeholder: 'Enter login',
+    error: '',
+  },
+  {
+    title: 'Password',
+    name: 'password',
+    type: 'password',
+    placeholder: 'Enter password',
+    error: '',
+  },
+];
 
 const registrationFormData = {
   fields: [
@@ -269,7 +273,7 @@ const templateEngine = TemplateEngine.init(templates, pages);
 const routes: Record<string, () => void> = {
   main: () => templateEngine.renderPage('mainPage', mainPageData),
   profile: () => templateEngine.renderPage('profilePage', profilePageData),
-  login: () => templateEngine.renderPage('loginPage', loginPageData),
+  login: () => null,
   signup: () => templateEngine.renderPage('signupPage', registrationFormData),
   404: () => templateEngine.renderPage('notFoundPage', {}),
   500: () => templateEngine.renderPage('loadingErrorPage', {}),
@@ -323,20 +327,34 @@ const routes: Record<string, () => void> = {
         },
       };
 
-      const messageItem = new ChatItem(message);
-
-      const listItem = new ChatList({
-        chats: [messageFirst, messageSecond],
-      });
-
       const chatMenu = new ChatMenu({ name: 'Иван Иваныч' });
+
+      const customForm = new CustomForm({
+        title: 'Форма',
+        inputFields: loginPageData,
+        customButton: {
+          text: 'Отправить',
+          type: 'submit',
+          className: 'custom-button',
+          settings: {
+            withInternalID: false,
+          },
+          events: { click: () => alert('Привет из сендбокса!') },
+        },
+        customLink: {
+          text: 'Ссылка',
+          link: 'https://example.com',
+          className: 'custom-link',
+          settings: {
+            withInternalID: false,
+          },
+          events: { click: () => alert('Привет из сендбокса!') },
+        },
+      });
 
       const sandboxPage = document.querySelector('.sandbox-page');
       if (sandboxPage) {
-        renderComponentSomewhere('.sandbox-page', button);
-        renderComponentSomewhere('.sandbox-page', messageItem);
-        renderComponentSomewhere('.sandbox-page', listItem);
-        renderComponentSomewhere('.sandbox-page', chatMenu);
+        renderComponentSomewhere('.sandbox-page', customForm);
       }
     }
   },

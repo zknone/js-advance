@@ -14,7 +14,7 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     FLOW_RENDER: 'flow:render',
   };
 
-  public children: Record<string, Block<any>> = {};
+  public children: Record<string, Block<any> | Block<any>[]> = {};
 
   protected props!: RawProps;
 
@@ -39,6 +39,8 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
     this.children = children;
 
+    console.log('какой чилдрен приходит', { children });
+
     this.__id = makeUUID();
 
     this._meta = {
@@ -46,9 +48,16 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
       props: {} as RawProps,
     };
 
+    const flatChildren: Block<any>[] = [];
+
+    Object.values(children).forEach((val) => {
+      if (Array.isArray(val)) flatChildren.push(...val);
+      else flatChildren.push(val);
+    });
+
     const fullProps = {
       ...(props as Partial<RawProps>),
-      children: Object.values(children) as RawProps['children'],
+      children: flatChildren as RawProps['children'],
       settings: {
         ...defaultSettings,
         ...((props as any).settings ?? {}),
@@ -75,15 +84,17 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   }
 
   _getChildren(propsAndChildren: BlockBasics<AdditionalField>): {
-    children: Record<string, Block<any>>;
+    children: Record<string, Block<any> | Block<any>[]>;
     props: Partial<RawProps>;
   } {
-    const children: Record<string, Block<any>> = {};
+    const children: Record<string, Block<any> | Block<any>[]> = {};
     const props: Partial<RawProps> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
+      } else if (Array.isArray(value) && value.every((v) => v instanceof Block)) {
+        children[key] = value as Block<any>[];
       } else {
         (props as Record<string, unknown>)[key] = value;
       }
@@ -115,8 +126,10 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   _componentDidMount() {
     this.componentDidMount();
-    Object.values(this.children).forEach((child) => {
-      child.dispatchComponentDidMount();
+    Object.values(this.children).forEach((childOrList) => {
+      // тут должен быть алгоритм
+      if (Array.isArray(childOrList)) childOrList.forEach((c) => c.dispatchComponentDidMount());
+      else childOrList.dispatchComponentDidMount();
     });
   }
 
@@ -176,7 +189,14 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   render(): DocumentFragment {
     const fragment = document.createDocumentFragment();
 
-    (this.props.children ?? []).forEach((child: Block<BlockBasics<AdditionalField>>) => {
+    const list: (Block<any> | Block<BlockBasics<AdditionalField>>)[] = [];
+
+    Object.values(this.children).forEach((val) => {
+      if (Array.isArray(val)) list.push(...val);
+      else list.push(val);
+    });
+
+    list.forEach((child: Block<BlockBasics<AdditionalField>>) => {
       const node = child.getContent();
       if (node) fragment.appendChild(node);
     });

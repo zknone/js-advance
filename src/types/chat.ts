@@ -47,21 +47,20 @@ export interface CustomButtonProps extends BlockBasics<AdditionalField> {
   type?: 'button' | 'submit' | 'reset';
 }
 
-export interface ChatFormProps extends BlockBasics<AdditionalField> {
-  title: string;
+export interface CustomFormProps extends BlockBasics<AdditionalField> {
+  text: string;
   customButton: CustomButtonProps;
-  inputFiled: [];
+  inputFields: InputItemProps[];
   customLink: CustomLinkProps;
 }
 
 export interface CustomLinkProps extends BlockBasics<AdditionalField> {
-  title: string;
-  href: string;
+  text: string;
+  link: string;
 }
 
 export interface InputItemProps extends BlockBasics<AdditionalField> {
   title: string;
-  href: string;
   type: string;
   placeholder: string;
   error: string;

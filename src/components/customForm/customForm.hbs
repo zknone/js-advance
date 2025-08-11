@@ -2,11 +2,9 @@
     <h2>{{title}}</h2>
     <form method="post">
         <div class="custom-form__container">
-            {{#each fields}}
-                {{> inputItem }}
-            {{/each}}
+            {{{inputFields}}}
         </div>
-        {{> customButton type="submit" text=buttonText }}
+        {{{customButton}}}
     </form>
-    {{> customLink link=link title=linkTitle}}
+    {{{customLink}}}
 </div>

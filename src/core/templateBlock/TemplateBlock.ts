@@ -12,19 +12,25 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
     const propsAndStubs = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
-      propsAndStubs[key] = `<div data-id="${child.__id}"></div>`;
+      if (Array.isArray(child)) {
+        propsAndStubs[key] = child.map((item) => `<div data-id="${item.__id}"></div>`).join('');
+      } else propsAndStubs[key] = `<div data-id="${child.__id}"></div>`;
     });
 
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
 
     fragment.innerHTML = TemplateEngine.getRegistry().renderComponent(template, propsAndStubs);
 
-    Object.values(this.children).forEach((child) => {
-      const stub = fragment.content.querySelector(`[data-id="${child.__id}"]`);
-      if (stub) {
-        const content = child.getContent();
-        if (content) stub.replaceWith(content);
-      }
+    Object.values(this.children).forEach((childOrList) => {
+      const list = Array.isArray(childOrList) ? childOrList : [childOrList];
+
+      list.forEach((child) => {
+        const stub = fragment.content.querySelector(`[data-id="${child.__id}"]`);
+        if (stub) {
+          const content = child.getContent();
+          if (content) stub.replaceWith(content);
+        }
+      });
     });
 
     return fragment.content;
