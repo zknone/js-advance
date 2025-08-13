@@ -9,52 +9,9 @@
           height="{{avatar.iconH}}"
         />
       </div>
-      <span>{{{avatar.changeText}}}</span>
+      <span>{{avatar.changeText}}</span>
     </div>
     <div class="profile-info__name">{{name}}</div>
   </div>
-
-  {{#if (eq mode "view")}}
-    <dl class="profile-info__info">
-      {{#each fields}}
-        <div class="profile-info__row">
-          <dt class="profile-info__label">{{label}}</dt>
-          <dd class="profile-info__value">{{value}}</dd>
-        </div>
-      {{/each}}
-    </dl>
-
-    <div class="profile-info__actions">
-      {{> customButton text=../actions.editCredentials.text type="button" variant=../actions.editCredentials.variant color=../actions.editCredentials.color href=../actions.editCredentials.href }}
-      {{> customButton text=../actions.editPass.text type="button" variant=../actions.editPass.variant color=../actions.editPass.color href=../actions.editPass.href }}
-      {{> customButton text=../actions.logout.text type="button" variant=../actions.logout.variant color=../actions.logout.color href=../actions.logout.href }}
-    </div>
-  {{/if}}
-
-  {{#if (eq mode "edit")}}
-    <form class="profile-info__form">
-      <div>
-        {{#each fields}}
-          <div class="profile-info__row">
-            <label class="profile-info__label" for="{{name}}">{{label}}</label>
-            <input
-              class="profile-info__input"
-              id="{{name}}"
-              name="{{name}}"
-              type="{{#if type}}{{type}}{{else}}text{{/if}}"
-              value="{{value}}"
-              placeholder="{{placeholder}}"
-            />
-          </div>
-        {{/each}}
-      </div>
-      <div class="profile-info__submit">
-        {{> customButton text="Сохранить" type="submit" variant="primary" color="blue" }}
-      </div>
-    </form>
-  {{/if}}
-
-  {{#if showModal}}
-    {{> modalItem modalProps}}
-  {{/if}}
+  {{{infoFields}}}
 </div>

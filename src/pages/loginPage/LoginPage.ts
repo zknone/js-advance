@@ -4,15 +4,15 @@ import type { CustomFormProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
 
-interface SignupPageProps extends BlockBasics<AdditionalField> {
+interface LoginPageProps extends BlockBasics<AdditionalField> {
   customForm: CustomFormProps;
 }
 
-class SignupPage extends TemplatePage<SignupPageProps> {
-  constructor(props: SignupPageProps) {
+class LoginPage extends TemplatePage<LoginPageProps> {
+  constructor(props: LoginPageProps) {
     super({
       ...props,
-      page: PAGE.SIGN_UP,
+      page: PAGE.LOGIN,
       settings: {
         withInternalID: true,
       },
@@ -20,8 +20,11 @@ class SignupPage extends TemplatePage<SignupPageProps> {
   }
 
   protected gatherChildren() {
-    this.children.customForm = new CustomForm(this.props.customForm);
+    this.children.customForm = new CustomForm({
+      ...this.props.customForm,
+      settings: { withInternalID: true },
+    });
   }
 }
 
-export default SignupPage;
+export default LoginPage;

@@ -151,20 +151,28 @@ export interface AvatarCfg {
   iconH?: number;
 }
 
+export interface InfoFieldProps extends BlockBasics<AdditionalField> {
+  label: string;
+  type?: string;
+  name?: string;
+  placeholder?: string;
+  value: string;
+}
+
+export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
+  infoFields: InfoFieldProps[];
+}
+
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   className?: string;
   name: string;
-  mode?: 'view' | 'edit';
-  fields: Field[];
-  actions?: {
-    editCredentials?: ActionLink;
-    editPass?: ActionLink;
-    logout?: ActionLink;
-  };
+  mode?: ProfileMods;
   avatar?: AvatarCfg;
-  showModal?: boolean;
-  modalProps?: Record<string, unknown>;
+  infoFields: InfoFieldProps[];
+  modalItem?: ModalItemProps;
 }
+
+export type ProfilePageProps = Omit<ProfileInfoProps, 'infoFields'>;
 
 export interface SearchProps extends BlockBasics<AdditionalField> {
   value?: string;
@@ -172,3 +180,5 @@ export interface SearchProps extends BlockBasics<AdditionalField> {
   placeholder?: string;
   name?: string;
 }
+
+export type ProfileMods = 'view' | 'edit';

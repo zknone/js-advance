@@ -1,11 +1,10 @@
-import ChatList from './components/chatList/ChatList';
-import CustomForm from './components/customForm/CustomForm';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
+import { baseProfileMocks } from './mocks/profile';
 import LoadingErrorPage from './pages/loadingErrorPage/LoadingErrorPage';
 import NotFoundPage from './pages/notFoundPage/NotFoundPage';
+import ProfilePage from './pages/profilePage/ProfilePage';
 import './style.css';
-import type { InputItemProps } from './types/chat';
-import renderComponentSomewhere from './utils/renderCompopentsSomewhere';
+import type { InputItemProps, ProfileMods } from './types/chat';
 import renderPage from './utils/renderPage';
 
 import.meta.glob('./components/**/*.scss', {
@@ -177,25 +176,6 @@ const editCredentialsPageData = {
   ],
 };
 
-const editPassPageData = {
-  mode: 'edit',
-  name: 'Иван',
-  fields: [
-    {
-      label: 'Старый пароль',
-      name: 'oldPassword',
-      type: 'text',
-      placeholder: 'Введите старый пароль',
-    },
-    {
-      label: 'Новый пароль',
-      name: 'newPassword',
-      type: 'password',
-      placeholder: 'Введите новый пароль',
-    },
-  ],
-};
-
 const loginPageData: InputItemProps[] = [
   {
     title: 'Login',
@@ -213,65 +193,9 @@ const loginPageData: InputItemProps[] = [
   },
 ];
 
-const registrationFormData = {
-  fields: [
-    {
-      title: 'Почта',
-      name: 'email',
-      type: 'email',
-      placeholder: 'Введите почту',
-    },
-    {
-      title: 'Логин',
-      name: 'login',
-      type: 'text',
-      placeholder: 'Введите логин',
-    },
-    {
-      title: 'Имя',
-      name: 'first_name',
-      type: 'text',
-      placeholder: 'Введите имя',
-    },
-    {
-      title: 'Фамилия',
-      name: 'second_name',
-      type: 'text',
-      placeholder: 'Введите фамилию',
-    },
-    {
-      title: 'Имя в чате',
-      name: 'nicname',
-      type: 'text',
-      placeholder: 'Введите имя для отображения в чате',
-    },
-    {
-      title: 'Телефон',
-      name: 'phone',
-      type: 'tel',
-      placeholder: 'Введите номер телефона',
-    },
-    {
-      title: 'Пароль',
-      name: 'password',
-      type: 'password',
-      placeholder: 'Введите пароль',
-      error: 'Пароли не совпадают',
-    },
-    {
-      title: 'Пароль (ещё раз)',
-      name: 'confirm_password',
-      type: 'password',
-      placeholder: 'Повторите пароль',
-      error: 'Пароли не совпадают',
-    },
-  ],
-};
-
 const routes: Record<string, () => void> = {
   main: () => {},
-  profile: () => {},
-  login: () => null,
+  login: () => {},
   signup: () => {},
   404: () => {
     const notFoundPage = new NotFoundPage({
@@ -290,52 +214,33 @@ const routes: Record<string, () => void> = {
         link: '/',
       },
     });
-
     renderPage(loadingErrorPageItem);
   },
-  sandbox: () => {
-    const root = document.getElementById('app');
-
-    if (root) {
-      const chatList = new ChatList({ chats: mainPageData.chats });
-
-      const customForm = new CustomForm({
-        text: '123',
-        title: 'Форма',
-        inputFields: loginPageData,
-        customButton: {
-          text: 'Отправить',
-          type: 'submit',
-          className: 'custom-button',
-          settings: {
-            withInternalID: false,
-          },
-          events: { click: () => alert('Привет из сендбокса!') },
-        },
-        customLink: {
-          text: 'Ссылка',
-          link: 'https://example.com',
-          className: 'custom-link',
-          settings: {
-            withInternalID: false,
-          },
-          events: { click: () => alert('Привет из сендбокса!') },
-        },
-      });
-
-      renderComponentSomewhere(root, customForm);
-      renderComponentSomewhere(root, chatList);
-    }
+  profile: () => {
+    const profileInfoMock = { ...baseProfileMocks, mode: 'view' as ProfileMods };
+    const profilePage = new ProfilePage(profileInfoMock);
+    renderPage(profilePage);
   },
-  'profile/edit-pass': () => {},
-  'profile/edit-credentials': () => {},
-  'profile/edit-avatar': () => {},
+  'profile/edit-pass': () => {
+    const profileInfoMock = { ...baseProfileMocks, mode: 'edit' as ProfileMods };
+    const profilePage = new ProfilePage(profileInfoMock);
+    renderPage(profilePage);
+  },
+  'profile/edit-credentials': () => {
+    const profileInfoMock = { ...baseProfileMocks, mode: 'edit' as ProfileMods };
+    const profilePage = new ProfilePage(profileInfoMock);
+    renderPage(profilePage);
+  },
+  'profile/edit-avatar': () => {
+    const profileInfoMock = { ...baseProfileMocks, mode: 'edit' as ProfileMods };
+    const profilePage = new ProfilePage(profileInfoMock);
+    renderPage(profilePage);
+  },
 };
 
 function getPage() {
   const pathRoute = location.pathname.replace('/', '');
-
-  return routes[pathRoute] || routes.main;
+  return routes[pathRoute.replace('/', '')] || routes.main;
 }
 
 window.addEventListener('hashchange', () => getPage()());

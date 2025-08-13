@@ -8,11 +8,6 @@ interface LoadingErrorPublicProps extends BlockBasics<AdditionalField> {
   customLink: CustomLinkProps;
 }
 
-/**
- * LoadingErrorPage
- *
- * @param props Props inside: {}
- */
 class LoadingErrorPage extends TemplatePage<LoadingErrorPublicProps> {
   constructor(props: LoadingErrorPublicProps) {
     super({

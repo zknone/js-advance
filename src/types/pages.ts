@@ -2,8 +2,6 @@ import type { AdditionalField, BlockBasics } from './core';
 
 export const PAGE = {
   SIGN_UP: 'signupPage',
-  EDIT_CREDENTIALS: 'editCredentialsPage',
-  EDIT_PASS: 'editPassPage',
   LOADING_ERROR: 'loadingErrorPage',
   LOGIN: 'loginPage',
   MAIN: 'mainPage',
