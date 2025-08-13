@@ -1,32 +1,33 @@
 import CustomLink from '../../components/customLink/CustomLink';
-import TemplateBlock from '../../core/templateBlock/TemplateBlock';
+import TemplatePage from '../../core/templatePage/TemplatePage';
 import type { CustomLinkProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
+import { PAGE, type PagesTypes } from '../../types/pages';
 
-interface ErrorLoadingPageProps extends BlockBasics<AdditionalField> {
+interface LoadingErrorPublicProps extends BlockBasics<AdditionalField> {
   customLink: CustomLinkProps;
 }
+
+type LoadingErrorInternalProps = LoadingErrorPublicProps & { page: PagesTypes };
 /**
  * LoadingErrorPage
  *
  * @param props Props inside: {}
  */
-class LoadingErrorPage extends TemplateBlock<ErrorLoadingPageProps> {
-  constructor(props: ErrorLoadingPageProps) {
-    const defaultProps: Partial<ErrorLoadingPageProps> = {};
-
-    super('loadingErrorPage', {
-      ...defaultProps,
+class LoadingErrorPage extends TemplatePage<LoadingErrorInternalProps> {
+  constructor(props: LoadingErrorPublicProps) {
+    super({
       ...props,
+      page: PAGE.LOADING_ERROR,
       settings: {
         withInternalID: true,
       },
     });
   }
 
-  render() {
+  protected gatherChildren() {
+    console.log('получаем чилдренов', this.children);
     this.children.customLink = new CustomLink(this.props.customLink);
-    return this.compile('loadingErrorPage', this.props);
   }
 }
 

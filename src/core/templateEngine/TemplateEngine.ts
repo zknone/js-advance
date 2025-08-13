@@ -1,5 +1,4 @@
 import Handlebars from 'handlebars';
-import extractNameFromPath from '../../utils/extractNameFromPath';
 
 const getTemplateFrom = (templateName: string, templates: Record<string, string>): string => {
   const key = Object.keys(templates).find((path) =>
@@ -19,7 +18,7 @@ class TemplateEngine {
   private constructor(templates: Record<string, string>, pages: Record<string, string>) {
     this.templates = templates;
     this.pages = pages;
-    this.registerPartials();
+    // this.registerPartials();
   }
 
   static init(templates: Record<string, string>, pages: Record<string, string>) {
@@ -36,16 +35,16 @@ class TemplateEngine {
     return TemplateEngine.registry;
   }
 
-  registerPartials() {
-    const data = Object.entries(this.templates);
+  // registerPartials() {
+  //   const data = Object.entries(this.templates);
 
-    Handlebars.registerHelper('eq', (a, b) => a === b);
+  //   Handlebars.registerHelper('eq', (a, b) => a === b);
 
-    data.forEach(([path, template]) => {
-      const name = extractNameFromPath(path);
-      if (name) Handlebars.registerPartial(name, template);
-    });
-  }
+  //   data.forEach(([path, template]) => {
+  //     const name = extractNameFromPath(path);
+  //     if (name) Handlebars.registerPartial(name, template);
+  //   });
+  // }
 
   getAllTemplates() {
     return this.templates;
