@@ -1,3 +1,5 @@
+import type { AdditionalField, BlockBasics } from './core';
+
 export const PAGE = {
   SIGN_UP: 'signupPage',
   EDIT_CREDENTIALS: 'editCredentialsPage',
@@ -10,3 +12,7 @@ export const PAGE = {
 };
 
 export type PagesTypes = (typeof PAGE)[keyof typeof PAGE];
+
+export type PublicPageProps = BlockBasics<AdditionalField>;
+
+export type WithPage<P extends PublicPageProps> = P & { page: PagesTypes };

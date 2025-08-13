@@ -1,32 +1,32 @@
 import CustomLink from '../../components/customLink/CustomLink';
-import TemplateBlock from '../../core/templateBlock/TemplateBlock';
+import TemplatePage from '../../core/templatePage/TemplatePage';
 import type { CustomLinkProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
+import { PAGE, type PagesTypes } from '../../types/pages';
 
 interface NotFoundPageProps extends BlockBasics<AdditionalField> {
   customLink: CustomLinkProps;
 }
+
+type InternalProps = NotFoundPageProps & { page: PagesTypes };
 /**
  * LoadingErrorPage
  *
  * @param props Props inside: {}
  */
-class NotFoundPage extends TemplateBlock<NotFoundPageProps> {
+class NotFoundPage extends TemplatePage<InternalProps> {
   constructor(props: NotFoundPageProps) {
-    const defaultProps: Partial<NotFoundPageProps> = {};
-
-    super('notFoundPage', {
-      ...defaultProps,
+    super({
       ...props,
+      page: PAGE.NOT_FOUND,
       settings: {
         withInternalID: true,
       },
     });
   }
 
-  render() {
+  protected gatherChildren() {
     this.children.customLink = new CustomLink(this.props.customLink);
-    return this.compile('notFoundPage', this.props);
   }
 }
 
