@@ -4,8 +4,8 @@ import Block from '../block/Block';
 import TemplateEngine from '../templateEngine/TemplateEngine';
 
 class TemplateBlock<P extends AdditionalField> extends Block<P> {
-  constructor(templateName: string, props: P, tagName = 'div') {
-    super(tagName, { ...props, templateName });
+  constructor(templateName: string, props: P, tagName: string, tagClassName: string) {
+    super(tagName, tagClassName, { ...props, templateName });
   }
 
   compile(template: string, props: Record<string, unknown>) {
@@ -17,7 +17,7 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
       } else propsAndStubs[key] = `<div data-id="${child.__id}"></div>`;
     });
 
-    const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+    const fragment = this.createDocumentElement('template') as HTMLTemplateElement;
 
     fragment.innerHTML = TemplateEngine.getRegistry().renderComponent(template, propsAndStubs);
 
@@ -34,6 +34,23 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
     });
 
     return fragment.content;
+  }
+
+  init() {
+    super.init();
+
+    const btnType = (this.props as AdditionalField).type;
+    if (btnType === 'submit' || btnType === 'reset' || btnType === 'button') {
+      (this.element as HTMLButtonElement).type = btnType as 'submit' | 'reset' | 'button';
+    } else {
+      (this.element as HTMLButtonElement).type = 'button';
+    }
+
+    if (this.element instanceof HTMLButtonElement) {
+      const button = this.element as HTMLButtonElement;
+      button.type = btnType as 'submit' | 'reset' | 'button';
+      button.textContent = typeof this.props.text === 'string' ? this.props.text : 'кнопка';
+    }
   }
 }
 

@@ -14,13 +14,21 @@ class InfoViewField extends TemplateBlock<InfoFieldProps> {
       },
     };
 
-    super('infoViewField', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'div';
+    const tagClassName = 'profile-info-row';
+
+    super(
+      'infoViewField',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagClassName
+    );
   }
 
   render() {

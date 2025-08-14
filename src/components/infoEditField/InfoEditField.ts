@@ -1,11 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { InfoFieldProps } from '../../types/chat';
 
-/**
- * InfoEditField
- *
- * @param props Props inside: {}
- */
 class InfoEditField extends TemplateBlock<InfoFieldProps> {
   constructor(props: InfoFieldProps) {
     const defaultProps: Partial<InfoFieldProps> = {
@@ -14,13 +9,21 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
       },
     };
 
-    super('infoEditField', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'div';
+    const tagClassName = 'profile-info-row';
+
+    super(
+      'infoEditField',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagClassName
+    );
   }
 
   render() {

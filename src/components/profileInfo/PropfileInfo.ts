@@ -7,17 +7,23 @@ import ProfileInfoView from '../profileInfoView/PofileInfoView';
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   constructor(props: ProfilePageProps) {
     const defaultProps: ProfileInfoProps = {
-      className: '',
       infoFields: baseFields,
       name: '',
     };
+    const tagName = 'section';
+    const tagClassName = 'profile-info';
 
-    super('profileInfo', {
-      ...defaultProps,
-      ...props,
-      name: typeof props.name === 'string' ? props.name : '',
-      settings: { withInternalID: true },
-    });
+    super(
+      'profileInfo',
+      {
+        ...defaultProps,
+        ...props,
+        name: typeof props.name === 'string' ? props.name : '',
+        settings: { withInternalID: true },
+      },
+      tagName,
+      tagClassName
+    );
   }
 
   render(): DocumentFragment {

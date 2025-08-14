@@ -30,6 +30,7 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   constructor(
     tagName = 'div',
+    tagClassName = '',
     propsAndChildren: BlockBasics<RawProps> = {} as BlockBasics<RawProps>
   ) {
     const eventBus = new EventBus();
@@ -39,12 +40,11 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
     this.children = children;
 
-    console.log('какой чилдрен приходит', { children });
-
     this.__id = makeUUID();
 
     this._meta = {
       tagName,
+      tagClassName,
       props: {} as RawProps,
     };
 
@@ -62,7 +62,7 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
         ...defaultSettings,
         ...((props as any).settings ?? {}),
       },
-      __id: this.__id,
+      __id: this.getId(),
     } as RawProps;
 
     this.props = this._makePropsProxy(fullProps);
@@ -75,6 +75,21 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   protected getProps(): BlockBasics<RawProps> {
     return this.props;
+  }
+
+  getId() {
+    if (this.__id) {
+      return this.__id;
+    }
+    throw new Error('Айди не присвоен');
+  }
+
+  getTagName() {
+    return this._meta?.tagName;
+  }
+
+  getTagClassName() {
+    return this._meta?.tagClassName;
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -127,7 +142,6 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   _componentDidMount() {
     this.componentDidMount();
     Object.values(this.children).forEach((childOrList) => {
-      // тут должен быть алгоритм
       if (Array.isArray(childOrList)) childOrList.forEach((c) => c.dispatchComponentDidMount());
       else childOrList.dispatchComponentDidMount();
     });
@@ -160,7 +174,17 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    const { props, children } = this._getChildren(nextProps);
+
+    if (Object.values(props).length) {
+      Object.assign(this.props, props);
+    }
+
+    if (Object.values(children).length) {
+      Object.assign(this.children, children);
+    }
+
+    // для листов тоже
   };
 
   get element() {
@@ -188,7 +212,6 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   render(): DocumentFragment {
     const fragment = document.createDocumentFragment();
-
     const list: (Block<any> | Block<BlockBasics<AdditionalField>>)[] = [];
 
     Object.values(this.children).forEach((val) => {
@@ -251,13 +274,17 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   _createDocumentElement(tagName: string) {
     const element = document.createElement(tagName);
-
     const withInternalID = (this.props as any)?.settings?.withInternalID;
-    if (withInternalID && this.__id) {
-      element.setAttribute('data-id', this.__id);
+    if (withInternalID && this.getId() && this.getTagClassName()) {
+      element.setAttribute('data-id', this.getId());
+      element.className = this.getTagClassName() || '';
     }
 
     return element;
+  }
+
+  createDocumentElement(tagName: string) {
+    return this._createDocumentElement(tagName);
   }
 
   show() {

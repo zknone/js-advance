@@ -55,7 +55,7 @@ const avatarMock: AvatarCfg = {
 
 const baseProfileMocks: Omit<ProfileInfoProps, 'infoFields'> = {
   className: '',
-  userName: 'Иван Стрельцов',
+  name: 'Иван Стрельцов',
   avatar: avatarMock,
 };
 

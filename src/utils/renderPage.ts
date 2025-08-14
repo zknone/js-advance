@@ -8,8 +8,6 @@ const renderPage = <T extends Record<string, unknown>>(page: TemplateBlock<T>) =
     root.appendChild(content);
   }
 
-  console.log({ content });
-
   page.dispatchComponentDidMount();
 };
 

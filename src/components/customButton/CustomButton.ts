@@ -1,20 +1,39 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import type { CustomButtonProps } from '../../types/chat';
+import type { ButtonVariants, Colors, CustomButtonProps } from '../../types/chat';
 
 class CustomButton extends TemplateBlock<CustomButtonProps> {
   constructor(props: CustomButtonProps) {
     const defaultProps: Partial<CustomButtonProps> = {
       type: 'button',
       variant: 'primary',
+      color: 'blue',
     };
 
-    super('customButton', {
+    const resultedProps = {
       ...defaultProps,
       ...props,
       settings: {
         withInternalID: true,
       },
-    });
+    };
+
+    const { color, variant } = resultedProps;
+
+    const additionalColorClasses: Record<Colors, string> = {
+      blue: 'custom-button--color-blue',
+      red: 'custom-button--color-red',
+      white: 'custom-button--color-white',
+    };
+
+    const additionalVariantClasses: Record<ButtonVariants, string> = {
+      primary: '',
+      link: 'custom-button--link',
+    };
+
+    const tagName = 'button';
+    const tagClassName = `custom-button ${color ? additionalColorClasses[color] : ''}  ${variant ? additionalVariantClasses[variant] : ''}`;
+
+    super('customButton', resultedProps, tagName, tagClassName);
   }
 
   render() {

@@ -15,11 +15,19 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
       className: '',
     };
 
-    super('profileInfoView', {
-      ...defaultProps,
-      ...props,
-      settings: { withInternalID: true },
-    });
+    const tagName = 'section';
+    const tagClassName = 'profile-view';
+
+    super(
+      'profileInfoView',
+      {
+        ...defaultProps,
+        ...props,
+        settings: { withInternalID: true },
+      },
+      tagName,
+      tagClassName
+    );
   }
 
   render(): DocumentFragment {
@@ -27,27 +35,28 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
 
     const viewButtons: CustomButtonProps[] = [
       {
-        text: 'Отправить',
+        text: 'Изменить данные',
         type: 'button',
-        className: 'custom-button',
+        variant: 'link',
         settings: {
           withInternalID: false,
         },
         events: { click: () => alert('Привет из сендбокса!') },
       },
       {
-        text: 'Отправить',
+        text: 'Изменить пароль',
         type: 'button',
-        className: 'custom-button',
+        variant: 'link',
         settings: {
           withInternalID: false,
         },
         events: { click: () => alert('Привет из сендбокса!') },
       },
       {
-        text: 'Отправить',
+        text: 'Выйти из аккаунта',
+        variant: 'link',
         type: 'button',
-        className: 'custom-button',
+        color: 'red',
         settings: {
           withInternalID: false,
         },

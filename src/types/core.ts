@@ -13,4 +13,4 @@ export type BlockBasics<T> = T & {
   __id?: string;
 };
 
-export type Meta<T> = { tagName: string; props: T } | null;
+export type Meta<T> = { tagName: string; tagClassName: string; props: T } | null;

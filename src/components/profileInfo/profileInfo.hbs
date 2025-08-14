@@ -1,17 +1,16 @@
-<div class="profile-info {{className}}">
-  <div class="profile-info__avatar-wrapper">
-    <div class="profile-info__avatar" data-action="open-avatar-modal">
-      <div class="profile-info__avatar-container">
-        <img
-          src="{{avatar.iconSrc}}"
-          alt="{{avatar.iconAlt}}"
-          width="{{avatar.iconW}}"
-          height="{{avatar.iconH}}"
-        />
-      </div>
-      <span>{{avatar.changeText}}</span>
+
+<div class="profile-info__avatar-wrapper">
+  <div class="profile-info__avatar" data-action="open-avatar-modal">
+    <div class="profile-info__avatar-container">
+      <img
+        src="{{avatar.iconSrc}}"
+        alt="{{avatar.iconAlt}}"
+        width="{{avatar.iconW}}"
+        height="{{avatar.iconH}}"
+      />
     </div>
-    <div class="profile-info__name">{{name}}</div>
+    <span>{{avatar.changeText}}</span>
   </div>
-  {{{infoFields}}}
+  <div class="profile-info__name">{{name}}</div>
 </div>
+{{{infoFields}}}

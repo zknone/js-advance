@@ -35,17 +35,6 @@ class TemplateEngine {
     return TemplateEngine.registry;
   }
 
-  // registerPartials() {
-  //   const data = Object.entries(this.templates);
-
-  //   Handlebars.registerHelper('eq', (a, b) => a === b);
-
-  //   data.forEach(([path, template]) => {
-  //     const name = extractNameFromPath(path);
-  //     if (name) Handlebars.registerPartial(name, template);
-  //   });
-  // }
-
   getAllTemplates() {
     return this.templates;
   }

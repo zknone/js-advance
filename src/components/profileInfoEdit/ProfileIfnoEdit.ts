@@ -15,11 +15,19 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
       className: '',
     };
 
-    super('profileInfoEdit', {
-      ...defaultProps,
-      ...props,
-      settings: { withInternalID: true },
-    });
+    const tagName = 'form';
+    const tagClassName = 'profile-info-form';
+    super(
+      'profileInfoEdit',
+      {
+        ...defaultProps,
+        ...props,
+        settings: { withInternalID: true },
+      },
+
+      tagName,
+      tagClassName
+    );
   }
 
   render(): DocumentFragment {
@@ -28,7 +36,8 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
       {
         text: 'Отправить',
         type: 'submit',
-        className: 'custom-button',
+        tagName: 'button',
+        tagClassName: 'custom-button',
         settings: {
           withInternalID: false,
         },

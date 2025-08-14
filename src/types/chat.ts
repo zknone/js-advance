@@ -40,10 +40,13 @@ export interface ChatMenuProps extends BlockBasics<AdditionalField> {
   };
 }
 
+export type Colors = 'red' | 'blue' | 'white';
+export type ButtonVariants = 'primary' | 'link';
+
 export interface CustomButtonProps extends BlockBasics<AdditionalField> {
   text: string;
-  className?: string;
-  variant?: 'primary' | 'link';
+  color?: Colors;
+  variant?: ButtonVariants;
   type?: 'button' | 'submit' | 'reset';
 }
 
