@@ -5,7 +5,7 @@ import TemplateBlock from '../templateBlock/TemplateBlock';
 
 class TemplatePage<P extends PublicPageProps> extends TemplateBlock<WithPage<P>> {
   constructor(props: WithPage<P>) {
-    super(props.page, props as WithPage<P>);
+    super(props.page, props as WithPage<P>, props.tagName, props.tagClassName);
   }
 
   protected gatherChildren(): void {}

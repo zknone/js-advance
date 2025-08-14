@@ -1,41 +1,34 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ModalItemProps } from '../../types/chat';
 
-/**
- * ModalItem component for displaying a modal dialog with file upload functionality.
- *
- * @param props Props inside: { className?: string;
- *  modalId?: string;
- *  inputId?: string;
- *  title?: string; }
- */
-
 class ModalItem extends TemplateBlock<ModalItemProps> {
   constructor(props: ModalItemProps) {
     const defaultProps: Partial<ModalItemProps> = {
-      className: '',
-      modalId: 'avatarModal',
-      inputId: 'fileInput',
-      title: 'Загрузите файл',
-      labelText: 'Выбрать файл на компьютере',
-      submitText: 'Загрузить',
-      method: 'post',
-      enctype: 'multipart/form-data',
+      method: '',
       action: '',
-      inputName: 'avatar',
-      accept: 'image/*',
-      multiple: false,
-      required: false,
-      isOpen: true,
+      title: '',
+      submitText: '',
+      isOpen: false,
+      inputId: 'avatar',
+      inputName: 'Avatar',
+      labelText: 'avatar',
     };
 
-    super('modalItem', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'section';
+    const tagClassName = `modal-overlay ${props.isOpen ? 'open' : 'visually-hidden'}`;
+
+    super(
+      'modalItem',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagClassName
+    );
   }
 
   render() {

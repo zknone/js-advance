@@ -16,6 +16,8 @@ class NotFoundPage extends TemplatePage<NotFoundPageProps> {
       settings: {
         withInternalID: true,
       },
+      tagName: 'div',
+      tagClassName: 'not-found-page',
     });
   }
 

@@ -16,6 +16,8 @@ class LoadingErrorPage extends TemplatePage<LoadingErrorPublicProps> {
       settings: {
         withInternalID: true,
       },
+      tagName: 'div',
+      tagClassName: 'loading-error-page',
     });
   }
 

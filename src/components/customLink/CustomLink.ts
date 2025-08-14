@@ -9,21 +9,29 @@ import type { CustomLinkProps } from '../../types/chat';
 class CustomLink extends TemplateBlock<CustomLinkProps> {
   constructor(props: CustomLinkProps) {
     const defaultProps: Partial<CustomLinkProps> = {
-      link: '',
       text: '',
-      className: '',
       settings: {
         withInternalID: true,
       },
     };
 
-    super('customLink', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'a';
+    const tagNameClass = 'custom-link';
+
+    console.log(props);
+
+    super(
+      'customLink',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagNameClass
+    );
   }
 
   render() {

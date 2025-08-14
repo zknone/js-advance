@@ -1,6 +1,7 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import { baseFields } from '../../mocks/profile';
 import type { ProfileInfoModeProps, ProfileInfoProps, ProfilePageProps } from '../../types/chat';
+import ModalItem from '../modalItem/ModalItem';
 import ProfileInfoEdit from '../profileInfoEdit/ProfileIfnoEdit';
 import ProfileInfoView from '../profileInfoView/PofileInfoView';
 
@@ -28,6 +29,12 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
 
   render(): DocumentFragment {
     const isEditing = this.props.mode === 'edit';
+
+    const { modalItem } = this.props;
+
+    if (modalItem) {
+      this.children.modalItem = new ModalItem(modalItem);
+    }
 
     const modeProps: ProfileInfoModeProps = {
       infoFields: this.props.infoFields,

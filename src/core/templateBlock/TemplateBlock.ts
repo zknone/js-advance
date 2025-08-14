@@ -11,10 +11,12 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
   compile(template: string, props: Record<string, unknown>) {
     const propsAndStubs = { ...props };
 
+    const getBaseToReplace = (item: Block<AdditionalField>) => `<div data-id="${item.__id}"></div>`;
+
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
-        propsAndStubs[key] = child.map((item) => `<div data-id="${item.__id}"></div>`).join('');
-      } else propsAndStubs[key] = `<div data-id="${child.__id}"></div>`;
+        propsAndStubs[key] = child.map((item) => getBaseToReplace(item)).join('');
+      } else propsAndStubs[key] = getBaseToReplace(child);
     });
 
     const fragment = this.createDocumentElement('template') as HTMLTemplateElement;
@@ -39,17 +41,22 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
   init() {
     super.init();
 
-    const btnType = (this.props as AdditionalField).type;
-    if (btnType === 'submit' || btnType === 'reset' || btnType === 'button') {
-      (this.element as HTMLButtonElement).type = btnType as 'submit' | 'reset' | 'button';
-    } else {
-      (this.element as HTMLButtonElement).type = 'button';
-    }
-
     if (this.element instanceof HTMLButtonElement) {
+      const btnType = (this.props as AdditionalField).type;
+      if (btnType === 'submit' || btnType === 'reset' || btnType === 'button') {
+        (this.element as HTMLButtonElement).type = btnType as 'submit' | 'reset' | 'button';
+      } else {
+        (this.element as HTMLButtonElement).type = 'button';
+      }
+
       const button = this.element as HTMLButtonElement;
       button.type = btnType as 'submit' | 'reset' | 'button';
       button.textContent = typeof this.props.text === 'string' ? this.props.text : 'кнопка';
+    }
+
+    if (this.element instanceof HTMLAnchorElement) {
+      const link = this.element as HTMLAnchorElement;
+      link.href = typeof this.props.href === 'string' ? this.props.href : '/';
     }
   }
 }

@@ -16,6 +16,8 @@ class SignupPage extends TemplatePage<SignupPageProps> {
       settings: {
         withInternalID: true,
       },
+      tagName: 'div',
+      tagClassName: 'signup-page',
     });
   }
 

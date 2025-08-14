@@ -5,28 +5,31 @@ import CustomButton from '../customButton/CustomButton';
 import CustomLink from '../customLink/CustomLink';
 import InputItem from '../inputItem/InputItem';
 
-/**
- * ChatForm
- *
- * @param props Props inside: {}
- */
 class CustomForm extends TemplateBlock<CustomFormProps> {
   constructor(props: CustomFormProps) {
     const defaultProps: Partial<CustomFormProps> = {};
 
-    super('customForm', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'section';
+    const tagNameClass = 'custom-form';
+
+    super(
+      'customForm',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagNameClass
+    );
   }
 
-  componentDidUpdate(oldProps: CustomFormProps, newProps: CustomFormProps): boolean {
-    (this.children.customButton as CustomButton).setProps(newProps);
-    return true;
-  }
+  // componentDidUpdate(oldProps: CustomFormProps, newProps: CustomFormProps): boolean {
+  //   (this.children.customButton as CustomButton).setProps(newProps);
+  //   return true;
+  // }
 
   render() {
     this.children.customButton = new CustomButton(this.props.customButton);

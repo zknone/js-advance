@@ -11,6 +11,8 @@ class ProfilePage extends TemplatePage<ProfilePageProps> {
       settings: {
         withInternalID: true,
       },
+      tagName: 'div',
+      tagClassName: 'profile-page',
     });
   }
 

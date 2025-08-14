@@ -13,4 +13,8 @@ export type PagesTypes = (typeof PAGE)[keyof typeof PAGE];
 
 export type PublicPageProps = BlockBasics<AdditionalField>;
 
-export type WithPage<P extends PublicPageProps> = P & { page: PagesTypes };
+export type WithPage<P extends PublicPageProps> = P & {
+  page: PagesTypes;
+  tagName: string;
+  tagClassName: string;
+};

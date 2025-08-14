@@ -21,13 +21,21 @@ class InputItem extends TemplateBlock<InputItemProps> {
       },
     };
 
-    super('inputItem', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'div';
+    const tagClassName = 'input-item';
+
+    super(
+      'inputItem',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagClassName
+    );
   }
 
   render() {

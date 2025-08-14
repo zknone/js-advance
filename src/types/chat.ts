@@ -51,7 +51,7 @@ export interface CustomButtonProps extends BlockBasics<AdditionalField> {
 }
 
 export interface CustomFormProps extends BlockBasics<AdditionalField> {
-  text: string;
+  title: string;
   customButton: CustomButtonProps;
   inputFields: InputItemProps[];
   customLink: CustomLinkProps;
@@ -59,7 +59,7 @@ export interface CustomFormProps extends BlockBasics<AdditionalField> {
 
 export interface CustomLinkProps extends BlockBasics<AdditionalField> {
   text: string;
-  link: string;
+  href: string;
 }
 
 export interface InputItemProps extends BlockBasics<AdditionalField> {
@@ -108,27 +108,14 @@ export interface MessageQuillProps extends BlockBasics<AdditionalField> {
 }
 
 export interface ModalItemProps extends BlockBasics<AdditionalField> {
-  className?: string;
-
-  modalId?: string;
-  inputId?: string;
-
-  title?: string;
-  labelText?: string;
-  submitText?: string;
-
-  method?: 'post' | 'get';
-  enctype?: 'multipart/form-data' | 'application/x-www-form-urlencoded' | 'text/plain';
-  action?: string;
-
-  inputName?: string;
-  accept?: string;
-  multiple?: boolean;
-  required?: boolean;
-
-  ariaAttachLabel?: string;
-
+  method: string;
+  action: string;
+  title: string;
+  submitText: string;
   isOpen?: boolean;
+  inputId: string;
+  inputName: string;
+  labelText: string;
 }
 
 export interface Field {

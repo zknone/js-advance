@@ -1,23 +1,22 @@
-<div class="modal-overlay {{className}}" id="{{modalId}}" {{#unless isOpen}}hidden{{/unless}}>
-  <div class="modal">
-    <form class="modal__content" method="{{method}}" enctype="{{enctype}}" action="{{action}}">
-      <h2 class="modal__title">{{title}}</h2>
+<div class="modal">
+  <form class="modal__content" method="{{method}}" action="{{action}}">
+    <h2 class="modal__title">{{title}}</h2>
 
-      <label for="{{inputId}}" class="modal__text">{{labelText}}</label>
+    <label for="{{inputId}}" class="modal__text">{{labelText}}</label>
 
-      <input
-        type="file"
-        id="{{inputId}}"
-        name="{{inputName}}"
-        class="visually-hidden"
-        {{#if accept}}accept="{{accept}}"{{/if}}
-        {{#if multiple}}multiple{{/if}}
-        {{#if required}}required{{/if}}
-      />
+    <input
+      type="file"
+      id="{{inputId}}"
+      name="{{inputName}}"
+      class="visually-hidden"
+      {{!-- {{#if accept}}accept="{{accept}}"{{/if}}
+      {{#if multiple}}multiple{{/if}}
+      {{#if required}}required{{/if}} --}}
+    />
 
-      <button type="submit" class="modal__close-button" aria-label="{{submitText}}">
-        {{submitText}}
-      </button>
-    </form>
-  </div>
+    <button type="submit" class="modal__close-button" aria-label="{{submitText}}">
+      {{submitText}}
+    </button>
+  </form>
 </div>
+

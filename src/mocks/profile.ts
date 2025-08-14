@@ -45,6 +45,30 @@ const baseFields: InfoFieldProps[] = [
   },
 ];
 
+const basePasswordFields: InfoFieldProps[] = [
+  {
+    label: 'Старый пароль',
+    value: '',
+    name: 'oldPassword',
+    type: 'password',
+    placeholder: 'Введите старый пароль',
+  },
+  {
+    label: 'Новый пароль',
+    value: '',
+    name: 'newPassword',
+    type: 'password',
+    placeholder: 'Введите старый пароль',
+  },
+  {
+    label: 'Повторите новый пароль',
+    value: '',
+    name: 'confirmPassword',
+    type: 'password',
+    placeholder: 'Введите старый пароль',
+  },
+];
+
 const avatarMock: AvatarCfg = {
   changeText: 'Поменять аватар',
   iconSrc: '/avatar-replacement-icon.svg',
@@ -59,4 +83,4 @@ const baseProfileMocks: Omit<ProfileInfoProps, 'infoFields'> = {
   avatar: avatarMock,
 };
 
-export { baseFields, avatarMock, baseProfileMocks };
+export { baseFields, avatarMock, baseProfileMocks, basePasswordFields };
