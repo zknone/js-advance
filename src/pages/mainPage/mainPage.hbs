@@ -1,17 +1,12 @@
-<div class="main-page">
-    <div class="main-page__sidebar">
-        {{{customLink}}}
-        {{{search}}}
-        {{{chatList}}}
-    </div>
-    <div class="main-page__chosen-chat">
-        {{#if noChat}}
-            <span class="main-page__no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span>
-        {{/if}}
-        {{#if hasChat}}
-            {{{chatMenu}}}
-            {{{messageList}}}
-            {{{messageQuill}}}
-        {{/if}}
-    </div>
+<div class="main-page__sidebar">
+    {{{customLink}}}
+    {{{search}}}
+    {{{chatList}}}
 </div>
+<div class="main-page__chosen-chat">
+    {{!-- <span class="main-page__no-chats-disclaimer">Выберите чат чтобы отправить сообщение</span> --}}
+    {{{chatMenu}}}
+    {{{messageList}}}
+    {{{messageQuill}}}
+</div>
+
