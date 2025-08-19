@@ -5,8 +5,8 @@
   padding-bottom: 10px;
 
   form {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto min-content;
     gap: 10px;
     flex-grow: 1;
   }
@@ -37,22 +37,6 @@
     span {
       font-size: 12px;
       white-space: nowrap;
-    }
-  }
-
-  &__input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    outline: none;
-    color: var(--color-primary);
-    background-color: var(--color-light-grey);
-    border-radius: 20px;
-    padding: 10px 20px;
-
-    &::placeholder {
-      color: #aaa;
     }
   }
 }

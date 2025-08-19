@@ -90,7 +90,6 @@ const routes: Record<string, () => void> = {
 
 function getPage() {
   const pathRoute = location.pathname.trim().replace(/^\/|\/$/g, '');
-  console.log({ pathRoute });
   return routes[pathRoute] || routes[ROUTES[404]];
 }
 

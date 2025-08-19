@@ -23,24 +23,6 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
     );
   }
 
-  postProcess(fragment: DocumentFragment) {
-    const input = fragment.querySelector('input[data-input="value"]');
-    if (input instanceof HTMLInputElement) {
-      input.addEventListener('input', (e) => {
-        const target = e.target as HTMLInputElement;
-        this.props.onChange?.(target.value);
-      });
-    }
-  }
-
-  componentDidUpdate(oldProps: InfoFieldProps, newProps: InfoFieldProps): boolean {
-    const { value } = this.props;
-
-    console.log({ value });
-
-    return true;
-  }
-
   render() {
     return this.compile('infoEditField', this.props);
   }

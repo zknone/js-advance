@@ -15,14 +15,16 @@ class InputItem extends TemplateBlock<InputItemProps> {
       type: 'text',
       name: '',
       title: '',
-      className: '',
+      variant: 'regular',
       settings: {
         withInternalID: true,
       },
     };
+    const { variant } = props;
 
     const tagName = 'div';
-    const tagClassName = 'input-item';
+    const tagClassName =
+      variant === 'regular' ? 'input-item input-item--regular' : 'input-item input-item--quill';
 
     super(
       'inputItem',

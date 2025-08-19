@@ -7,6 +7,7 @@ const signupFields: InputItemProps[] = [
     type: 'email',
     placeholder: 'Введите почту',
     error: null,
+    variant: 'regular',
   },
   {
     title: 'Логин',
@@ -14,6 +15,7 @@ const signupFields: InputItemProps[] = [
     type: 'text',
     placeholder: 'Введите логин',
     error: null,
+    variant: 'regular',
   },
   {
     title: 'Имя',
@@ -21,6 +23,7 @@ const signupFields: InputItemProps[] = [
     type: 'text',
     placeholder: 'Введите имя',
     error: null,
+    variant: 'regular',
   },
   {
     title: 'Фамилия',
@@ -28,6 +31,7 @@ const signupFields: InputItemProps[] = [
     type: 'text',
     placeholder: 'Введите фамилию',
     error: null,
+    variant: 'regular',
   },
   {
     title: 'Имя в чате',
@@ -35,6 +39,7 @@ const signupFields: InputItemProps[] = [
     type: 'text',
     placeholder: 'Введите имя для отображения в чате',
     error: null,
+    variant: 'regular',
   },
   {
     title: 'Телефон',
@@ -42,6 +47,7 @@ const signupFields: InputItemProps[] = [
     type: 'tel',
     placeholder: 'Введите номер телефона',
     error: null,
+    variant: 'regular',
   },
   {
     title: 'Пароль',
@@ -49,6 +55,7 @@ const signupFields: InputItemProps[] = [
     type: 'password',
     placeholder: 'Введите пароль',
     error: 'Пароли не совпадают',
+    variant: 'regular',
   },
   {
     title: 'Пароль (ещё раз)',
@@ -56,6 +63,7 @@ const signupFields: InputItemProps[] = [
     type: 'password',
     placeholder: 'Повторите пароль',
     error: 'Пароли не совпадают',
+    variant: 'regular',
   },
 ];
 

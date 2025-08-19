@@ -1,16 +1,20 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { MessageQuillProps } from '../../types/chat';
 import CustomButton from '../customButton/CustomButton';
+import InputItem from '../inputItem/InputItem';
 
 class MessageQuill extends TemplateBlock<MessageQuillProps> {
   constructor(props: MessageQuillProps) {
     const defaultProps: Partial<MessageQuillProps> = {
-      className: '',
-      placeholder: 'Сообщение',
-      inputName: 'message',
-      autoComplete: 'off',
-      value: '',
-      disabled: false,
+      inputItem: {
+        value: null,
+        variant: 'quill',
+        title: null,
+        type: 'text',
+        placeholder: 'Введите сообщение',
+        error: null,
+        name: 'message',
+      },
       showAttachmentMenu: false,
       attachButton: {
         icon: {
@@ -22,23 +26,32 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
         variant: 'icon',
         text: null,
       },
-      imgIcon: {
-        src: '/img-icon.svg',
-        alt: 'Фото и видео',
-        width: 22,
-        height: 22,
-      },
-      fileIcon: {
-        src: '/file-icon.svg',
-        alt: 'Файл',
-        width: 22,
-        height: 22,
-      },
-      locationIcon: {
-        src: '/location-icon.svg',
-        alt: 'Локация',
-        width: 22,
-        height: 22,
+      attachmentMenu: {
+        imgIcon: {
+          src: '/img-icon.svg',
+          alt: 'Фото и видео',
+          width: 22,
+          height: 22,
+        },
+        fileIcon: {
+          src: '/file-icon.svg',
+          alt: 'Файл',
+          width: 22,
+          height: 22,
+        },
+        locationIcon: {
+          src: '/location-icon.svg',
+          alt: 'Локация',
+          width: 22,
+          height: 22,
+        },
+        labels: {
+          attach: 'Прикрепить файл',
+          photoVideo: 'Фото и видео',
+          file: 'Файл',
+          location: 'Локация',
+          send: 'Отправить',
+        },
       },
       sendButton: {
         text: null,
@@ -49,13 +62,6 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
           width: 28,
           height: 28,
         },
-      },
-      labels: {
-        attach: 'Прикрепить файл',
-        photoVideo: 'Фото и видео',
-        file: 'Файл',
-        location: 'Локация',
-        send: 'Отправить',
       },
     };
 
@@ -77,9 +83,26 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
   }
 
   render() {
-    console.log(this.props.attachButton);
+    const { inputItem } = this.props;
+    this.children.inputItem = new InputItem({
+      ...this.props.inputItem,
+      onChange: (newValue: string) => {
+        this.props.inputItem.value = newValue;
+      },
+    });
     this.children.attachButton = new CustomButton(this.props.attachButton);
-    this.children.sendButton = new CustomButton(this.props.sendButton);
+    this.children.sendButton = new CustomButton({
+      ...this.props.sendButton,
+      events: {
+        click: (e: Event) => {
+          e.preventDefault();
+
+          const result = inputItem.value;
+
+          console.log({ result });
+        },
+      },
+    });
     return this.compile('messageQuill', this.props);
   }
 }

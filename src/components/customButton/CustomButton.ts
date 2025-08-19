@@ -19,8 +19,6 @@ class CustomButton extends TemplateBlock<CustomButtonProps> {
 
     const { color, variant } = resultedProps;
 
-    console.log({ resultedProps });
-
     const additionalColorClasses: Record<Colors, string> = {
       blue: 'custom-button--color-blue',
       red: 'custom-button--color-red',

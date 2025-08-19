@@ -1,9 +1,7 @@
 
 <div class="message-quill__attachment">
   {{{attachButton}}}
-  {{!-- <button class="message-quill__attach-button" type="button" aria-label="{{labels.attach}}">
-    {{{iconItem}}}
-  </button> --}}
+  </button>
 
   {{#if showAttachmentMenu}}
   <div class="message-quill__attachment-menu">
@@ -32,20 +30,6 @@
 </div>
 
 <form>
-  <input class="message-quill__input"
-          type="text"
-          placeholder="{{placeholder}}"
-          name="{{inputName}}"
-          autocomplete="{{autoComplete}}"
-          value="{{value}}"
-          {{#if disabled}}disabled{{/if}} />
-{{!--
-  <button class="message-quill__send" type="submit" aria-label="{{labels.send}}">
-    {{{iconItem}}}
-  </button> --}}
-
+  {{{inputItem}}}
   {{{sendButton}}}
-
-
-
 </form>

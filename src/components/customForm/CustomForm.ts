@@ -27,10 +27,6 @@ class CustomForm extends TemplateBlock<CustomFormProps> {
     );
   }
 
-  componentDidUpdate(oldProps: CustomFormProps, newProps: CustomFormProps): boolean {
-    return true;
-  }
-
   render() {
     this.children.customButton = new CustomButton(this.props.customButton);
     this.children.customLink = new CustomLink(this.props.customLink);

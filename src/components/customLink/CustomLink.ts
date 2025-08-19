@@ -18,8 +18,6 @@ class CustomLink extends TemplateBlock<CustomLinkProps> {
     const tagName = 'a';
     const tagNameClass = 'custom-link';
 
-    console.log(props);
-
     super(
       'customLink',
       {

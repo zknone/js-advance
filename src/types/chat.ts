@@ -63,11 +63,13 @@ export interface CustomLinkProps extends BlockBasics<AdditionalField> {
 }
 
 export interface InputItemProps extends BlockBasics<AdditionalField> {
-  title: string;
+  value: string | null;
+  title: string | null;
   type: string;
   placeholder: string;
   error: string | null;
   name: string;
+  variant: 'regular' | 'quill';
 }
 
 export interface MessageListProps extends BlockBasics<AdditionalField> {
@@ -82,13 +84,7 @@ export interface MessageItemProps extends BlockBasics<AdditionalField> {
 }
 
 export interface MessageQuillProps extends BlockBasics<AdditionalField> {
-  className?: string;
-
-  placeholder?: string;
-  inputName?: string;
-  autoComplete?: string;
-  value?: string;
-  disabled?: boolean;
+  inputItem: InputItemProps;
 
   showAttachmentMenu?: boolean;
   imgIcon?: IconSpec;
