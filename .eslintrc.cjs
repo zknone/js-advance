@@ -4,7 +4,6 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './tsconfig.json',
   },
   overrides: [
     {
@@ -38,5 +37,10 @@ module.exports = {
     '@typescript-eslint/comma-dangle': 'off',
     'no-nested-ternary': 'off',
     'operator-linebreak': 'off',
+    '@typescript-eslint/ban-ts-comment': ['warn', { 'ts-ignore': 'allow-with-description' }],
+    'no-underscore-dangle': 'off',
+    'class-methods-use-this': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
 };

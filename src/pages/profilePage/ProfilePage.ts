@@ -1,4 +1,4 @@
-import ProfileInfo from '../../components/profileInfo/PropfileInfo';
+import ProfileInfo from '../../components/profileInfo/ProfileInfo';
 import TemplatePage from '../../core/templatePage/TemplatePage';
 import type { ProfilePageProps } from '../../types/chat';
 import { PAGE } from '../../types/pages';

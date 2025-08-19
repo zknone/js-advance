@@ -7,7 +7,11 @@ import InputItem from '../inputItem/InputItem';
 
 class CustomForm extends TemplateBlock<CustomFormProps> {
   constructor(props: CustomFormProps) {
-    const defaultProps: Partial<CustomFormProps> = {};
+    const defaultProps: Partial<CustomFormProps> = {
+      settings: {
+        withInternalID: true,
+      },
+    };
 
     const tagName = 'section';
     const tagNameClass = 'custom-form';
@@ -17,24 +21,19 @@ class CustomForm extends TemplateBlock<CustomFormProps> {
       {
         ...defaultProps,
         ...props,
-        settings: {
-          withInternalID: true,
-        },
       },
       tagName,
       tagNameClass
     );
   }
 
-  // componentDidUpdate(oldProps: CustomFormProps, newProps: CustomFormProps): boolean {
-  //   (this.children.customButton as CustomButton).setProps(newProps);
-  //   return true;
-  // }
+  componentDidUpdate(oldProps: CustomFormProps, newProps: CustomFormProps): boolean {
+    return true;
+  }
 
   render() {
     this.children.customButton = new CustomButton(this.props.customButton);
     this.children.customLink = new CustomLink(this.props.customLink);
-
     const items = (this.props.inputFields ?? []).map((f: InputItemProps) => new InputItem(f));
     this.children.inputFields = items;
 

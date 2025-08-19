@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import type { AdditionalField } from '../../types/core';
 import Block from '../block/Block';
 import TemplateEngine from '../templateEngine/TemplateEngine';
@@ -35,6 +34,8 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
       });
     });
 
+    this.postProcess(fragment.content);
+
     return fragment.content;
   }
 
@@ -58,6 +59,23 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
       const link = this.element as HTMLAnchorElement;
       link.href = typeof this.props.href === 'string' ? this.props.href : '/';
     }
+  }
+
+  postProcess(fragment: DocumentFragment) {
+    fragment.querySelectorAll('[data-input]').forEach((item) => {
+      const key = item.getAttribute('data-input') as keyof P;
+      if (item instanceof HTMLInputElement) {
+        item.addEventListener('input', (e) => {
+          const target = e.target as HTMLInputElement;
+
+          if (typeof (this.props as any).onChange === 'function') {
+            (this.props as any).onChange(target.value);
+          }
+        });
+      } else {
+        throw new Error(`data-input="${String(key)}" используется не на input`);
+      }
+    });
   }
 }
 

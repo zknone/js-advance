@@ -146,6 +146,7 @@ export interface InfoFieldProps extends BlockBasics<AdditionalField> {
   name?: string;
   placeholder?: string;
   value: string;
+  onChange?: (value: string) => void;
 }
 
 export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {

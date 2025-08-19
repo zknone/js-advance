@@ -3,12 +3,6 @@ import type { CustomButtonProps, ProfileInfoModeProps } from '../../types/chat';
 import CustomButton from '../customButton/CustomButton';
 import InfoViewField from '../infoViewField/InfoViewField';
 
-/**
- * ProfileInfoEdit
- *
- * @param props Props inside: {}
- */
-
 class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
   constructor(props: ProfileInfoModeProps) {
     const defaultProps: Partial<ProfileInfoModeProps> = {
@@ -38,29 +32,29 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
         text: 'Изменить данные',
         type: 'button',
         variant: 'link',
+        href: '/profile/edit-credentials',
         settings: {
           withInternalID: false,
         },
-        events: { click: () => alert('Привет из сендбокса!') },
       },
       {
         text: 'Изменить пароль',
         type: 'button',
         variant: 'link',
+        href: '/profile/edit-pass',
         settings: {
           withInternalID: false,
         },
-        events: { click: () => alert('Привет из сендбокса!') },
       },
       {
-        text: 'Выйти из аккаунта',
+        text: 'Выйти',
         variant: 'link',
         type: 'button',
+        href: '/',
         color: 'red',
         settings: {
           withInternalID: false,
         },
-        events: { click: () => alert('Привет из сендбокса!') },
       },
     ];
 

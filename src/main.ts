@@ -1,7 +1,12 @@
+import { ROUTES } from './consts/routes';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import { mainPageData } from './mocks/chat';
 import { loginFormData } from './mocks/login';
-import { basePasswordFields, baseProfileMocks } from './mocks/profile';
+import {
+  baseProfileMocks,
+  profileInfoMockEditingCredentials,
+  profileInfoMockEditingPass,
+} from './mocks/profile';
 import { signupFormData } from './mocks/signup';
 import LoadingErrorPage from './pages/loadingErrorPage/LoadingErrorPage';
 import LoginPage from './pages/loginPage/LoginPage';
@@ -33,19 +38,19 @@ const pages = import.meta.glob('./pages/**/*.hbs', {
 TemplateEngine.init(templates, pages);
 
 const routes: Record<string, () => void> = {
-  main: () => {
+  [ROUTES.main]: () => {
     const mainPage = new MainPage(mainPageData);
     renderPage(mainPage);
   },
-  login: () => {
+  [ROUTES.login]: () => {
     const loginPage = new LoginPage(loginFormData);
     renderPage(loginPage);
   },
-  signup: () => {
+  [ROUTES.signup]: () => {
     const signupPage = new LoginPage(signupFormData);
     renderPage(signupPage);
   },
-  404: () => {
+  [ROUTES[404]]: () => {
     const notFoundPage = new NotFoundPage({
       customLink: {
         text: 'Назад',
@@ -55,7 +60,7 @@ const routes: Record<string, () => void> = {
 
     renderPage(notFoundPage);
   },
-  500: () => {
+  [ROUTES[500]]: () => {
     const loadingErrorPageItem = new LoadingErrorPage({
       customLink: {
         text: 'Назад',
@@ -64,39 +69,19 @@ const routes: Record<string, () => void> = {
     });
     renderPage(loadingErrorPageItem);
   },
-  profile: () => {
-    const profileInfoMock = { ...baseProfileMocks, mode: 'view' as ProfileMods };
-    const profilePage = new ProfilePage(profileInfoMock);
+  [ROUTES.profile]: () => {
+    const profilePage = new ProfilePage(baseProfileMocks);
     renderPage(profilePage);
   },
-  'profile/edit-pass': () => {
-    const profileInfoMock = {
-      ...baseProfileMocks,
-      infoFields: basePasswordFields,
-      mode: 'edit' as ProfileMods,
-    };
-    const profilePage = new ProfilePage(profileInfoMock);
+  [ROUTES.profileEditPass]: () => {
+    const profilePage = new ProfilePage(profileInfoMockEditingPass);
     renderPage(profilePage);
   },
-  'profile/edit-credentials': () => {
-    const profileInfoMock = {
-      ...baseProfileMocks,
-      modalItem: {
-        isOpen: false,
-        method: 'POST',
-        action: '',
-        title: 'Загрузите файл',
-        submitText: 'Поменять',
-        inputId: 'modal-input',
-        inputName: 'modalInput',
-        labelText: 'Выбрать файл на компьютере',
-      },
-      mode: 'edit' as ProfileMods,
-    };
-    const profilePage = new ProfilePage(profileInfoMock);
+  [ROUTES.profileEditCredentials]: () => {
+    const profilePage = new ProfilePage(profileInfoMockEditingCredentials);
     renderPage(profilePage);
   },
-  'profile/edit-avatar': () => {
+  [ROUTES.profileEditAvatar]: () => {
     const profileInfoMock = { ...baseProfileMocks, mode: 'edit' as ProfileMods };
     const profilePage = new ProfilePage(profileInfoMock);
     renderPage(profilePage);
@@ -105,9 +90,10 @@ const routes: Record<string, () => void> = {
 
 function getPage() {
   const pathRoute = location.pathname.trim().replace(/^\/|\/$/g, '');
-  return routes[pathRoute] || routes.main;
+  console.log({ pathRoute });
+  return routes[pathRoute] || routes[ROUTES[404]];
 }
 
-window.addEventListener('hashchange', () => getPage()());
+window.addEventListener('popstate', () => getPage()());
 
 getPage()();

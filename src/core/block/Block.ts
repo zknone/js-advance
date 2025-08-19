@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-underscore-dangle */
 import { v4 as makeUUID } from 'uuid';
 import EventBus from '../eventBus/EventBus';
 import type { AdditionalField, Meta, BlockBasics } from '../../types/core';
@@ -16,17 +11,17 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   public children: Record<string, Block<any> | Block<any>[]> = {};
 
+  private _updatesSuspended = false;
+
   protected props!: RawProps;
 
   _element: HTMLElement | null = null;
 
-  _meta: Meta<RawProps> = null;
+  _meta: Meta<RawProps> | null = null;
 
   __id: string | null = null;
 
   private eventBus: () => EventBus;
-
-  id: any;
 
   constructor(
     tagName = 'div',
@@ -73,7 +68,7 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  protected getProps(): BlockBasics<RawProps> {
+  protected getProps(): RawProps {
     return this.props;
   }
 
@@ -85,10 +80,12 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   }
 
   getTagName() {
-    return this._meta?.tagName;
+    if (!this._meta) throw new Error("tagName wasn't found");
+    return this._meta.tagName;
   }
 
   getTagClassName() {
+    if (!this._meta) throw new Error("class tag name wasn't found");
     return this._meta?.tagClassName;
   }
 
@@ -147,44 +144,54 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     });
   }
 
-  // @ts-ignore
-  componentDidMount(oldProps?: RawProps) {
-    return true;
-  }
+  componentDidMount() {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps?: RawProps, newProps?: RawProps) {
+  _componentDidUpdate(oldProps: RawProps, newProps: RawProps): boolean {
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
 
     if (shouldUpdate) {
       this._render();
+      return true;
     }
+    return false;
   }
 
-  // @ts-ignore
-  componentDidUpdate(oldProps?: RawProps, newProps?: RawProps) {
-    return true;
+  componentDidUpdate(oldProps: RawProps, newProps: RawProps): boolean {
+    return false;
   }
 
   setProps = (nextProps: RawProps) => {
-    if (!nextProps) {
-      return;
-    }
+    if (!nextProps) return;
 
     const { props, children } = this._getChildren(nextProps);
 
-    if (Object.values(props).length) {
-      Object.assign(this.props, props);
-    }
+    const oldPropsSnapshot = { ...(this.props as any) } as RawProps;
 
-    if (Object.values(children).length) {
+    this._updatesSuspended = true;
+
+    (Object.entries(props) as [keyof RawProps, RawProps[keyof RawProps]][]).forEach(
+      ([key, value]) => {
+        this.props[key] = value;
+      }
+    );
+
+    const childrenChanged = Object.keys(children).length > 0;
+
+    if (childrenChanged) {
       Object.assign(this.children, children);
     }
 
-    // для листов тоже
+    this._updatesSuspended = false;
+
+    const updatedByProps = this._componentDidUpdate(oldPropsSnapshot, this.props);
+
+    if (childrenChanged && !updatedByProps) {
+      this._render();
+    }
   };
 
   get element() {
@@ -252,19 +259,16 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   _makePropsProxy(props: RawProps) {
     return new Proxy(props, {
-      set: (target, prop: string, value) => {
+      set: (target, prop: string | symbol, value) => {
         const oldProps = { ...target };
 
-        // eslint-disable-next-line no-param-reassign
-        target[prop as keyof RawProps] = value;
+        const result = Reflect.set(target, prop, value);
 
-        const isUpdated = this.componentDidUpdate(oldProps, target);
-
-        if (isUpdated) {
-          this._render();
+        if (!this._updatesSuspended) {
+          this._componentDidUpdate(oldProps as RawProps, target as RawProps);
         }
 
-        return true;
+        return result;
       },
       deleteProperty() {
         throw new Error('Нельзя удалить свойство');
@@ -275,10 +279,11 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   _createDocumentElement(tagName: string) {
     const element = document.createElement(tagName);
     const withInternalID = (this.props as any)?.settings?.withInternalID;
-    if (withInternalID && this.getId() && this.getTagClassName()) {
+    if (withInternalID && this.getId()) {
       element.setAttribute('data-id', this.getId());
-      element.className = this.getTagClassName() || '';
     }
+    const cls = this.getTagClassName();
+    if (cls) element.className = cls;
 
     return element;
   }

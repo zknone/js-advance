@@ -3,12 +3,6 @@ import type { CustomButtonProps, ProfileInfoModeProps } from '../../types/chat';
 import CustomButton from '../customButton/CustomButton';
 import InfoEditField from '../infoEditField/InfoEditField';
 
-/**
- * ProfileInfoEdit
- *
- * @param props Props inside: {}
- */
-
 class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
   constructor(props: ProfileInfoModeProps) {
     const defaultProps: Partial<ProfileInfoModeProps> = {
@@ -30,7 +24,7 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
     );
   }
 
-  render(): DocumentFragment {
+  render() {
     const { infoFields } = this.props;
     const editButtons: CustomButtonProps[] = [
       {
@@ -57,7 +51,13 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
     ];
 
     this.children.infoFields = this.props.infoFields.map(
-      (infoEditField) => new InfoEditField(infoEditField)
+      (field, index) =>
+        new InfoEditField({
+          ...field,
+          onChange: (newValue: string) => {
+            this.props.infoFields[index].value = newValue;
+          },
+        })
     );
 
     this.children.buttons = editButtons.map((button) => new CustomButton(button));

@@ -1,9 +1,10 @@
-<label for="{{name}}">{{label}}</label>
+{{label}}
 <input
   id="{{name}}"
   name="{{name}}"
   type="{{#if type}}{{type}}{{else}}text{{/if}}"
   value="{{value}}"
+  data-input="value"
   placeholder="{{placeholder}}"
 />
 

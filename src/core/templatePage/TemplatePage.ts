@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-underscore-dangle */
 import type { PublicPageProps, WithPage } from '../../types/pages';
 import TemplateBlock from '../templateBlock/TemplateBlock';
 

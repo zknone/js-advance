@@ -1,4 +1,4 @@
-import type { AvatarCfg, InfoFieldProps, ProfileInfoProps } from '../types/chat';
+import type { AvatarCfg, InfoFieldProps, ProfileInfoProps, ProfileMods } from '../types/chat';
 
 const baseFields: InfoFieldProps[] = [
   {
@@ -81,6 +81,42 @@ const baseProfileMocks: Omit<ProfileInfoProps, 'infoFields'> = {
   className: '',
   name: 'Иван Стрельцов',
   avatar: avatarMock,
+  mode: 'view' as ProfileMods,
 };
 
-export { baseFields, avatarMock, baseProfileMocks, basePasswordFields };
+const profileInfoMockEditingCredentials = {
+  ...baseProfileMocks,
+  modalItem: {
+    isOpen: false,
+    method: 'POST',
+    action: '',
+    title: 'Загрузите файл',
+    submitText: 'Поменять',
+    inputId: 'modal-input',
+    inputName: 'modalInput',
+    labelText: 'Выбрать файл на компьютере',
+  },
+  mode: 'edit' as ProfileMods,
+};
+
+const profileInfoMockEditingPass = {
+  ...baseProfileMocks,
+  infoFields: basePasswordFields,
+  mode: 'edit' as ProfileMods,
+};
+
+const profileInfoMock = {
+  ...baseProfileMocks,
+  infoFields: basePasswordFields,
+  mode: 'edit' as ProfileMods,
+};
+
+export {
+  baseFields,
+  avatarMock,
+  baseProfileMocks,
+  basePasswordFields,
+  profileInfoMock,
+  profileInfoMockEditingCredentials,
+  profileInfoMockEditingPass,
+};

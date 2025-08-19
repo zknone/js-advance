@@ -7,11 +7,9 @@
     border-bottom: 1px solid var(--color-light-grey);
     padding: 10px 0;
 
-    label {
-      font-weight: 500;
-    }
+    font-weight: 500;
 
-    form {
+    input {
       color: var(--color-grey);
       border: none;
       flex: 1;

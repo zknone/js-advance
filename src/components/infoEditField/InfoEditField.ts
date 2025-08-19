@@ -9,7 +9,7 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
       },
     };
 
-    const tagName = 'div';
+    const tagName = 'label';
     const tagClassName = 'profile-info-row';
 
     super(
@@ -17,13 +17,28 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
       {
         ...defaultProps,
         ...props,
-        settings: {
-          withInternalID: true,
-        },
       },
       tagName,
       tagClassName
     );
+  }
+
+  postProcess(fragment: DocumentFragment) {
+    const input = fragment.querySelector('input[data-input="value"]');
+    if (input instanceof HTMLInputElement) {
+      input.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        this.props.onChange?.(target.value);
+      });
+    }
+  }
+
+  componentDidUpdate(oldProps: InfoFieldProps, newProps: InfoFieldProps): boolean {
+    const { value } = this.props;
+
+    console.log({ value });
+
+    return true;
   }
 
   render() {
