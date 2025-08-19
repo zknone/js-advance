@@ -16,17 +16,6 @@
     position: relative;
   }
 
-  &__attach-button {
-    display: inline-flex;
-    align-items: center;
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0;
-    gap: 15px;
-  }
-
   &__attachment-menu {
     display: flex;
     flex-direction: column;
@@ -64,23 +53,6 @@
 
     &::placeholder {
       color: #aaa;
-    }
-  }
-
-  &__send {
-    margin-top: auto;
-    margin-bottom: auto;
-    display: inline-flex;
-    background-color: transparent;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-
-    img {
-      height: 100%;
-      width: auto;
     }
   }
 }

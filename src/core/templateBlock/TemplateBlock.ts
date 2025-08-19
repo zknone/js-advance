@@ -52,7 +52,6 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
 
       const button = this.element as HTMLButtonElement;
       button.type = btnType as 'submit' | 'reset' | 'button';
-      button.textContent = typeof this.props.text === 'string' ? this.props.text : 'кнопка';
     }
 
     if (this.element instanceof HTMLAnchorElement) {

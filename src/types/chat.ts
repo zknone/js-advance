@@ -40,13 +40,14 @@ export interface ChatMenuProps extends BlockBasics<AdditionalField> {
 }
 
 export type Colors = 'red' | 'blue' | 'white';
-export type ButtonVariants = 'primary' | 'link';
+export type ButtonVariants = 'primary' | 'link' | 'icon';
 
 export interface CustomButtonProps extends BlockBasics<AdditionalField> {
-  text: string;
+  text: string | null;
   color?: Colors;
   variant?: ButtonVariants;
   type?: 'button' | 'submit' | 'reset';
+  icon?: IconSpec;
 }
 
 export interface CustomFormProps extends BlockBasics<AdditionalField> {
@@ -90,12 +91,12 @@ export interface MessageQuillProps extends BlockBasics<AdditionalField> {
   disabled?: boolean;
 
   showAttachmentMenu?: boolean;
-  attachIcon?: IconSpec;
   imgIcon?: IconSpec;
   fileIcon?: IconSpec;
   locationIcon?: IconSpec;
 
-  sendIcon?: IconSpec;
+  attachButton: CustomButtonProps;
+  sendButton: CustomButtonProps;
 
   labels?: {
     attach?: string;

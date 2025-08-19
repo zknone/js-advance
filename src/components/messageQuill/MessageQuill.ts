@@ -1,5 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { MessageQuillProps } from '../../types/chat';
+import CustomButton from '../customButton/CustomButton';
 
 class MessageQuill extends TemplateBlock<MessageQuillProps> {
   constructor(props: MessageQuillProps) {
@@ -11,11 +12,15 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
       value: '',
       disabled: false,
       showAttachmentMenu: false,
-      attachIcon: {
-        src: '/attach-icon.svg',
-        alt: 'Прикрепить файл',
-        width: 32,
-        height: 32,
+      attachButton: {
+        icon: {
+          src: '/attach-icon.svg',
+          alt: 'Прикрепить файл',
+          width: 32,
+          height: 32,
+        },
+        variant: 'icon',
+        text: null,
       },
       imgIcon: {
         src: '/img-icon.svg',
@@ -35,11 +40,15 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
         width: 22,
         height: 22,
       },
-      sendIcon: {
-        src: '/send-icon.svg',
-        alt: 'Отправить сообщение',
-        width: 28,
-        height: 28,
+      sendButton: {
+        text: null,
+        variant: 'icon',
+        icon: {
+          src: '/send-icon.svg',
+          alt: 'Отправить сообщение',
+          width: 28,
+          height: 28,
+        },
       },
       labels: {
         attach: 'Прикрепить файл',
@@ -68,6 +77,9 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
   }
 
   render() {
+    console.log(this.props.attachButton);
+    this.children.attachButton = new CustomButton(this.props.attachButton);
+    this.children.sendButton = new CustomButton(this.props.sendButton);
     return this.compile('messageQuill', this.props);
   }
 }

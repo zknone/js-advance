@@ -1,10 +1,9 @@
 
 <div class="message-quill__attachment">
-  <button class="message-quill__attach-button" type="button" aria-label="{{labels.attach}}">
-    <img src="{{attachIcon.src}}" alt="{{attachIcon.alt}}"
-          {{#if attachIcon.width}}width="{{attachIcon.width}}"{{/if}}
-          {{#if attachIcon.height}}height="{{attachIcon.height}}"{{/if}} />
-  </button>
+  {{{attachButton}}}
+  {{!-- <button class="message-quill__attach-button" type="button" aria-label="{{labels.attach}}">
+    {{{iconItem}}}
+  </button> --}}
 
   {{#if showAttachmentMenu}}
   <div class="message-quill__attachment-menu">
@@ -40,10 +39,13 @@
           autocomplete="{{autoComplete}}"
           value="{{value}}"
           {{#if disabled}}disabled{{/if}} />
-
+{{!--
   <button class="message-quill__send" type="submit" aria-label="{{labels.send}}">
-    <img src="{{sendIcon.src}}" alt="{{sendIcon.alt}}"
-          {{#if sendIcon.width}}width="{{sendIcon.width}}"{{/if}}
-          {{#if sendIcon.height}}height="{{sendIcon.height}}"{{/if}} />
-  </button>
+    {{{iconItem}}}
+  </button> --}}
+
+  {{{sendButton}}}
+
+
+
 </form>
