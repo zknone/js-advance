@@ -10,7 +10,7 @@ export interface ChatItemProps extends AdditionalField {
 }
 
 export interface ChatListProps extends BlockBasics<AdditionalField> {
-  chats: ChatItemProps[];
+  chatList: ChatItemProps[];
 }
 
 interface IconSpec {
@@ -21,8 +21,7 @@ interface IconSpec {
 }
 
 export interface ChatMenuProps extends BlockBasics<AdditionalField> {
-  className?: string;
-  name: string;
+  name?: string;
   menuOpened?: boolean;
   showAdd?: boolean;
   showDelete?: boolean;
@@ -66,19 +65,19 @@ export interface InputItemProps extends BlockBasics<AdditionalField> {
   title: string;
   type: string;
   placeholder: string;
-  error: string;
+  error: string | null;
   name: string;
 }
 
 export interface MessageListProps extends BlockBasics<AdditionalField> {
-  messages: MessageItemProps[];
+  messageList: MessageItemProps[];
 }
 
 export interface MessageItemProps extends BlockBasics<AdditionalField> {
   text: string;
-  isOwn: boolean;
+  isOwn?: boolean;
   time: string;
-  image: string;
+  image?: string;
 }
 
 export interface MessageQuillProps extends BlockBasics<AdditionalField> {

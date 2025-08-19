@@ -2,9 +2,9 @@ import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatMenuProps } from '../../types/chat';
 
 class ChatList extends TemplateBlock<ChatMenuProps> {
-  constructor(props: ChatMenuProps) {
+  constructor() {
     const defaultProps: Partial<ChatMenuProps> = {
-      className: '',
+      name: 'Ivan',
       menuOpened: false,
       showAdd: true,
       showDelete: true,
@@ -45,15 +45,14 @@ class ChatList extends TemplateBlock<ChatMenuProps> {
           height: 11,
         },
       },
+      settings: {
+        withInternalID: true,
+      },
     };
     super(
       'chatMenu',
       {
-        ...props,
         ...defaultProps,
-        settings: {
-          withInternalID: true,
-        },
       },
       'div',
       'chat-menu'

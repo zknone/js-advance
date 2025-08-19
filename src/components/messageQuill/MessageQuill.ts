@@ -1,30 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { MessageQuillProps } from '../../types/chat';
 
-/**
- * MessageQuill
- *
- * @param props Props inside: { className?: string;
- *  placeholder?: string;
- *  inputName?: string;
- *  autoComplete?: string;
- *  value?: string;
- *  disabled?: boolean;
- *  showAttachmentMenu?: boolean;
- *  attachIcon?: IconSpec;
- *  imgIcon?: IconSpec;
- *  fileIcon?: IconSpec;
- *  locationIcon?: IconSpec;
- *  sendIcon?: IconSpec;
- *  labels?: {
- *    attach?: string;
- *    photoVideo?: string;
- *    file?: string;
- *    location?: string;
- *    send?: string;
- *  } }
- */
-
 class MessageQuill extends TemplateBlock<MessageQuillProps> {
   constructor(props: MessageQuillProps) {
     const defaultProps: Partial<MessageQuillProps> = {
@@ -74,16 +50,24 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
       },
     };
 
-    super('messageQuill', {
-      ...defaultProps,
-      ...props,
-      settings: {
-        withInternalID: true,
+    const tagName = 'div';
+    const tagClassName = 'message-quill';
+
+    super(
+      'messageQuill',
+      {
+        ...defaultProps,
+        ...props,
+        settings: {
+          withInternalID: true,
+        },
       },
-    });
+      tagName,
+      tagClassName
+    );
   }
 
-  render(): DocumentFragment {
+  render() {
     return this.compile('messageQuill', this.props);
   }
 }

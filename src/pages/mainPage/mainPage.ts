@@ -1,27 +1,52 @@
-import CustomForm from '../../components/customForm/CustomForm';
+import ChatList from '../../components/chatList/ChatList';
+import ChatMenu from '../../components/chatMenu/ChatMenu';
+import CustomLink from '../../components/customLink/CustomLink';
+import MessageList from '../../components/messageList/MessageList';
+import MessageQuill from '../../components/messageQuill/MessageQuill';
+import Search from '../../components/search/Search';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import type { CustomFormProps } from '../../types/chat';
-import { PAGE } from '../../types/pages';
+import { PAGE, type MainPageProps } from '../../types/pages';
 
-class LoginPage extends TemplatePage<CustomFormProps> {
-  constructor(props: CustomFormProps) {
+class MainPage extends TemplatePage<MainPageProps> {
+  constructor(props: MainPageProps) {
     super({
       ...props,
       page: PAGE.MAIN,
       settings: {
         withInternalID: true,
       },
-      tagName: 'div',
+      tagName: 'section',
       tagClassName: 'main-page',
     });
   }
 
   protected gatherChildren() {
-    this.children.customForm = new CustomForm({
+    this.children.customLink = new CustomLink({
+      ...this.props.customLink,
+      settings: { withInternalID: true },
+    });
+
+    this.children.search = new Search({
+      ...this.props.search,
+      settings: { withInternalID: true },
+    });
+
+    this.children.chatList = new ChatList({
       ...this.props,
+    });
+
+    this.children.chatMenu = new ChatMenu();
+
+    this.children.messageList = new MessageList({
+      ...this.props,
+      settings: { withInternalID: true },
+    });
+
+    this.children.messageQuill = new MessageQuill({
+      ...this.props.messageQuill,
       settings: { withInternalID: true },
     });
   }
 }
 
-export default LoginPage;
+export default MainPage;
