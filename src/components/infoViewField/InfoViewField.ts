@@ -1,11 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { InfoFieldProps } from '../../types/chat';
 
-/**
- * InfoViewField
- *
- * @param props Props inside: {}
- */
 class InfoViewField extends TemplateBlock<InfoFieldProps> {
   constructor(props: InfoFieldProps) {
     const defaultProps: Partial<InfoFieldProps> = {
@@ -15,7 +10,7 @@ class InfoViewField extends TemplateBlock<InfoFieldProps> {
     };
 
     const tagName = 'div';
-    const tagClassName = 'profile-info-row';
+    const tagClassName = 'profile-view-row';
 
     super(
       'infoViewField',
