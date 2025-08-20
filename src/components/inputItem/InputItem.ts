@@ -4,11 +4,7 @@ import type { InputItemProps } from '../../types/chat';
 class InputItem extends TemplateBlock<InputItemProps> {
   constructor(props: InputItemProps) {
     const defaultProps: Partial<InputItemProps> = {
-      placeholder: '',
-      value: '',
       type: 'text',
-      name: '',
-      title: '',
       variant: 'regular',
       settings: {
         withInternalID: true,
@@ -28,6 +24,18 @@ class InputItem extends TemplateBlock<InputItemProps> {
         settings: {
           withInternalID: true,
         },
+        onChange: (newValue: string) => {
+          this.props.value = newValue;
+
+          if (typeof this.props.onFieldChange === 'function') {
+            this.props.onFieldChange(this.props.value, this.props.name);
+          }
+        },
+        onBlur: () => {
+          if (typeof this.props.onFieldBlur === 'function') {
+            this.props.onFieldBlur(this.props.value, this.props.name);
+          }
+        },
       },
       tagName,
       tagClassName
@@ -35,6 +43,7 @@ class InputItem extends TemplateBlock<InputItemProps> {
   }
 
   render() {
+    console.log(this.props);
     return this.compile('inputItem', this.props);
   }
 }
