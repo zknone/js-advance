@@ -166,6 +166,7 @@ export interface SearchProps extends BlockBasics<AdditionalField> {
   className?: string;
   placeholder?: string;
   name?: string;
+  onChange?: (value: string) => void;
 }
 
 export type ProfileMods = 'view' | 'edit';
