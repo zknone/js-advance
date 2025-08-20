@@ -7,6 +7,7 @@ const baseFields: InfoFieldProps[] = [
     name: 'email',
     type: 'email',
     placeholder: 'Почта',
+    error: null,
   },
   {
     label: 'Логин',
@@ -14,6 +15,7 @@ const baseFields: InfoFieldProps[] = [
     name: 'login',
     type: 'text',
     placeholder: 'Логин',
+    error: null,
   },
   {
     label: 'Имя',
@@ -21,6 +23,7 @@ const baseFields: InfoFieldProps[] = [
     name: 'first_name',
     type: 'text',
     placeholder: 'Имя',
+    error: null,
   },
   {
     label: 'Фамилия',
@@ -28,6 +31,7 @@ const baseFields: InfoFieldProps[] = [
     name: 'second_name',
     type: 'text',
     placeholder: 'Фамилия',
+    error: null,
   },
   {
     label: 'Имя в чате',
@@ -35,13 +39,15 @@ const baseFields: InfoFieldProps[] = [
     name: 'display_name',
     type: 'text',
     placeholder: 'Имя в чате',
+    error: null,
   },
   {
     label: 'Телефон',
-    value: '+7 (912) 123‑45‑67',
+    value: '+79121234567',
     name: 'phone',
     type: 'tel',
     placeholder: 'Телефон',
+    error: null,
   },
 ];
 
@@ -52,6 +58,7 @@ const basePasswordFields: InfoFieldProps[] = [
     name: 'oldPassword',
     type: 'password',
     placeholder: 'Введите старый пароль',
+    error: null,
   },
   {
     label: 'Новый пароль',
@@ -59,6 +66,7 @@ const basePasswordFields: InfoFieldProps[] = [
     name: 'newPassword',
     type: 'password',
     placeholder: 'Введите старый пароль',
+    error: null,
   },
   {
     label: 'Повторите новый пароль',
@@ -66,6 +74,7 @@ const basePasswordFields: InfoFieldProps[] = [
     name: 'confirmPassword',
     type: 'password',
     placeholder: 'Введите старый пароль',
+    error: null,
   },
 ];
 

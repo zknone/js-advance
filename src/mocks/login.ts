@@ -9,6 +9,8 @@ export const loginFormData: CustomFormProps = {
       type: 'text',
       placeholder: 'Enter login',
       error: '',
+      value: null,
+      variant: 'regular',
     },
     {
       title: 'Password',
@@ -16,6 +18,8 @@ export const loginFormData: CustomFormProps = {
       type: 'password',
       placeholder: 'Enter password',
       error: '',
+      value: null,
+      variant: 'regular',
     },
   ],
   customLink: {
