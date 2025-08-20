@@ -1,6 +1,6 @@
 import type { MainPageProps } from '../types/pages';
 
-export const mainPageData: MainPageProps = {
+export const mainPageData: Omit<MainPageProps, 'messageQuill'> = {
   chatList: [
     {
       name: 'Екатерина',

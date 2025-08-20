@@ -1,11 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { CustomLinkProps } from '../../types/chat';
 
-/**
- * CustomLink component for rendering a customizable link.
- *
- * @param props Props inside: {link: string; text: string; className?: string;}
- */
 class CustomLink extends TemplateBlock<CustomLinkProps> {
   constructor(props: CustomLinkProps) {
     const defaultProps: Partial<CustomLinkProps> = {
