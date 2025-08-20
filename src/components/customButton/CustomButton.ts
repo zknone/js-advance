@@ -31,7 +31,7 @@ class CustomButton extends TemplateBlock<CustomButtonProps> {
       link: 'custom-button--link',
     };
 
-    const tagName = variant === 'primary' ? 'button' : 'a';
+    const tagName = variant === 'link' ? 'a' : 'button';
     const tagClassName = `custom-button ${color ? additionalColorClasses[color] : ''}  ${variant ? additionalVariantClasses[variant] : ''}`;
 
     super('customButton', resultedProps, tagName, tagClassName);
