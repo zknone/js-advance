@@ -71,6 +71,12 @@ class TemplateBlock<P extends AdditionalField> extends Block<P> {
             (this.props as any).onChange(target.value);
           }
         });
+
+        item.addEventListener('blur', () => {
+          if (typeof (this.props as any).onBlur === 'function') {
+            (this.props as any).onBlur();
+          }
+        });
       } else {
         throw new Error(`data-input="${String(key)}" используется не на input`);
       }
