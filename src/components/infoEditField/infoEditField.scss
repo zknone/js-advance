@@ -1,4 +1,4 @@
-.profile-info-row {
+.profile-edit-row {
     display: flex;
     justify-content: space-between;
 
@@ -6,14 +6,23 @@
 
     border-bottom: 1px solid var(--color-light-grey);
     padding: 10px 0;
+    gap: 20px;
 
     font-weight: 500;
 
-    input {
+    .profile-edit-input {
+      display: flex;
+      flex-grow: 1;
+      padding: 0;
       color: var(--color-grey);
       border: none;
-      flex: 1;
-      max-width: 50%;
       text-align: end;
+
+      &--error {
+        color: var(--color-red);
+        &:focus {
+          color: var(--color-primary);
+        }
+      }
     }
   }

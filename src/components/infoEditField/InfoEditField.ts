@@ -10,13 +10,25 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
     };
 
     const tagName = 'label';
-    const tagClassName = 'profile-info-row';
+    const tagClassName = 'profile-edit-row';
 
     super(
       'infoEditField',
       {
         ...defaultProps,
         ...props,
+        onChange: (newValue: string) => {
+          this.props.value = newValue;
+
+          if (typeof this.props.onFieldChange === 'function') {
+            this.props.onFieldChange(this.props.value, this.props.name);
+          }
+        },
+        onBlur: () => {
+          if (typeof this.props.onFieldBlur === 'function') {
+            this.props.onFieldBlur(this.props.value, this.props.name);
+          }
+        },
       },
       tagName,
       tagClassName
