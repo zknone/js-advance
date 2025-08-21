@@ -6,7 +6,7 @@
   box-sizing: border-box;
 
   color-scheme: light dark;
-  color: (--color-primary);
+  color: var(--color-primary);
   background-color: var(--color-bg);
 
   font-synthesis: none;
@@ -24,6 +24,7 @@
   --color-message: #f8f8f8;
   --color-light-grey: #eaeaea;
   --color-bg-sidebar: #fbfbfb;
+  --color-bg-shadow:  rgba(0, 0, 0, 0.5);
 }
 
 #app {
