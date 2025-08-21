@@ -23,6 +23,9 @@
     "eslint-plugin-prettier": "^5.5.3",
     "prettier": "^3.6.2",
     "sass": "^1.89.2",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^29.0.0",
     "typescript": "~5.8.3",
     "vite": "^5.2.10"
   },
