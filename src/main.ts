@@ -13,7 +13,7 @@ import LoginPage from './pages/loginPage/LoginPage';
 import MainPage from './pages/mainPage/mainPage';
 import NotFoundPage from './pages/notFoundPage/NotFoundPage';
 import ProfilePage from './pages/profilePage/ProfilePage';
-import './style.css';
+import './style.scss';
 import type { ProfileMods } from './types/chat';
 import renderPage from './utils/renderPage';
 
