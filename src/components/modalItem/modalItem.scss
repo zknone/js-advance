@@ -34,7 +34,7 @@
   border-radius: 12px;
   width: 300px;
   max-width: 90%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0 0 0/ 0.3);
   animation: fadeIn 0.2s ease-out;
 
   &__content {
@@ -73,6 +73,7 @@
     transform: scale(0.95);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;

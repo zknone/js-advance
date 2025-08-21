@@ -17,6 +17,7 @@
 
     &--error {
       color: var(--color-red);
+
       &:focus {
         color: var(--color-primary);
       }
