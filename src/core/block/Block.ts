@@ -160,7 +160,7 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     return false;
   }
 
-  componentDidUpdate(oldProps: RawProps, newProps: RawProps): boolean {
+  componentDidUpdate(_oldProps: RawProps, _newProps: RawProps): boolean {
     return false;
   }
 

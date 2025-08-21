@@ -45,20 +45,25 @@ const validateInput = (value: unknown, field: unknown): boolean => {
   }
   if (field === 'first_name' || field === 'second_name' || field === 'display_name') {
     return checkRegExp(value, nameRegExp);
-  } else if (field === 'login') {
+  }
+  if (field === 'login') {
     return checkRegExp(value, loginRegExp);
-  } else if (field === 'email') {
+  }
+  if (field === 'email') {
     return checkRegExp(value, emailRegExp);
-  } else if (field === 'message') {
+  }
+  if (field === 'message') {
     return checkRegExp(value, messageRegExp);
-  } else if (
+  }
+  if (
     field === 'password' ||
     field === 'newPassword' ||
     field === 'oldPassword' ||
     field === 'confirmPassword'
   ) {
     return checkRegExp(value, passwordRegExp);
-  } else if (field === 'phone') {
+  }
+  if (field === 'phone') {
     return checkRegExp(value, phoneRegExp);
   }
 

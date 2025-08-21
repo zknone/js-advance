@@ -43,7 +43,6 @@ class InputItem extends TemplateBlock<InputItemProps> {
   }
 
   render() {
-    console.log(this.props);
     return this.compile('inputItem', this.props);
   }
 }

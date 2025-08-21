@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { InfoFieldProps, ProfileInfoModeProps } from '../../types/chat';
 import { validateInput } from '../../utils/validation';
@@ -58,7 +59,8 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
       this.state.inputFields = updatedFields;
 
       return !hasErrors;
-    } else return false;
+    }
+    return false;
   }
 
   render() {

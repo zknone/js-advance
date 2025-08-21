@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { SearchProps } from '../../types/chat';
 
