@@ -1,10 +1,16 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import type { CustomButtonProps, ProfileInfoModeProps } from '../../types/chat';
+import type { InfoFieldProps, ProfileInfoModeProps } from '../../types/chat';
 import { validateInput } from '../../utils/validation';
 import CustomButton from '../customButton/CustomButton';
 import InfoEditField from '../infoEditField/InfoEditField';
 
 class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
+  private isValidated = true;
+
+  private state: { inputFields: InfoFieldProps[] | null } = {
+    inputFields: null,
+  };
+
   constructor(props: ProfileInfoModeProps) {
     const defaultProps: Partial<ProfileInfoModeProps> = {};
 
@@ -20,6 +26,8 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
       tagName,
       tagClassName
     );
+
+    this.state.inputFields = [...this.props.infoFields];
   }
 
   componentDidUpdate(oldProps: ProfileInfoModeProps, newProps: ProfileInfoModeProps): boolean {
@@ -27,79 +35,88 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
   }
 
   validateAllFields() {
-    const updated = this.props.infoFields.map((field) => {
-      const isValid = validateInput(field.value, field.name);
-      return {
-        ...field,
-        error: isValid ? null : field.label,
-      };
-    });
+    const fields = this.state.inputFields;
 
-    const hasErrors = updated.some((f) => f.error);
+    if (fields) {
+      const updatedFields = fields.map((field) => {
+        const isValid = validateInput(field.value, field.name);
+        return {
+          ...field,
+          error: isValid ? null : field.label,
+        };
+      });
 
-    this.setProps({
-      infoFields: updated,
-      errors: updated
-        .filter((f) => f.error)
-        .map((f) => f.error)
-        .join(', '),
-    });
+      const hasErrors = updatedFields.some((f) => f.error);
 
-    return !hasErrors;
+      this.setProps({
+        infoFields: updatedFields,
+        errors: updatedFields
+          .filter((f) => f.error)
+          .map((f) => f.error)
+          .join(', '),
+      });
+      this.state.inputFields = updatedFields;
+
+      return !hasErrors;
+    } else return false;
   }
 
   render() {
-    const editButtons: CustomButtonProps[] = [
-      {
-        text: 'Отправить',
-        type: 'submit',
-        tagName: 'button',
-        tagClassName: 'custom-button',
-        settings: {
-          withInternalID: false,
-        },
-        events: {
-          click: (e: Event) => {
-            e.preventDefault();
-            const isValid = this.validateAllFields();
-
-            if (isValid) {
-              console.log('Валидация пройдена');
-            } else {
-              console.log('Ошибки! Валидация не пройдена');
-            }
-          },
-        },
-      },
-    ];
-
-    /// дописать валидацию как в квилл
-
     this.children.infoFields = this.props.infoFields.map(
       (field, index) =>
         new InfoEditField({
           ...field,
-          onFieldBlur: (value: string) => {
-            const updated = [...this.props.infoFields];
-            updated[index] = {
-              ...updated[index],
-              error: validateInput(value, updated[index].name) ? null : updated[index].label,
-              value,
-            };
+          onFieldChange: (value: string) => {
+            if (this.state.inputFields) {
+              this.state.inputFields[index] = { ...this.state.inputFields[index], value };
+            }
+          },
+          onFieldBlur: (value: string, name: string) => {
+            this.isValidated = validateInput(value, name);
+            const updated = this.state.inputFields;
+            if (!this.isValidated && updated) {
+              updated[index] = {
+                ...updated[index],
+                value,
+                error: updated[index].label,
+              };
 
-            const allErrors = updated
-              .map((item) => item.error)
-              .filter(Boolean)
-              .join(', ');
+              const allErrors = updated
+                .map((item) => item.error)
+                .filter(Boolean)
+                .join(', ');
 
-            this.setProps({
-              infoFields: updated,
-              errors: allErrors,
-            });
+              this.setProps({
+                infoFields: updated,
+                errors: allErrors,
+              });
+            }
           },
         })
     );
-    this.children.buttons = editButtons.map((button) => new CustomButton(button));
+    this.children.buttons = new CustomButton({
+      text: 'Отправить',
+      type: 'submit',
+      tagName: 'button',
+      tagClassName: 'custom-button',
+      settings: {
+        withInternalID: false,
+      },
+      events: {
+        click: (e: Event) => {
+          e.preventDefault();
+          this.isValidated = this.validateAllFields();
+
+          if (this.isValidated) {
+            console.log('Валидация пройдена', this.state.inputFields);
+            this.isValidated = false;
+          } else {
+            console.log('Ошибки! Валидация не пройдена', this.state.inputFields);
+            this.isValidated = false;
+          }
+        },
+      },
+    });
     return this.compile('profileInfoEdit', this.props);
   }
 }
