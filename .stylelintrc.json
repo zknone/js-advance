@@ -12,6 +12,7 @@
         "keyframes-name-pattern": null,
         "selector-class-pattern": null,
         "declaration-block-no-duplicate-properties": null,
-        "no-descending-specificity": null
+        "no-descending-specificity": null,
+        "no-empty-source": null
     }
 }
