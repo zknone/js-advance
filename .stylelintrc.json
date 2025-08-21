@@ -5,13 +5,11 @@
     ],
     "customSyntax": "postcss-scss",
     "rules": {
-        "declaration-empty-line-before": null,
-        "color-hex-length": null,
-        "alpha-value-notation": null,
-        "value-keyword-case": null,
-        "keyframes-name-pattern": null,
-        "selector-class-pattern": null,
-        "declaration-block-no-duplicate-properties": null,
-        "no-descending-specificity": null
+        "no-empty-source": null,
+        "custom-property-no-missing-var-function": null,
+        "shorthand-property-no-redundant-values": null,
+        "color-function-notation": null,
+        "block-no-empty": null,
+        "rule-empty-line-before": null
     }
 }
