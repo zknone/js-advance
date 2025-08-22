@@ -85,17 +85,19 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
         withInternalID: false,
       },
       events: {
-        click: (e: Event) => {
-          e.preventDefault();
-          this.isValidated = this.validateAllFields();
+        click: {
+          handler: (e: Event) => {
+            e.preventDefault();
+            this.isValidated = this.validateAllFields();
 
-          if (this.isValidated) {
-            console.log('Валидация пройдена', this.state.inputFields);
-            this.isValidated = false;
-          } else {
-            console.log('Ошибки! Валидация не пройдена', this.state.inputFields);
-            this.isValidated = false;
-          }
+            if (this.isValidated) {
+              console.log('Валидация пройдена', this.state.inputFields);
+              this.isValidated = false;
+            } else {
+              console.log('Ошибки! Валидация не пройдена', this.state.inputFields);
+              this.isValidated = false;
+            }
+          },
         },
       },
     });

@@ -1,6 +1,7 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from '../eventBus/EventBus';
 import type { AdditionalField, Meta, BlockBasics } from '../../types/core';
+import type { EventMap } from '../../types/chat';
 
 class Block<RawProps extends BlockBasics<AdditionalField>> {
   static EVENTS = {
