@@ -31,10 +31,6 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
     this.state.inputFields = [...this.props.infoFields];
   }
 
-  componentDidUpdate(oldProps: ProfileInfoModeProps, newProps: ProfileInfoModeProps): boolean {
-    return oldProps.errors !== newProps.errors;
-  }
-
   validateAllFields() {
     const fields = this.state.inputFields;
 
