@@ -24,17 +24,20 @@ class InputItem extends TemplateBlock<InputItemProps> {
         settings: {
           withInternalID: true,
         },
-        onChange: (newValue: string) => {
-          this.props.value = newValue;
+        events: {
+          input: (e: Event) => {
+            const target = e.target as HTMLInputElement;
+            this.props.value = target.value;
 
-          if (typeof this.props.onFieldChange === 'function') {
-            this.props.onFieldChange(this.props.value, this.props.name);
-          }
-        },
-        onBlur: () => {
-          if (typeof this.props.onFieldBlur === 'function') {
-            this.props.onFieldBlur(this.props.value, this.props.name);
-          }
+            if (typeof this.props.onFieldChange === 'function') {
+              this.props.onFieldChange(this.props.value, this.props.name);
+            }
+          },
+          blur: () => {
+            if (typeof this.props.onFieldBlur === 'function') {
+              this.props.onFieldBlur(this.props.value, this.props.name);
+            }
+          },
         },
       },
       tagName,

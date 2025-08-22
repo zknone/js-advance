@@ -22,9 +22,12 @@ class Search extends TemplateBlock<SearchProps & Record<string, unknown>> {
       {
         ...defaultProps,
         ...props,
-        onChange: (newValue: string) => {
-          this.props.value = newValue;
-          console.log('search value:', this.props.value);
+        events: {
+          input: (e: Event) => {
+            const target = e.target as HTMLInputElement;
+            this.props.value = target.value;
+            console.log('search value:', this.props.value);
+          },
         },
       },
       tagName,

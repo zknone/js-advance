@@ -23,13 +23,6 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   private eventBus: () => EventBus;
 
-  private _shallowEqual(obj1: RawProps, obj2: RawProps) {
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-    if (keys1.length !== keys2.length) return false;
-    return keys1.every((key) => obj1[key as keyof RawProps] === obj2[key as keyof RawProps]);
-  }
-
   constructor(
     tagName = 'div',
     tagClassName = '',
@@ -245,21 +238,35 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
   }
 
   _addEvents() {
-    const { events = {} } = this.props;
+    const { events = {} } = this.props as { events?: EventMap };
 
-    Object.keys(events).forEach((eventName) => {
-      if (this._element) {
-        this._element.addEventListener(eventName, events[eventName]);
+    Object.entries(events).forEach(([eventName, conf]) => {
+      if (!conf) return;
+      const { handler, selector } = conf;
+
+      if (selector) {
+        this.element?.querySelectorAll(selector).forEach((el) => {
+          el.addEventListener(eventName, handler);
+        });
+      } else {
+        this.element?.addEventListener(eventName, handler);
       }
     });
   }
 
   _removeEvents() {
-    const { events = {} } = this.props;
+    const { events = {} } = this.props as { events?: EventMap };
 
-    Object.keys(events).forEach((eventName) => {
-      if (this._element) {
-        this._element.removeEventListener(eventName, events[eventName]);
+    Object.entries(events).forEach(([eventName, conf]) => {
+      if (!conf) return;
+      const { handler, selector } = conf;
+
+      if (selector) {
+        this.element?.querySelectorAll(selector).forEach((el) => {
+          el.removeEventListener(eventName, handler);
+        });
+      } else {
+        this.element?.removeEventListener(eventName, handler);
       }
     });
   }

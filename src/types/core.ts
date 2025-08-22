@@ -1,11 +1,10 @@
 import type Block from '../core/block/Block';
-
-export type EventsMap = Record<string, EventListenerOrEventListenerObject>;
+import type { EventMap } from './chat';
 
 export type AdditionalField = Record<string, unknown>;
 
 export type BlockBasics<T> = T & {
-  events?: EventsMap;
+  events?: EventMap;
   settings?: {
     withInternalID: boolean;
   };

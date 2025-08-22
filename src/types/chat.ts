@@ -1,12 +1,20 @@
 import type { AdditionalField, BlockBasics } from './core';
 
+export type EventHandler = (e: Event) => void;
+
+export type EventMap = {
+  [K in keyof HTMLElementEventMap]?: {
+    handler: EventHandler;
+    selector?: string;
+  };
+};
 export interface ChatItemProps extends AdditionalField {
   name: string;
   time: string;
   className?: string;
   message: string;
   unreadCount?: number;
-  events?: Record<string, EventListenerOrEventListenerObject>;
+  events?: EventMap;
 }
 
 export interface ChatListProps extends BlockBasics<AdditionalField> {
@@ -144,14 +152,11 @@ export interface InfoFieldProps extends BlockBasics<AdditionalField> {
   placeholder?: string;
   value: string;
   error: string | null;
-  onChange?: (value: string) => void;
-  onBlur?: () => void;
 }
 
 export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
-  buttons?: CustomButtonProps;
-  errors?: string;
+  button?: CustomButtonProps;
 }
 
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
@@ -170,7 +175,6 @@ export interface SearchProps extends BlockBasics<AdditionalField> {
   className?: string;
   placeholder?: string;
   name?: string;
-  onChange?: (value: string) => void;
 }
 
 export type ProfileMods = 'view' | 'edit';
