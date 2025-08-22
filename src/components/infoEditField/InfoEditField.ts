@@ -1,5 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { InfoFieldProps } from '../../types/chat';
+import { validateInput } from '../../utils/validation';
 
 class InfoEditField extends TemplateBlock<InfoFieldProps> {
   constructor(props: InfoFieldProps) {
@@ -7,6 +8,7 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
       settings: {
         withInternalID: true,
       },
+      error: null,
     };
 
     const tagName = 'label';
@@ -25,6 +27,10 @@ class InfoEditField extends TemplateBlock<InfoFieldProps> {
           }
         },
         onBlur: () => {
+          this.setProps({
+            ...this.props,
+            error: validateInput(this.props.value, this.props.name) ? null : this.props.name,
+          } as InfoFieldProps);
           if (typeof this.props.onFieldBlur === 'function') {
             this.props.onFieldBlur(this.props.value, this.props.name);
           }

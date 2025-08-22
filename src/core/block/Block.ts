@@ -23,6 +23,13 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
 
   private eventBus: () => EventBus;
 
+  private _shallowEqual(obj1: RawProps, obj2: RawProps) {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    if (keys1.length !== keys2.length) return false;
+    return keys1.every((key) => obj1[key as keyof RawProps] === obj2[key as keyof RawProps]);
+  }
+
   constructor(
     tagName = 'div',
     tagClassName = '',

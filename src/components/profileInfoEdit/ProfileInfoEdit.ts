@@ -48,14 +48,16 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
       });
 
       const hasErrors = updatedFields.some((f) => f.error);
+      const element = document.querySelector('[data-error]');
+      const allErrors = updatedFields
+        .map((item) => item.error)
+        .filter(Boolean)
+        .join(', ');
 
-      this.setProps({
-        infoFields: updatedFields,
-        errors: updatedFields
-          .filter((f) => f.error)
-          .map((f) => f.error)
-          .join(', '),
-      });
+      if (element && hasErrors) {
+        element.textContent = `Исправьте следующие ошибки: ${allErrors}`;
+      }
+
       this.state.inputFields = updatedFields;
 
       return !hasErrors;
@@ -73,26 +75,8 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
               this.state.inputFields[index] = { ...this.state.inputFields[index], value };
             }
           },
-          onFieldBlur: (value: string, name: string) => {
-            this.isValidated = validateInput(value, name);
-            const updated = this.state.inputFields;
-            if (!this.isValidated && updated) {
-              updated[index] = {
-                ...updated[index],
-                value,
-                error: updated[index].label,
-              };
-
-              const allErrors = updated
-                .map((item) => item.error)
-                .filter(Boolean)
-                .join(', ');
-
-              this.setProps({
-                infoFields: updated,
-                errors: allErrors,
-              });
-            }
+          onFieldBlur: () => {
+            this.validateAllFields();
           },
         })
     );

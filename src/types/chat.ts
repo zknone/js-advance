@@ -150,6 +150,8 @@ export interface InfoFieldProps extends BlockBasics<AdditionalField> {
 
 export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
+  buttons?: CustomButtonProps;
+  errors?: string;
 }
 
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
