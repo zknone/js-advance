@@ -16,6 +16,11 @@ interface RequestOptions extends AdditionalField {
   data: Record<string, string>;
 }
 
+interface FetchRequest {
+  url: string;
+  options: RequestOptions;
+}
+
 function queryStringify(data: Record<string, string>) {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
@@ -29,17 +34,25 @@ function queryStringify(data: Record<string, string>) {
 }
 
 class HTTPTransport {
-  static get = (url: string, options: RequestOptions = {} as RequestOptions) =>
-    this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+  static get = (request: FetchRequest) => {
+    const { url, options } = request;
+    return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+  };
 
-  static post = (url: string, options: RequestOptions = {} as RequestOptions) =>
-    this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+  static post = (request: FetchRequest) => {
+    const { url, options } = request;
+    return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+  };
 
-  static put = (url: string, options: RequestOptions = {} as RequestOptions) =>
+  static put = (request: FetchRequest) => {
+    const { url, options } = request;
     this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+  };
 
-  static delete = (url: string, options: RequestOptions = {} as RequestOptions) =>
+  static delete = (request: FetchRequest) => {
+    const { url, options } = request;
     this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+  };
 
   static request = (
     url: string,
