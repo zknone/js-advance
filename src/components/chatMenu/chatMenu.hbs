@@ -1,0 +1,65 @@
+<div class="chat-menu__avatar"></div>
+
+<div class="chat-menu__name">
+  {{name}}
+</div>
+
+<div class="chat-menu__actions-container">
+  <button class="chat-menu__actions-main-button" aria-label="{{labels.openMenu}}">
+    <img
+      src="{{icons.menu.src}}"
+      alt="{{icons.menu.alt}}"
+      {{#if icons.menu.width}}width="{{icons.menu.width}}"{{/if}}
+      {{#if icons.menu.height}}height="{{icons.menu.height}}"{{/if}}
+    />
+  </button>
+
+  {{#if menuOpened}}
+  <div class="chat-menu__actions-menu">
+    {{#if showAdd}}
+    <button class="chat-menu__actions-button" type="button" aria-label="{{labels.addUser}}">
+      <span class="chat-menu__icon">
+        <img
+          class="chat-menu__icon-background"
+          src="{{icons.addBg.src}}"
+          alt="{{icons.addBg.alt}}"
+          {{#if icons.addBg.width}}width="{{icons.addBg.width}}"{{/if}}
+          {{#if icons.addBg.height}}height="{{icons.addBg.height}}"{{/if}}
+        />
+        <img
+          class="chat-menu__add-icon"
+          src="{{icons.addCross.src}}"
+          alt="{{icons.addCross.alt}}"
+          {{#if icons.addCross.width}}width="{{icons.addCross.width}}"{{/if}}
+          {{#if icons.addCross.height}}height="{{icons.addCross.height}}"{{/if}}
+        />
+      </span>
+      <span>{{labels.addUser}}</span>
+    </button>
+    {{/if}}
+
+    {{#if showDelete}}
+    <button class="chat-menu__actions-button" type="button" aria-label="{{labels.deleteUser}}">
+      <span class="chat-menu__icon">
+        <img
+          class="chat-menu__icon-background"
+          src="{{icons.deleteBg.src}}"
+          alt="{{icons.deleteBg.alt}}"
+          {{#if icons.deleteBg.width}}width="{{icons.deleteBg.width}}"{{/if}}
+          {{#if icons.deleteBg.height}}height="{{icons.deleteBg.height}}"{{/if}}
+        />
+        <img
+          class="chat-menu__delete-icon"
+          src="{{icons.deleteCross.src}}"
+          alt="{{icons.deleteCross.alt}}"
+          {{#if icons.deleteCross.width}}width="{{icons.deleteCross.width}}"{{/if}}
+          {{#if icons.deleteCross.height}}height="{{icons.deleteCross.height}}"{{/if}}
+        />
+      </span>
+      <span>{{labels.deleteUser}}</span>
+    </button>
+    {{/if}}
+  </div>
+  {{/if}}
+</div>
+

@@ -1,0 +1,42 @@
+.custom-button {
+  padding: 12px;
+  max-width: 100%;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+
+  &--link {
+    background: none;
+    padding: 8px 0;
+    width: auto;
+    text-decoration: none;
+  }
+
+  &--icon {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    gap: 15px;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  &--color-blue {
+    color: var(--color-blue);
+  }
+
+  &--color-red {
+    color: var(--color-red);
+  }
+
+  &--color-white {
+    color: white;
+  }
+}

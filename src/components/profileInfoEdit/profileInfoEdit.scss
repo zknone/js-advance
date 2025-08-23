@@ -1,0 +1,37 @@
+.profile-info-form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+
+  gap: 50px;
+  min-width: 360px;
+
+  section {
+    min-height: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    span {
+      max-width: 360px;
+      overflow-wrap: normal;
+      font-size: 10px;
+      color: var(--color-red);
+    }
+  }
+
+  button {
+    width: 100%;
+    max-width: 70%;
+    background-color: var(--color-blue);
+    color: white;
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 500;
+  }
+}

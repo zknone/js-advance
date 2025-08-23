@@ -1,0 +1,35 @@
+
+<div class="message-quill__attachment">
+  {{{attachButton}}}
+  </button>
+
+  {{#if showAttachmentMenu}}
+  <div class="message-quill__attachment-menu">
+    <button class="message-quill__attach-button" type="button" aria-label="{{labels.photoVideo}}">
+      <img src="{{imgIcon.src}}" alt="{{imgIcon.alt}}"
+            {{#if imgIcon.width}}width="{{imgIcon.width}}"{{/if}}
+            {{#if imgIcon.height}}height="{{imgIcon.height}}"{{/if}} />
+      <span>{{labels.photoVideo}}</span>
+    </button>
+
+    <button class="message-quill__attach-button" type="button" aria-label="{{labels.file}}">
+      <img src="{{fileIcon.src}}" alt="{{fileIcon.alt}}"
+            {{#if fileIcon.width}}width="{{fileIcon.width}}"{{/if}}
+            {{#if fileIcon.height}}height="{{fileIcon.height}}"{{/if}} />
+      <span>{{labels.file}}</span>
+    </button>
+
+    <button class="message-quill__attach-button" type="button" aria-label="{{labels.location}}">
+      <img src="{{locationIcon.src}}" alt="{{locationIcon.alt}}"
+            {{#if locationIcon.width}}width="{{locationIcon.width}}"{{/if}}
+            {{#if locationIcon.height}}height="{{locationIcon.height}}"{{/if}} />
+      <span>{{labels.location}}</span>
+    </button>
+  </div>
+  {{/if}}
+</div>
+
+<form>
+  {{{inputItem}}}
+  {{{sendButton}}}
+</form>

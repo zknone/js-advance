@@ -1,0 +1,51 @@
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(0 0 0/ 0.14);
+  align-items: center;
+
+  min-width: 280px;
+
+  gap: 10px;
+
+  h2 {
+    margin: 0;
+    color: var(--color-primary);
+  }
+
+  form {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  button {
+    background-color: var(--color-blue);
+    color: var(--color-bg);
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    color: var(--color-blue);
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 500;
+  }
+}

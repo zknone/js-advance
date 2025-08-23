@@ -1,13 +1,14 @@
-import { renderComponent } from './renderComponent';
+import type TemplateBlock from '../core/templateBlock/TemplateBlock';
 
-export async function renderPage(
-  pageName: string,
-  pages: Record<string, string>,
-  data: Record<string, any>
-) {
-  const html = await renderComponent(pageName, pages, data);
+const renderPage = <T extends Record<string, unknown>>(page: TemplateBlock<T>) => {
+  const root = document.getElementById('app');
 
-  const app = document.querySelector('#app')!;
+  const content = page.getContent();
+  if (root && content) {
+    root.appendChild(content);
+  }
 
-  app.innerHTML = html;
-}
+  page.dispatchComponentDidMount();
+};
+
+export default renderPage;
