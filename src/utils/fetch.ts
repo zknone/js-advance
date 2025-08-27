@@ -10,15 +10,15 @@ const METHODS = {
 type HTTPMethod = (typeof METHODS)[keyof typeof METHODS];
 
 interface RequestOptions extends AdditionalField {
-  method: HTTPMethod;
-  timeout: number;
-  headers: Record<string, string>;
-  data: Record<string, string>;
+  method?: HTTPMethod;
+  timeout?: number;
+  headers?: Record<string, string>;
+  data?: Record<string, string>;
 }
 
 interface FetchRequest {
   url: string;
-  options: RequestOptions;
+  options?: RequestOptions;
 }
 
 function queryStringify(data: Record<string, string>) {
@@ -33,32 +33,54 @@ function queryStringify(data: Record<string, string>) {
   );
 }
 
+function getFullUrl(baseUrl: string, url: string) {
+  return `${baseUrl}${url}`;
+}
+
 class HTTPTransport {
-  static get = (request: FetchRequest) => {
-    const { url, options } = request;
-    return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
-  };
+  baseUrl: string;
 
-  static post = (request: FetchRequest) => {
-    const { url, options } = request;
-    return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
-  };
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
-  static put = (request: FetchRequest) => {
+  get(request: FetchRequest) {
     const { url, options } = request;
-    this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
-  };
+    return this.request(
+      getFullUrl(this.baseUrl, url),
+      { ...options, method: METHODS.GET },
+      options?.timeout
+    );
+  }
 
-  static delete = (request: FetchRequest) => {
+  post(request: FetchRequest) {
     const { url, options } = request;
-    this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
-  };
+    return this.request(
+      getFullUrl(this.baseUrl, url),
+      { ...options, method: METHODS.POST },
+      options?.timeout
+    );
+  }
 
-  static request = (
-    url: string,
-    options: RequestOptions = {} as RequestOptions,
-    timeout = 5000
-  ) => {
+  put(request: FetchRequest) {
+    const { url, options } = request;
+    this.request(
+      getFullUrl(this.baseUrl, url),
+      { ...options, method: METHODS.PUT },
+      options?.timeout
+    );
+  }
+
+  delete(request: FetchRequest) {
+    const { url, options } = request;
+    this.request(
+      getFullUrl(this.baseUrl, url),
+      { ...options, method: METHODS.DELETE },
+      options?.timeout
+    );
+  }
+
+  request(fullUrl: string, options: RequestOptions = {} as RequestOptions, timeout = 5000) {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
@@ -69,7 +91,7 @@ class HTTPTransport {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
 
-      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+      xhr.open(method, isGet && !!data ? `${fullUrl}${queryStringify(data)}` : fullUrl);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
@@ -94,7 +116,7 @@ class HTTPTransport {
         xhr.send(data);
       }
     });
-  };
+  }
 }
 
 export default HTTPTransport;
