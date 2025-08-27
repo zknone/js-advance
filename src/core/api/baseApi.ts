@@ -1,17 +1,14 @@
-class BaseAPI {
-  create() {
+abstract class BaseAPI {
+  abstract request(...args: any[]): Promise<unknown>;
+  create(): Promise<unknown> {
     throw new Error('Not implemented');
   }
 
-  request() {
+  update(): Promise<unknown> {
     throw new Error('Not implemented');
   }
 
-  update() {
-    throw new Error('Not implemented');
-  }
-
-  delete() {
+  delete(): Promise<unknown> {
     throw new Error('Not implemented');
   }
 }
