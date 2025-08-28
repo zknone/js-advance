@@ -1,5 +1,5 @@
 import HTTPTransport from '../../utils/fetch';
-import BaseAPI from './baseApi';
+import BaseAPI from './baseAPI';
 
 const chatAPIInstance = new HTTPTransport('api/v1/chats');
 

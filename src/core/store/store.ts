@@ -1,6 +1,8 @@
 import set from '../../utils/set';
 import EventBus from '../eventBus/EventBus';
 
+type Indexed = Record<string, unknown>;
+
 export enum StoreEvents {
   Updated = 'updated',
 }
@@ -18,4 +20,6 @@ class Store extends EventBus {
   }
 }
 
-export default Store;
+const store = new Store();
+
+export default store;
