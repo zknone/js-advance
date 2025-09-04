@@ -1,15 +1,22 @@
-export default function set(object: any, path: string, value: unknown) {
-  const keys = path.split('');
-  let current = object;
+import type { Indexed } from '../types/core';
+import merge from './merge';
 
-  keys.forEach((key, index) => {
-    if (index === key.length - 1) {
-      current[key] = value;
-    } else {
-      if (!current[key] || typeof current[key] !== 'object') {
-        current[key] = {};
-      }
-      current = current[key];
-    }
-  });
+function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
+  if (typeof object !== 'object' || object === null) {
+    return object;
+  }
+
+  if (typeof path !== 'string') {
+    throw new Error('path must be string');
+  }
+
+  const result = path.split('.').reduceRight<Indexed>(
+    (acc, key) => ({
+      [key]: acc,
+    }),
+    value as any
+  );
+  return merge(object as Indexed, result);
 }
+
+export default set;
