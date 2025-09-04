@@ -17,3 +17,16 @@ export interface Meta<T> {
   tagClassName: string;
   props: T;
 }
+
+export type Indexed<T = any> = {
+  [key in string]: T;
+};
+
+export type PlainObject<T = unknown> = {
+  [k in string]: T;
+};
+
+export interface Path {
+  pathname: string;
+  query: Record<string, string>;
+}
