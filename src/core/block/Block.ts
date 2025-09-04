@@ -2,8 +2,10 @@ import { v4 as makeUUID } from 'uuid';
 import EventBus from '../eventBus/EventBus';
 import type { AdditionalField, Meta, BlockBasics } from '../../types/core';
 import type { EventMap } from '../../types/chat';
+import GuardMethodResult from '../../utils/decorators/guardMethodResults';
+import GuardProperty from '../../utils/decorators/guardProperty';
 
-class Block<RawProps extends BlockBasics<AdditionalField>> {
+class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -73,21 +75,19 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     return this.props;
   }
 
+  @(GuardProperty<Block<RawProps>>()('__id', 'Id was not assigned'))
   getId() {
-    if (this.__id) {
-      return this.__id;
-    }
-    throw new Error('Айди не присвоен');
+    return this.__id!;
   }
 
+  @(GuardProperty<Block<RawProps>>()('_meta', "tagName wasn't found"))
   getTagName() {
-    if (!this._meta) throw new Error("tagName wasn't found");
-    return this._meta.tagName;
+    return this._meta!.tagName;
   }
 
+  @(GuardProperty<Block<RawProps>>()('_meta', "class tag name wasn't found"))
   getTagClassName() {
-    if (!this._meta) throw new Error("class tag name wasn't found");
-    return this._meta?.tagClassName;
+    return this._meta!.tagClassName;
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -116,20 +116,10 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     return { children, props };
   }
 
-  _notify(message: string) {
-    const meta = this._meta;
-
-    if (meta) {
-      const { tagName } = meta;
-      throw new Error(`${tagName}: ${message}`);
-    }
-  }
-
+  @(GuardProperty<Block<RawProps>>()('_meta', 'Block building: tags and props did not found'))
   _createResources() {
-    if (this._meta) {
-      const { tagName } = this._meta;
-      this._element = this._createDocumentElement(tagName);
-    } else this._notify('BLock building: tags and props did not found');
+    const { tagName } = this._meta!;
+    this._element = this._createDocumentElement(tagName);
   }
 
   init() {
@@ -307,28 +297,20 @@ class Block<RawProps extends BlockBasics<AdditionalField>> {
     return this._createDocumentElement(tagName);
   }
 
+  @(GuardMethodResult<Block<RawProps>>()('getContent', 'Nothing to show'))
   show() {
-    const element = this.getContent();
-
-    if (element) {
-      element.style.display = 'block';
-    } else this._notify('Nothing to show');
+    this.getContent()!.style.display = 'block';
   }
 
+  @(GuardMethodResult<Block<RawProps>>()('getContent', 'Nothing to hide'))
   hide() {
-    const element = this.getContent();
-
-    if (element) {
-      element.style.display = 'none';
-    } else this._notify('Nothing to hide');
+    this.getContent()!.style.display = 'none';
   }
 
+  @(GuardMethodResult<Block<RawProps>>()('getContent', 'Nothing to destroy'))
   destroy() {
     this._removeEvents();
-    const element = this.getContent();
-    if (element) {
-      element.remove();
-    } else this._notify('Nothing to destroy');
+    this.getContent()!.remove();
   }
 }
 
