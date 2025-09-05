@@ -1,11 +1,10 @@
 import type TemplateBlock from '../core/templateBlock/TemplateBlock';
-import type { Indexed } from '../types/core';
 
 const renderPage = <T extends Record<string, unknown>>(
   page: TemplateBlock<T>,
-  rootQuery: Indexed
+  rootQuery: string
 ) => {
-  const root = document.getElementById('app');
+  const root = document.querySelector(rootQuery);
   const content = page.getContent();
 
   if (root && content) {

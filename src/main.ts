@@ -1,4 +1,5 @@
 import { ROUTES } from './consts/routes';
+import Router from './core/routerEngine/router';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import { mainPageData } from './mocks/chat';
 import { loginFormData } from './mocks/login';
@@ -15,7 +16,6 @@ import NotFoundPage from './pages/notFoundPage/NotFoundPage';
 import ProfilePage from './pages/profilePage/ProfilePage';
 import './style.scss';
 import type { ProfileMods } from './types/chat';
-import renderPage from './utils/renderPage';
 
 import.meta.glob('./components/**/*.scss', {
   eager: true,
@@ -35,64 +35,35 @@ const pages = import.meta.glob('./pages/**/*.hbs', {
   eager: true,
 }) as Record<string, string>;
 
+const router = new Router('#app');
+
 TemplateEngine.init(templates, pages);
 
-const routes: Record<string, () => void> = {
-  [ROUTES.main]: () => {
-    const mainPage = new MainPage(mainPageData);
-    renderPage(mainPage);
-  },
-  [ROUTES.login]: () => {
-    const loginPage = new LoginPage(loginFormData);
-    renderPage(loginPage);
-  },
-  [ROUTES.signup]: () => {
-    const signupPage = new LoginPage(signupFormData);
-    renderPage(signupPage);
-  },
-  [ROUTES[404]]: () => {
-    const notFoundPage = new NotFoundPage({
-      customLink: {
-        text: 'Назад',
-        href: '/',
-      },
-    });
-
-    renderPage(notFoundPage);
-  },
-  [ROUTES[500]]: () => {
-    const loadingErrorPageItem = new LoadingErrorPage({
-      customLink: {
-        text: 'Назад',
-        href: '/',
-      },
-    });
-    renderPage(loadingErrorPageItem);
-  },
-  [ROUTES.profile]: () => {
-    const profilePage = new ProfilePage(baseProfileMocks);
-    renderPage(profilePage);
-  },
-  [ROUTES.profileEditPass]: () => {
-    const profilePage = new ProfilePage(profileInfoMockEditingPass);
-    renderPage(profilePage);
-  },
-  [ROUTES.profileEditCredentials]: () => {
-    const profilePage = new ProfilePage(profileInfoMockEditingCredentials);
-    renderPage(profilePage);
-  },
-  [ROUTES.profileEditAvatar]: () => {
-    const profileInfoMock = { ...baseProfileMocks, mode: 'edit' as ProfileMods };
-    const profilePage = new ProfilePage(profileInfoMock);
-    renderPage(profilePage);
-  },
-};
-
-function getPage() {
-  const pathRoute = location.pathname.trim().replace(/^\/|\/$/g, '');
-  return routes[pathRoute] || routes[ROUTES[404]];
-}
-
-window.addEventListener('popstate', () => getPage()());
-
-getPage()();
+router
+  .use({ pathname: ROUTES.main, query: {} }, MainPage, mainPageData)
+  .use({ pathname: ROUTES.login, query: {} }, LoginPage, loginFormData)
+  .use({ pathname: ROUTES.signup, query: {} }, LoginPage, signupFormData)
+  .use({ pathname: ROUTES[404], query: {} }, NotFoundPage, {
+    customLink: {
+      text: 'Назад',
+      href: '/',
+    },
+  })
+  .use({ pathname: ROUTES[500], query: {} }, LoadingErrorPage, {
+    customLink: {
+      text: 'Назад',
+      href: '/',
+    },
+  })
+  .use({ pathname: ROUTES.profile, query: {} }, ProfilePage, baseProfileMocks)
+  .use({ pathname: ROUTES.profileEditPass, query: {} }, ProfilePage, profileInfoMockEditingPass)
+  .use(
+    { pathname: ROUTES.profileEditCredentials, query: {} },
+    ProfilePage,
+    profileInfoMockEditingCredentials
+  )
+  .use({ pathname: ROUTES.profileEditAvatar, query: {} }, ProfilePage, {
+    ...baseProfileMocks,
+    mode: 'edit' as ProfileMods,
+  })
+  .start();

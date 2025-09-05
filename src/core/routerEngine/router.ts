@@ -1,62 +1,63 @@
-import type { Indexed, Path } from '../../types/core';
+import type { AdditionalField, Path } from '../../types/core';
+import type { PublicPageProps } from '../../types/pages';
 import GuardProperty from '../../utils/decorators/guardProperty';
 import parsePath from '../../utils/parsePath';
 import queryStringify from '../../utils/queryStringify';
 import type TemplatePage from '../templatePage/TemplatePage';
 import Route from './route';
 
+type BasePageProps = PublicPageProps & AdditionalField;
+
+type PageCtor<P extends BasePageProps = BasePageProps> = new (props: P) => TemplatePage<P>;
+
 class Router {
-  routes: Route[];
+  routes: Route<any>[];
 
   history: History;
 
   static __instance: Router | null = null;
 
-  private _currentRoute: Route | null | undefined;
+  private _currentRoute: Route<any> | null | undefined;
 
-  private _rootQuery: Indexed | undefined;
+  private _rootQuery: string;
 
-  constructor(rootQuery: Indexed) {
+  constructor(rootQuery: string) {
     this.routes = [];
     this.history = window.history;
     this._rootQuery = rootQuery;
   }
 
-  static getInstance(rootQuery: Indexed): Router {
+  static getInstance(rootQuery: string): Router {
     if (!Router.__instance) {
       Router.__instance = new Router(rootQuery);
     }
     return Router.__instance;
   }
 
-  use(pathname: Path, block: new () => TemplatePage<any>) {
-    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
+  use<P extends BasePageProps>(pathname: Path, View: PageCtor<P>, pageProps: P) {
+    const route = new Route<P>(pathname, View, {
+      rootQuery: this._rootQuery,
+      pageProps,
+    });
 
-    if (this.routes) {
-      this.routes.push(route);
-    }
-
+    this.routes.push(route as unknown as Route<any>);
     return this;
   }
 
   start() {
-    window.onpopstate = (event: Event) => {
-      const target = event.currentTarget as Window;
-      if (target) {
-        this._onRoute(parsePath(target.location.pathname));
+    window.onpopstate = (event: PopStateEvent) => {
+      if (event.state) {
+        this._onRoute(event.state as Path);
       } else {
-        throw new Error('Problem with routing');
+        this._onRoute(parsePath(window.location.pathname, window.location.search));
       }
     };
-
-    this._onRoute(parsePath(window.location.pathname));
+    this._onRoute(parsePath(window.location.pathname, window.location.search));
   }
 
   _onRoute(pathname: Path) {
     const route = this.getRoute(pathname);
-    if (!route) {
-      return;
-    }
+    if (!route) return;
 
     if (this._currentRoute && this._currentRoute !== route) {
       this._currentRoute.leave();
@@ -68,7 +69,9 @@ class Router {
 
   @(GuardProperty<Router>()('history', 'there is no history'))
   private pushState(pathname: Path) {
-    this.history!.pushState({}, '', `${pathname.pathname}/${queryStringify(pathname.query)}`);
+    const qs = queryStringify(pathname.query);
+    const url = qs ? `${pathname.pathname}?${qs}` : pathname.pathname;
+    this.history!.pushState(pathname, '', url);
   }
 
   go(pathname: Path) {

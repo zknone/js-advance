@@ -4,12 +4,12 @@ import BaseAPI from './baseAPI';
 const chatAPIInstance = new HTTPTransport('api/v1/chats');
 
 class ChatAPI extends BaseAPI {
-  create() {
+  static create(title: string) {
     return chatAPIInstance.post({
       url: '/',
       options: {
         data: {
-          title: 'string',
+          title,
         },
       },
     });

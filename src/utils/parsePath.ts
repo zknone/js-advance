@@ -5,12 +5,16 @@ interface ParsedPath {
   query: Record<string, string>;
 }
 
-function parsePath(path: string): ParsedPath {
+function parsePath(path: string, rawQuery: string): ParsedPath {
   const url = new URL(path, API_BASE_URL);
   const query: Record<string, string> = {};
-  url.searchParams.forEach((value, key) => {
-    query[key] = value;
-  });
+  if (rawQuery.startsWith('?')) {
+    const params = new URLSearchParams(rawQuery);
+
+    params.forEach((value, key) => {
+      query[key] = value;
+    });
+  }
 
   return {
     pathname: url.pathname,
