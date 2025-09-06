@@ -19,8 +19,8 @@ step-2 updated:
 🙈 404: [https://ws-chat-advance.netlify.app/404](https://ws-chat-advance.netlify.app/404)
 💥 500: [https://ws-chat-advance.netlify.app/500](https://ws-chat-advance.netlify.app/500)
 👤 Профиль: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile)
-👤 Измнение данных: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile/edit-credentials)
-👤 Измнение пароля: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile/edit-pass)
+👤 Измнение данных: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile?editing=credentials)
+👤 Измнение пароля: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile?editing=pass)
 👤 Измнение пароля: Модалка для измненения аватара вызывается по клику.
 
 ---
