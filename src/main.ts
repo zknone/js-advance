@@ -35,32 +35,10 @@ const router = new Router('#app');
 TemplateEngine.init(templates, pages);
 
 router
-  .use({ pathname: ROUTES.messenger }, MainPage, mainPageData)
   .use({ pathname: ROUTES.login }, LoginPage, loginFormData)
+  .use({ pathname: ROUTES.messenger }, MainPage, mainPageData)
   .use({ pathname: ROUTES.signup }, LoginPage, signupFormData)
   .use({ pathname: ROUTES[404] }, NotFoundPage)
   .use({ pathname: ROUTES[500] }, LoadingErrorPage)
   .use({ pathname: ROUTES.settings }, ProfilePage, baseProfileMocks)
   .start();
-
-document.addEventListener('click', (e) => {
-  const a = (e.target as HTMLElement).closest('a[href]') as HTMLAnchorElement | null;
-  if (!a) return;
-
-  const m = e as MouseEvent;
-  const isLeftClick = m.button === 0;
-  const hasMods = m.metaKey || m.ctrlKey || m.shiftKey || m.altKey;
-  if (!isLeftClick || hasMods || a.target === '_blank' || a.hasAttribute('download')) return;
-
-  const url = new URL(a.href, window.location.origin);
-  if (url.origin !== window.location.origin) return;
-
-  e.preventDefault();
-
-  const path = {
-    pathname: url.pathname,
-    query: Object.fromEntries(url.searchParams.entries()),
-  };
-
-  router.go(path);
-});

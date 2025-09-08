@@ -17,7 +17,6 @@ class ProfilePage extends TemplatePage<ProfilePageProps> {
   }
 
   protected gatherChildren() {
-    console.log('Query in ProfilePage:', this.props.query);
     this.children.profileInfo = new ProfileInfo(this.props);
   }
 }
