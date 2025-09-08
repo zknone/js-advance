@@ -13,7 +13,7 @@ interface RequestOptions extends AdditionalField {
   method?: HTTPMethod;
   timeout?: number;
   headers?: Record<string, string>;
-  data?: Record<string, string>;
+  data?: Record<string, unknown>;
 }
 
 interface FetchRequest {
@@ -21,7 +21,7 @@ interface FetchRequest {
   options?: RequestOptions;
 }
 
-function queryStringify(data: Record<string, string>) {
+function queryStringify(data: Record<string, unknown>) {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
   }

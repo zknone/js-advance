@@ -1,27 +1,76 @@
+import { API_BASE_URL, apiRoutes } from '../../consts/api';
 import HTTPTransport from '../../utils/fetch';
 import BaseAPI from './baseAPI';
+import type { ILogin, INewUser, IPassword, IProfile } from './interfaces';
 
-const chatAPIInstance = new HTTPTransport('api/v1/user');
+const chatAPIInstance = new HTTPTransport(API_BASE_URL);
 
 class UserAPI extends BaseAPI {
-  create() {
+  signUp(data: INewUser) {
     return chatAPIInstance.post({
-      url: '/',
+      url: apiRoutes.SIGNUP,
       options: {
-        data: {
-          name: 'string',
-        },
+        data,
+      },
+    });
+  }
+
+  signIn(data: ILogin) {
+    return chatAPIInstance.post({
+      url: apiRoutes.SIGNIN,
+      options: {
+        data,
       },
     });
   }
 
   request() {
-    return chatAPIInstance.get({ url: '/user' });
+    return chatAPIInstance.get({ url: apiRoutes.USER });
   }
 
-  static getUser(id: string) {
-    return chatAPIInstance.get({
-      url: `/${id}`,
+  getUser() {
+    this.request();
+  }
+
+  logOut() {
+    return chatAPIInstance.post({ url: apiRoutes.LOGOUT });
+  }
+
+  changeProfile(data: IProfile) {
+    return chatAPIInstance.put({
+      url: apiRoutes.CHANGE_PROFILE,
+      options: {
+        data,
+      },
+    });
+  }
+
+  changeProfileAvatar(avatar: any) {
+    return chatAPIInstance.put({
+      url: apiRoutes.CHANGE_AVATAR,
+      options: {
+        data: {
+          avatar,
+        },
+      },
+    });
+  }
+
+  changePassword(data: IPassword) {
+    return chatAPIInstance.put({
+      url: apiRoutes.CHANGE_PASSWORD,
+      options: {
+        data,
+      },
+    });
+  }
+
+  findUser(login: string) {
+    return chatAPIInstance.put({
+      url: apiRoutes.FIND_USER,
+      options: {
+        data: { login },
+      },
     });
   }
 }

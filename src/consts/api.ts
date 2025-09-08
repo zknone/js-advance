@@ -3,7 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const apiRoutes = {
   SIGNUP: '/auth/signup',
   SIGNIN: '/auth/signin',
-  LOGIN: '/auth/user',
+  USER: '/auth/user',
   LOGOUT: '/auth/logout',
 
   CHANGE_PROFILE: '/user/profile',
@@ -12,12 +12,12 @@ const apiRoutes = {
   GET_USER: '/user/:id',
   FIND_USER: '/user/search',
 
-  GET_CHATS: '/chats',
-  GET_USERS: '/chats/:id/users',
-  GET_NEW_CHAT: '/chats/new/:id',
+  CHATS: '/chats',
+  CHATS_ARCHIVE: '/chats/archive',
+  CHATS_UNARCHIVE: '/chats/unarchive',
   ADD_CHAT_AVATAR: '/chats/avatar',
-  CHANGE_USERS: '/chats/users',
-  DELETE_USERS: '/chats/users',
+  CHAT_USERS: '/chats/users',
+  GET_CHAT_USERS: '/chats/token',
 };
 
 export { API_BASE_URL, apiRoutes };
