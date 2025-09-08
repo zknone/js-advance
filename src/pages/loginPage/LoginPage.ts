@@ -1,10 +1,9 @@
 import CustomForm from '../../components/customForm/CustomForm';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import type { CustomFormProps } from '../../types/chat';
-import { PAGE } from '../../types/pages';
+import { PAGE, type LoginPageFormProps } from '../../types/pages';
 
-class LoginPage extends TemplatePage<CustomFormProps> {
-  constructor(props: CustomFormProps) {
+class LoginPage extends TemplatePage<LoginPageFormProps> {
+  constructor(props: LoginPageFormProps) {
     super({
       ...props,
       page: PAGE.LOGIN,

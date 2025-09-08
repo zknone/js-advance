@@ -1,3 +1,4 @@
+import { ROUTES } from '../../consts/routes';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { CustomButtonProps, ProfileInfoModeProps } from '../../types/chat';
 import CustomButton from '../customButton/CustomButton';
@@ -32,7 +33,7 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
         text: 'Изменить данные',
         type: 'button',
         variant: 'link',
-        href: '/profile/edit-credentials',
+        href: `${ROUTES.settings}?editing=credentials`,
         settings: {
           withInternalID: false,
         },
@@ -41,7 +42,7 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
         text: 'Изменить пароль',
         type: 'button',
         variant: 'link',
-        href: '/profile/edit-pass',
+        href: `${ROUTES.settings}?editing=pass`,
         settings: {
           withInternalID: false,
         },

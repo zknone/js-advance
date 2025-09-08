@@ -28,5 +28,5 @@ export type PlainObject<T = unknown> = {
 
 export interface Path {
   pathname: string;
-  query: Record<string, string>;
+  query?: Record<string, string>;
 }

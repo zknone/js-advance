@@ -1,7 +1,9 @@
 import type {
   ChatItemProps,
   ChatMenuProps,
+  CustomButtonProps,
   CustomLinkProps,
+  InputItemProps,
   MessageItemProps,
   MessageQuillProps,
   SearchProps,
@@ -34,4 +36,11 @@ export interface MainPageProps extends AdditionalField {
   chatList: ChatItemProps[];
   messageList: MessageItemProps[];
   messageQuill: MessageQuillProps;
+}
+
+export interface LoginPageFormProps extends AdditionalField {
+  title: string;
+  customButton: CustomButtonProps;
+  inputFields: InputItemProps[];
+  customLink: CustomLinkProps;
 }

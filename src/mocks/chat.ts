@@ -1,3 +1,4 @@
+import { ROUTES } from '../consts/routes';
 import type { MainPageProps } from '../types/pages';
 
 export const mainPageData: MainPageProps = {
@@ -95,7 +96,7 @@ export const mainPageData: MainPageProps = {
   ],
   customLink: {
     text: 'Профиль',
-    href: '/profile',
+    href: ROUTES.settings,
   },
   search: {},
   chatMenu: {

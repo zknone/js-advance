@@ -12,10 +12,6 @@ const renderPage = <T extends Record<string, unknown>>(
     root.appendChild(content);
   }
 
-  if (typeof (page as any).setProps === 'function') {
-    (page as any).setProps(rootQuery);
-  }
-
   page.dispatchComponentDidMount();
 };
 

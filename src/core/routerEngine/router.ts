@@ -1,14 +1,11 @@
 import type { AdditionalField, Path } from '../../types/core';
-import type { PublicPageProps } from '../../types/pages';
 import GuardProperty from '../../utils/decorators/guardProperty';
 import parsePath from '../../utils/parsePath';
 import queryStringify from '../../utils/queryStringify';
 import type TemplatePage from '../templatePage/TemplatePage';
 import Route from './route';
 
-type BasePageProps = PublicPageProps & AdditionalField;
-
-type PageCtor<P extends BasePageProps = BasePageProps> = new (props: P) => TemplatePage<P>;
+type PageCtor<P extends AdditionalField = AdditionalField> = new (props: P) => TemplatePage<P>;
 
 class Router {
   routes: Route<any>[];
@@ -34,7 +31,7 @@ class Router {
     return Router.__instance;
   }
 
-  use<P extends BasePageProps>(pathname: Path, View: PageCtor<P>, pageProps: P) {
+  use<P extends AdditionalField>(pathname: Path, View: PageCtor<P>, pageProps?: P | undefined) {
     const route = new Route<P>(pathname, View, {
       rootQuery: this._rootQuery,
       pageProps,
@@ -68,10 +65,10 @@ class Router {
   }
 
   @(GuardProperty<Router>()('history', 'there is no history'))
-  private pushState(pathname: Path) {
-    const qs = queryStringify(pathname.query);
-    const url = qs ? `${pathname.pathname}?${qs}` : pathname.pathname;
-    this.history!.pushState(pathname, '', url);
+  private pushState(path: Path) {
+    const qs = path.query ? queryStringify(path.query) : undefined;
+    const url = qs ? `${path.pathname}?${qs}` : path.pathname;
+    this.history.pushState(path, '', url);
   }
 
   go(pathname: Path) {
