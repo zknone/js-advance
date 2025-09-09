@@ -31,7 +31,7 @@ class UserController {
   @withStoreStatus('Ошибка разлогирования')
   async logOut() {
     await userAPI.logOut();
-    await store.set('auth.user', null);
+    store.set('auth.user', null);
   }
 
   @withStoreStatus('Ошибка смены данных')
@@ -53,7 +53,8 @@ class UserController {
 
   @withStoreStatus('Юзер не найден')
   async findUser(login: string) {
-    await userAPI.findUser(login);
+    const foundUsers = await userAPI.findUser(login);
+    store.set('foundUsers', foundUsers);
   }
 }
 

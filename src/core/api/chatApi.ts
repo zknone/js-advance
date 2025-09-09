@@ -3,7 +3,7 @@ import HTTPTransport from '../../utils/fetch';
 import BaseAPI from './baseAPI';
 
 const chatApiInstance = new HTTPTransport(API_BASE_URL);
-class ChatMessagesAPI extends BaseAPI {
+class ChatApi extends BaseAPI {
   request() {
     return chatApiInstance.get({
       url: apiRoutes.CHATS,
@@ -14,9 +14,12 @@ class ChatMessagesAPI extends BaseAPI {
     return this.request();
   }
 
-  createNewChat() {
+  createNewChat(title: string) {
     return chatApiInstance.post({
       url: apiRoutes.CHATS,
+      options: {
+        data: { title },
+      },
     });
   }
 
@@ -109,7 +112,7 @@ class ChatMessagesAPI extends BaseAPI {
     });
   }
 
-  removeUsersToChat({ users, chatId }: { users: number[]; chatId: number }) {
+  removeUsersFromChat({ users, chatId }: { users: number[]; chatId: number }) {
     return chatApiInstance.delete({
       url: apiRoutes.CHAT_USERS,
       options: {
@@ -129,4 +132,4 @@ class ChatMessagesAPI extends BaseAPI {
   }
 }
 
-export default ChatMessagesAPI;
+export default ChatApi;
