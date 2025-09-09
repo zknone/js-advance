@@ -5,18 +5,24 @@ import MessageList from '../../components/messageList/MessageList';
 import MessageQuill from '../../components/messageQuill/MessageQuill';
 import Search from '../../components/search/Search';
 import TemplatePage from '../../core/templatePage/TemplatePage';
+import { mainPageData } from '../../mocks/chat';
 import { PAGE, type MainPageProps } from '../../types/pages';
 
 class MainPage extends TemplatePage<MainPageProps> {
-  constructor(props: MainPageProps) {
+  constructor() {
     super({
-      ...props,
       page: PAGE.MAIN,
       settings: {
         withInternalID: true,
       },
       tagName: 'section',
       tagClassName: 'main-page',
+      customLink: mainPageData.customLink,
+      search: mainPageData.search,
+      chatMenu: mainPageData.chatMenu,
+      chatList: mainPageData.chatList,
+      messageList: mainPageData.messageList,
+      messageQuill: mainPageData.messageQuill,
     });
   }
 

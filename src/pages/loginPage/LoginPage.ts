@@ -1,23 +1,45 @@
 import CustomForm from '../../components/customForm/CustomForm';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import { PAGE, type LoginPageFormProps } from '../../types/pages';
+import { loginFormData } from '../../mocks/login';
+import type { CustomFormProps } from '../../types/chat';
+import type { AdditionalField, BlockBasics } from '../../types/core';
+import { PAGE } from '../../types/pages';
+import getDataFromInputs from '../../utils/getDataFromInputs';
+import userController from '../../controllers/user/userController';
+import type { ILogin } from '../../core/api/interfaces';
 
-class LoginPage extends TemplatePage<LoginPageFormProps> {
-  constructor(props: LoginPageFormProps) {
+interface ILoginPageProps extends BlockBasics<AdditionalField> {
+  customForm: CustomFormProps;
+}
+
+const tagClassName = 'login-page';
+const insideFormClassName = 'custom-form';
+
+class LoginPage extends TemplatePage<ILoginPageProps> {
+  constructor() {
     super({
-      ...props,
       page: PAGE.LOGIN,
       settings: {
         withInternalID: true,
       },
       tagName: 'div',
-      tagClassName: 'login-page',
+      tagClassName,
+      customForm: loginFormData,
     });
   }
 
   protected gatherChildren() {
     this.children.customForm = new CustomForm({
-      ...this.props,
+      ...this.props.customForm,
+      events: {
+        submit: {
+          handler: (e: Event) => {
+            e.preventDefault();
+            const data = getDataFromInputs(insideFormClassName);
+            userController.signIn(data as ILogin);
+          },
+        },
+      },
       settings: { withInternalID: true },
     });
   }
