@@ -1,3 +1,4 @@
+import type { Listener, StoreListener } from '../../types/core';
 import set from '../../utils/set';
 import EventBus from '../eventBus/EventBus';
 
@@ -17,6 +18,22 @@ class Store extends EventBus {
   public set(path: string, value: unknown) {
     set(this.state, path, value);
     this.emit(StoreEvents.Updated);
+  }
+
+  public subscribe(callback: StoreListener) {
+    const handler: Listener = (state: unknown) => {
+      callback(state as Indexed);
+    };
+    this.on(StoreEvents.Updated, handler);
+    return () => this.off(StoreEvents.Updated, handler);
+  }
+
+  public unsubscribe(callback: StoreListener) {
+    const handler: Listener = (state: unknown) => {
+      callback(state as Indexed);
+    };
+
+    this.off(StoreEvents.Updated, handler);
   }
 }
 

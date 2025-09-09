@@ -29,7 +29,7 @@ class UserAPI extends BaseAPI {
   }
 
   getUser() {
-    this.request();
+    return this.request();
   }
 
   logOut() {

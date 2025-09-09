@@ -30,3 +30,7 @@ export interface Path {
   pathname: string;
   query?: Record<string, string>;
 }
+
+export type Listener<T = unknown> = (...args: T[]) => void;
+
+export type StoreListener = (state: Record<string, unknown>) => void;

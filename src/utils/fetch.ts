@@ -64,7 +64,7 @@ class HTTPTransport {
 
   put(request: FetchRequest) {
     const { url, options } = request;
-    this.request(
+    return this.request(
       getFullUrl(this.baseUrl, url),
       { ...options, method: METHODS.PUT },
       options?.timeout
@@ -73,14 +73,18 @@ class HTTPTransport {
 
   delete(request: FetchRequest) {
     const { url, options } = request;
-    this.request(
+    return this.request(
       getFullUrl(this.baseUrl, url),
       { ...options, method: METHODS.DELETE },
       options?.timeout
     );
   }
 
-  request(fullUrl: string, options: RequestOptions = {} as RequestOptions, timeout = 5000) {
+  request(
+    fullUrl: string,
+    options: RequestOptions = {} as RequestOptions,
+    timeout = 5000
+  ): Promise<XMLHttpRequest> {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
