@@ -1,28 +1,34 @@
 import type { Listener, StoreListener } from '../../types/core';
+import type { IStore } from '../../types/store';
 import set from '../../utils/set';
 import EventBus from '../eventBus/EventBus';
-
-type Indexed = Record<string, unknown>;
 
 export enum StoreEvents {
   Updated = 'updated',
 }
 
 class Store extends EventBus {
-  private state: Indexed = {};
+  private state: IStore = {
+    auth: {
+      error: null,
+      loading: false,
+    },
+    user: null,
+  };
 
   public getState() {
     return this.state;
   }
 
   public set(path: string, value: unknown) {
-    set(this.state, path, value);
-    this.emit(StoreEvents.Updated);
+    this.state = set<IStore>(this.state, path, value);
+    this.emit(StoreEvents.Updated, this.state);
   }
 
   public subscribe(callback: StoreListener) {
+    callback(this.getState());
     const handler: Listener = (state: unknown) => {
-      callback(state as Indexed);
+      callback(state as IStore);
     };
     this.on(StoreEvents.Updated, handler);
     return () => this.off(StoreEvents.Updated, handler);
@@ -30,7 +36,7 @@ class Store extends EventBus {
 
   public unsubscribe(callback: StoreListener) {
     const handler: Listener = (state: unknown) => {
-      callback(state as Indexed);
+      callback(state as IStore);
     };
 
     this.off(StoreEvents.Updated, handler);

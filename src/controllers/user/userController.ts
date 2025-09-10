@@ -1,37 +1,48 @@
 import store from '../../core/store/store';
-import Router from '../../core/routerEngine/router';
 import UserAPI from '../../core/api/userAPI';
-import type { ILogin, INewUser, IPassword, IProfile } from '../../core/api/interfaces';
+import type {
+  IApiError,
+  ILogin,
+  INewUser,
+  INewUserResponse,
+  IPassword,
+  IProfile,
+} from '../../core/api/interfaces';
 import { ROUTES } from '../../consts/routes';
 import withStoreStatus from '../../utils/decorators/withStoreStatus';
+import router from '../../core/routerEngine/router';
 
 const userAPI = new UserAPI();
 
-const router = new Router('#app');
-
 class UserController {
   async fetchMe() {
-    const xhr = await userAPI.getUser();
-    const user = JSON.parse(xhr.response);
-    store.set('auth.user', user);
+    const user = await userAPI.getUser();
+    store.set('user', user);
   }
 
   @withStoreStatus('Ошибка создания юзера', () => router.go({ pathname: ROUTES.login }))
   async signUp(data: INewUser) {
-    await userAPI.signUp(data);
+    (await userAPI.signUp(data)) as unknown as INewUserResponse;
     await this.fetchMe();
   }
 
   @withStoreStatus('Ошибка логирования', () => router.go({ pathname: ROUTES.messenger }))
   async signIn(data: ILogin) {
-    await userAPI.signIn(data);
-    await this.fetchMe();
+    try {
+      await userAPI.signIn(data);
+      await this.fetchMe();
+    } catch (err) {
+      const error = err as IApiError;
+      if (error.reason === 'User already in system') {
+        await this.fetchMe();
+      }
+    }
   }
 
   @withStoreStatus('Ошибка разлогирования')
   async logOut() {
     await userAPI.logOut();
-    store.set('auth.user', null);
+    store.set('user', null);
   }
 
   @withStoreStatus('Ошибка смены данных')

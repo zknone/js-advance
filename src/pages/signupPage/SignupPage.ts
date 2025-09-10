@@ -13,7 +13,7 @@ interface SignupPageProps extends BlockBasics<AdditionalField> {
 }
 
 const tagClassName = 'signup-page';
-const insideFormClassName = '.custom-form';
+const insideFormClassName = 'custom-form';
 
 class SignupPage extends TemplatePage<SignupPageProps> {
   constructor() {
@@ -36,9 +36,6 @@ class SignupPage extends TemplatePage<SignupPageProps> {
           handler: (e: Event) => {
             e.preventDefault();
             const data = getDataFromInputs(insideFormClassName);
-
-            // добавить верификацию
-            console.log(data);
             userController.signUp(data as INewUser);
           },
         },

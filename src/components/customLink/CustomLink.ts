@@ -1,3 +1,4 @@
+import router from '../../core/routerEngine/router';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { CustomLinkProps } from '../../types/chat';
 
@@ -20,6 +21,14 @@ class CustomLink extends TemplateBlock<CustomLinkProps> {
         ...props,
         settings: {
           withInternalID: true,
+        },
+        events: {
+          click: {
+            handler(e: Event) {
+              e.preventDefault();
+              router.go({ pathname: props.href });
+            },
+          },
         },
       },
       tagName,

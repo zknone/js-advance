@@ -54,6 +54,7 @@ class Route<P extends AdditionalField = AdditionalField> {
       renderPage(this._block, this._rootQuery);
       return;
     }
+    renderPage(this._block, this._rootQuery);
     this._block.show();
   }
 }

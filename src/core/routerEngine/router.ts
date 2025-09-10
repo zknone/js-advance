@@ -1,7 +1,9 @@
+import { ROUTES } from '../../consts/routes';
 import type { AdditionalField, Path } from '../../types/core';
 import GuardProperty from '../../utils/decorators/guardProperty';
 import parsePath from '../../utils/parsePath';
 import queryStringify from '../../utils/queryStringify';
+import store from '../store/store';
 import type TemplatePage from '../templatePage/TemplatePage';
 import Route from './route';
 
@@ -72,6 +74,18 @@ class Router {
   }
 
   go(pathname: Path) {
+    const isProtected = pathname.protected ?? false;
+    const isLoggedIn = Boolean(store.getState()?.user);
+
+    if (isProtected && !isLoggedIn) {
+      this.go({ pathname: ROUTES.login });
+      return;
+    }
+
+    if ((pathname.pathname === ROUTES.login || pathname.pathname === ROUTES.signup) && isLoggedIn) {
+      this.go({ pathname: ROUTES.messenger });
+      return;
+    }
     this.pushState(pathname);
     this._onRoute(pathname);
   }
@@ -92,4 +106,6 @@ class Router {
   }
 }
 
-export default Router;
+const router = new Router('#app');
+
+export default router;

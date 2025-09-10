@@ -299,6 +299,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
 
   @(GuardMethodResult<Block<RawProps>>()('getContent', 'Nothing to show'))
   show() {
+    console.log('какой контент показываем', this.getContent());
     this.getContent()!.style.display = 'flex';
   }
 

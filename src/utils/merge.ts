@@ -1,6 +1,6 @@
 import type { Indexed } from '../types/core';
 
-function merge(lhs: Indexed, rhs: Indexed): Indexed {
+function merge<T extends Indexed>(lhs: T, rhs: T): T {
   return Object.keys(rhs).reduce(
     (acc, key) => {
       if (!Object.prototype.hasOwnProperty.call(rhs, key)) {
@@ -16,7 +16,7 @@ function merge(lhs: Indexed, rhs: Indexed): Indexed {
       if (isSourceObject) {
         return {
           ...acc,
-          [key]: merge((lhsValue as Indexed) || {}, rhsValue as Indexed),
+          [key]: merge((lhsValue as T) || {}, rhsValue as T),
         };
       }
 

@@ -1,12 +1,11 @@
 import ProfileInfo from '../../components/profileInfo/ProfileInfo';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import type { ProfilePageProps } from '../../types/chat';
+import type { AdditionalField } from '../../types/core';
 import { PAGE } from '../../types/pages';
 
-class ProfilePage extends TemplatePage<ProfilePageProps> {
-  constructor(props: ProfilePageProps) {
+class ProfilePage extends TemplatePage<AdditionalField> {
+  constructor() {
     super({
-      ...props,
       page: PAGE.PROFILE,
       settings: {
         withInternalID: true,

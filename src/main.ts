@@ -1,8 +1,6 @@
 import { ROUTES } from './consts/routes';
-import Router from './core/routerEngine/router';
-import store from './core/store/store';
+import router from './core/routerEngine/router';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
-import { baseProfileMocks } from './mocks/profile';
 import LoadingErrorPage from './pages/loadingErrorPage/LoadingErrorPage';
 import LoginPage from './pages/loginPage/LoginPage';
 import MainPage from './pages/mainPage/mainPage';
@@ -29,17 +27,13 @@ const pages = import.meta.glob('./pages/**/*.hbs', {
   eager: true,
 }) as Record<string, string>;
 
-const router = new Router('#app');
-
 TemplateEngine.init(templates, pages);
-
-store.subscribe(() => {});
 
 router
   .use({ pathname: ROUTES.login }, LoginPage)
-  .use({ pathname: ROUTES.messenger }, MainPage)
+  .use({ pathname: ROUTES.messenger, protected: true }, MainPage)
   .use({ pathname: ROUTES.signup }, SignupPage)
   .use({ pathname: ROUTES[404] }, NotFoundPage)
   .use({ pathname: ROUTES[500] }, LoadingErrorPage)
-  .use({ pathname: ROUTES.settings }, ProfilePage, baseProfileMocks)
+  .use({ pathname: ROUTES.settings, protected: true }, ProfilePage)
   .start();

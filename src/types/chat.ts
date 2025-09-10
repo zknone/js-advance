@@ -148,9 +148,9 @@ export interface AvatarCfg {
 export interface InfoFieldProps extends BlockBasics<AdditionalField> {
   label: string;
   type?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
-  value: string;
+  value: string | null;
   error: string | null;
 }
 

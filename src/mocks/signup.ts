@@ -84,6 +84,7 @@ const signupFormData: CustomFormProps = {
   },
   customButton: {
     text: 'Зарегистрироваться',
+    type: 'submit',
   },
 };
 

@@ -37,6 +37,10 @@ function getFullUrl(baseUrl: string, url: string) {
   return `${baseUrl}${url}`;
 }
 
+interface ApiError {
+  reason: string;
+}
+
 class HTTPTransport {
   baseUrl: string;
 
@@ -44,47 +48,47 @@ class HTTPTransport {
     this.baseUrl = baseUrl;
   }
 
-  get(request: FetchRequest) {
+  get<T>(request: FetchRequest) {
     const { url, options } = request;
-    return this.request(
+    return this.request<T>(
       getFullUrl(this.baseUrl, url),
       { ...options, method: METHODS.GET },
       options?.timeout
     );
   }
 
-  post(request: FetchRequest) {
+  post<T>(request: FetchRequest) {
     const { url, options } = request;
-    return this.request(
+    return this.request<T>(
       getFullUrl(this.baseUrl, url),
       { ...options, method: METHODS.POST },
       options?.timeout
     );
   }
 
-  put(request: FetchRequest) {
+  put<T>(request: FetchRequest) {
     const { url, options } = request;
-    return this.request(
+    return this.request<T>(
       getFullUrl(this.baseUrl, url),
       { ...options, method: METHODS.PUT },
       options?.timeout
     );
   }
 
-  delete(request: FetchRequest) {
+  delete<T>(request: FetchRequest) {
     const { url, options } = request;
-    return this.request(
+    return this.request<T>(
       getFullUrl(this.baseUrl, url),
       { ...options, method: METHODS.DELETE },
       options?.timeout
     );
   }
 
-  request(
+  request<T = unknown>(
     fullUrl: string,
     options: RequestOptions = {} as RequestOptions,
     timeout = 5000
-  ): Promise<XMLHttpRequest> {
+  ): Promise<T> {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
@@ -96,18 +100,28 @@ class HTTPTransport {
       const isGet = method === METHODS.GET;
 
       xhr.open(method, isGet && !!data ? `${fullUrl}${queryStringify(data)}` : fullUrl);
+      xhr.withCredentials = true;
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
       });
 
       xhr.onload = function onLoadHandler() {
-        resolve(xhr);
+        const contentType = xhr.getResponseHeader('Content-Type') ?? '';
+        const isJson = contentType.includes('application/json');
+
+        const response = isJson ? JSON.parse(xhr.responseText) : xhr.responseText;
+
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(response as T);
+        } else {
+          // eslint-disable-next-line prefer-promise-reject-errors
+          reject(response as ApiError);
+        }
       };
 
       xhr.onabort = reject;
       xhr.onerror = reject;
-
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 

@@ -15,7 +15,7 @@ class UserAPI extends BaseAPI {
     });
   }
 
-  signIn(data: ILogin) {
+  signIn(data: ILogin): Promise<{ id: number }> {
     return chatAPIInstance.post({
       url: apiRoutes.SIGNIN,
       options: {

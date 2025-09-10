@@ -1,5 +1,6 @@
 import type Block from '../core/block/Block';
 import type { EventMap } from './chat';
+import type { IStore } from './store';
 
 export type AdditionalField = Record<string, unknown>;
 
@@ -29,8 +30,9 @@ export type PlainObject<T = unknown> = {
 export interface Path {
   pathname: string;
   query?: Record<string, string>;
+  protected?: boolean;
 }
 
 export type Listener<T = unknown> = (...args: T[]) => void;
 
-export type StoreListener = (state: Record<string, unknown>) => void;
+export type StoreListener = (state: IStore) => void;

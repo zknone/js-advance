@@ -9,6 +9,10 @@ interface INewUser extends AdditionalField {
   phone: string;
 }
 
+interface INewUserResponse extends AdditionalField {
+  id: number;
+}
+
 interface ILogin extends AdditionalField {
   login: string;
   password: string;
@@ -18,10 +22,10 @@ interface ILoggedUser extends AdditionalField {
   id: number;
   first_name: string;
   second_name: string;
-  display_name: string;
+  display_name: string | null;
   phone: string;
   login: string;
-  avatar: string;
+  avatar: string | null;
   email: string;
 }
 
@@ -38,4 +42,8 @@ interface IPassword extends AdditionalField {
   oldPassword: string;
   newPassword: string;
 }
-export type { INewUser, ILogin, ILoggedUser, IProfile, IPassword };
+
+interface IApiError {
+  reason: string;
+}
+export type { INewUser, ILogin, ILoggedUser, IProfile, IPassword, INewUserResponse, IApiError };
