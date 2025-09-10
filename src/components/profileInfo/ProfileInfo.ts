@@ -1,9 +1,11 @@
-import type { ILoggedUser } from '../../core/api/interfaces';
+import userController from '../../controllers/user/userController';
+import type { ILoggedUser, IPassword, IProfile } from '../../core/api/interfaces';
 import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import { baseFields } from '../../mocks/profile';
+import { baseFields, basePasswordFields } from '../../mocks/profile';
 import type { ProfileInfoProps, ProfilePageProps } from '../../types/chat';
 import type { IStore } from '../../types/store';
+import getDataFromInputs from '../../utils/getDataFromInputs';
 import ModalItem from '../modalItem/ModalItem';
 import ProfileInfoEdit from '../profileInfoEdit/ProfileInfoEdit';
 import ProfileInfoView from '../profileInfoView/ProfileInfoView';
@@ -63,12 +65,25 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
 
     const { modalItem } = this.props;
 
+    const isPass = mode === 'pass';
+
     if (modalItem) {
       this.children.modalItem = new ModalItem(modalItem);
     }
 
-    const formProps =
-      mode === 'credentials' ? this.props : { ...this.props, infoFields: baseFields };
+    const handleChangeProfile = () => {
+      console.log('132');
+      const data = getDataFromInputs('profile-info-form');
+      if (isPass) {
+        userController.changePassword(data as IPassword);
+      } else {
+        userController.changeProfile(data as IProfile);
+      }
+    };
+
+    const formProps = !isPass
+      ? { ...this.props, onSubmit: handleChangeProfile }
+      : { ...this.props, infoFields: basePasswordFields, onSubmit: handleChangeProfile };
 
     this.children.infoFields = mode
       ? new ProfileInfoEdit(formProps)

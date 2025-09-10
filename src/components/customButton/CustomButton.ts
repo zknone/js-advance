@@ -42,7 +42,6 @@ class CustomButton extends TemplateBlock<CustomButtonProps> {
         if (onClick) {
           onClick();
         }
-        console.log({ path });
         router.go(path);
       } else if (onClick) {
         onClick();

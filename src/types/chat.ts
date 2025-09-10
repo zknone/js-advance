@@ -1,3 +1,4 @@
+import type { IPassword, IProfile } from '../core/api/interfaces';
 import type { AdditionalField, BlockBasics, Path } from './core';
 
 export type EventHandler = (e: Event) => void;
@@ -159,6 +160,7 @@ export interface InfoFieldProps extends BlockBasics<AdditionalField> {
 export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
   button?: CustomButtonProps;
+  onSubmit?: () => void;
 }
 
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
