@@ -56,7 +56,23 @@ class Router {
 
   _onRoute(pathname: Path) {
     const route = this.getRoute(pathname);
-    if (!route) return;
+    if (!route) {
+      this.go({ pathname: ROUTES[404] });
+      return;
+    }
+
+    const isProtected = route.isProtected() ?? false;
+    const isLoggedIn = Boolean(store.getState()?.user);
+
+    if (isProtected && !isLoggedIn) {
+      this.go({ pathname: ROUTES.login });
+      return;
+    }
+
+    if ((pathname.pathname === ROUTES.login || pathname.pathname === ROUTES.signup) && isLoggedIn) {
+      this.go({ pathname: ROUTES.messenger });
+      return;
+    }
 
     if (this._currentRoute && this._currentRoute !== route) {
       this._currentRoute.leave();
@@ -74,20 +90,6 @@ class Router {
   }
 
   go(pathname: Path) {
-    const isProtected = pathname.protected ?? false;
-    const isLoggedIn = Boolean(store.getState()?.user);
-
-    console.log('статус логирования', isLoggedIn, store.getState());
-
-    if (isProtected && !isLoggedIn) {
-      this.go({ pathname: ROUTES.login });
-      return;
-    }
-
-    if ((pathname.pathname === ROUTES.login || pathname.pathname === ROUTES.signup) && isLoggedIn) {
-      this.go({ pathname: ROUTES.messenger });
-      return;
-    }
     this.pushState(pathname);
     this._onRoute(pathname);
   }

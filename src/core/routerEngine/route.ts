@@ -30,11 +30,12 @@ class Route<P extends AdditionalField = AdditionalField> {
 
   navigate(pathname: Path) {
     if (this.match(pathname)) {
-      console.log(this._pathname.pathname);
-      console.log(pathname);
-      // this._pathname.pathname = pathname.pathname;
       this.render(pathname.query);
     }
+  }
+
+  isProtected() {
+    return this._pathname.protected;
   }
 
   leave() {
