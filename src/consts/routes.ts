@@ -1,6 +1,6 @@
 const ROUTES = {
   messenger: '/messenger',
-  login: '/login',
+  login: '/',
   signup: '/signup',
   404: '/404',
   500: '/500',

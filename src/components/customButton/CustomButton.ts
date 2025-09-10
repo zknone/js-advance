@@ -1,3 +1,4 @@
+import router from '../../core/routerEngine/router';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ButtonVariants, Colors, CustomButtonProps } from '../../types/chat';
 
@@ -34,7 +35,32 @@ class CustomButton extends TemplateBlock<CustomButtonProps> {
     const tagName = variant === 'link' ? 'a' : 'button';
     const tagClassName = `custom-button ${color ? additionalColorClasses[color] : ''}  ${variant ? additionalVariantClasses[variant] : ''}`;
 
-    super('customButton', resultedProps, tagName, tagClassName);
+    const clickHandler = (e: Event) => {
+      const { path, onClick } = resultedProps;
+      if (path && variant === 'link') {
+        e.preventDefault();
+        if (onClick) {
+          onClick();
+        }
+        console.log({ path });
+        router.go(path);
+      } else if (onClick) {
+        onClick();
+      }
+    };
+
+    super(
+      'customButton',
+      {
+        ...resultedProps,
+        events: {
+          ...(resultedProps.events ?? {}),
+          click: { handler: clickHandler },
+        },
+      },
+      tagName,
+      tagClassName
+    );
   }
 
   render() {

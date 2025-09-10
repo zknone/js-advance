@@ -1,4 +1,4 @@
-import type { Path, AdditionalField } from '../../types/core';
+import type { Path, AdditionalField, Indexed } from '../../types/core';
 import isEqual from '../../utils/isEqual';
 import renderPage from '../../utils/renderPage';
 import type TemplatePage from '../templatePage/TemplatePage';
@@ -30,7 +30,9 @@ class Route<P extends AdditionalField = AdditionalField> {
 
   navigate(pathname: Path) {
     if (this.match(pathname)) {
-      this._pathname.pathname = pathname.pathname;
+      console.log(this._pathname.pathname);
+      console.log(pathname);
+      // this._pathname.pathname = pathname.pathname;
       this.render(pathname.query);
     }
   }
@@ -43,16 +45,23 @@ class Route<P extends AdditionalField = AdditionalField> {
     return isEqual(pathname.pathname, this._pathname.pathname);
   }
 
-  render(query?: Record<string, string>) {
-    const props = {
-      ...this._pageProps,
-      query,
-    } as unknown as P;
+  render(query?: Indexed) {
+    console.log({ query });
 
     if (!this._block) {
+      const props = {
+        ...this._pageProps,
+        query,
+      } as unknown as P;
       this._block = new this._blockClass(props);
       renderPage(this._block, this._rootQuery);
       return;
+    }
+
+    console.log('блок уже есть', this._block, { query });
+    if (query) {
+      console.log('передаем квери в просы', query);
+      this._block.addQuery(query);
     }
     renderPage(this._block, this._rootQuery);
     this._block.show();

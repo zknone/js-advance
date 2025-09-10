@@ -63,7 +63,7 @@ class Router {
     }
 
     this._currentRoute = route;
-    route.render();
+    route.navigate(pathname);
   }
 
   @(GuardProperty<Router>()('history', 'there is no history'))
@@ -76,6 +76,8 @@ class Router {
   go(pathname: Path) {
     const isProtected = pathname.protected ?? false;
     const isLoggedIn = Boolean(store.getState()?.user);
+
+    console.log('статус логирования', isLoggedIn, store.getState());
 
     if (isProtected && !isLoggedIn) {
       this.go({ pathname: ROUTES.login });

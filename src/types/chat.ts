@@ -1,4 +1,4 @@
-import type { AdditionalField, BlockBasics } from './core';
+import type { AdditionalField, BlockBasics, Path } from './core';
 
 export type EventHandler = (e: Event) => void;
 
@@ -54,8 +54,10 @@ export interface CustomButtonProps extends BlockBasics<AdditionalField> {
   text: string | null;
   color?: Colors;
   variant?: ButtonVariants;
+  onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   icon?: IconSpec;
+  path?: Path;
 }
 
 export interface CustomFormProps extends BlockBasics<AdditionalField> {

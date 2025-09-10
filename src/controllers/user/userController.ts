@@ -41,8 +41,8 @@ class UserController {
 
   @withStoreStatus('Ошибка разлогирования')
   async logOut() {
-    await userAPI.logOut();
     store.set('user', null);
+    await userAPI.logOut();
   }
 
   @withStoreStatus('Ошибка смены данных')

@@ -1,4 +1,5 @@
 import { ROUTES } from '../../consts/routes';
+import userController from '../../controllers/user/userController';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { CustomButtonProps, ProfileInfoModeProps } from '../../types/chat';
 import CustomButton from '../customButton/CustomButton';
@@ -33,7 +34,12 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
         text: 'Изменить данные',
         type: 'button',
         variant: 'link',
-        href: `${ROUTES.settings}?editing=credentials`,
+        path: {
+          pathname: ROUTES.settings,
+          query: {
+            editing: 'credentials',
+          },
+        },
         settings: {
           withInternalID: false,
         },
@@ -42,7 +48,12 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
         text: 'Изменить пароль',
         type: 'button',
         variant: 'link',
-        href: `${ROUTES.settings}?editing=pass`,
+        path: {
+          pathname: ROUTES.settings,
+          query: {
+            editing: 'pass',
+          },
+        },
         settings: {
           withInternalID: false,
         },
@@ -51,7 +62,12 @@ class ProfileInfoView extends TemplateBlock<ProfileInfoModeProps> {
         text: 'Выйти',
         variant: 'link',
         type: 'button',
-        href: '/',
+        path: {
+          pathname: ROUTES.login,
+        },
+        onClick() {
+          userController.logOut();
+        },
         color: 'red',
         settings: {
           withInternalID: false,

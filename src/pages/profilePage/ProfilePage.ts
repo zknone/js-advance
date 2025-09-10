@@ -16,6 +16,7 @@ class ProfilePage extends TemplatePage<AdditionalField> {
   }
 
   protected gatherChildren() {
+    console.log('profile page props', this.props);
     this.children.profileInfo = new ProfileInfo(this.props);
   }
 }

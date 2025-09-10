@@ -1,3 +1,4 @@
+import type { Indexed } from '../../types/core';
 import type { PublicPageProps, WithPage } from '../../types/pages';
 import TemplateBlock from '../templateBlock/TemplateBlock';
 
@@ -7,6 +8,11 @@ class TemplatePage<P extends PublicPageProps> extends TemplateBlock<WithPage<P>>
   }
 
   protected gatherChildren(): void {}
+
+  addQuery(query: Indexed) {
+    console.log('передаем пропсы');
+    this.setProps({ ...this.props, query });
+  }
 
   render() {
     this.gatherChildren();
