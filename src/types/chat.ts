@@ -164,10 +164,12 @@ export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   className?: string;
   name: string;
-  mode?: ProfileMods;
   avatar?: AvatarCfg;
   infoFields: InfoFieldProps[];
   modalItem?: ModalItemProps;
+  query: {
+    editing: null | 'credentials' | 'pass';
+  };
 }
 
 export type ProfilePageProps = Omit<ProfileInfoProps, 'infoFields'>;
@@ -179,4 +181,4 @@ export interface SearchProps extends BlockBasics<AdditionalField> {
   name?: string;
 }
 
-export type ProfileMods = 'view' | 'edit';
+export type ProfileMods = 'view' | 'edit-pass' | 'edit-credentials';

@@ -16,6 +16,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       infoFields: baseFields,
       name: typeof props.name === 'string' ? props.name : 'Ошибка',
       settings: { withInternalID: true },
+      query: { editing: null },
     };
     const tagName = 'section';
     const tagClassName = 'profile-info';
@@ -34,7 +35,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       const user = state?.user;
       if (!user) return;
 
-      const fields = [...baseFields].map((item) => {
+      const fields = [...defaultProps.infoFields].map((item) => {
         const { name } = item;
         return {
           ...item,
@@ -58,7 +59,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   }
 
   render(): DocumentFragment {
-    const isEditing = this.props.mode === 'edit';
+    const mode = this.props.query?.editing;
 
     const { modalItem } = this.props;
 
@@ -66,8 +67,11 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       this.children.modalItem = new ModalItem(modalItem);
     }
 
-    this.children.infoFields = isEditing
-      ? new ProfileInfoEdit(this.props)
+    const formProps =
+      mode === 'credentials' ? this.props : { ...this.props, infoFields: baseFields };
+
+    this.children.infoFields = mode
+      ? new ProfileInfoEdit(formProps)
       : new ProfileInfoView(this.props);
 
     return this.compile('profileInfo', this.props);

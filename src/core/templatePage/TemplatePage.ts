@@ -9,8 +9,7 @@ class TemplatePage<P extends PublicPageProps> extends TemplateBlock<WithPage<P>>
 
   protected gatherChildren(): void {}
 
-  addQuery(query: Indexed) {
-    console.log('передаем пропсы');
+  addQuery(query: Indexed | null) {
     this.setProps({ ...this.props, query });
   }
 

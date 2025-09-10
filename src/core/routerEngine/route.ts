@@ -61,8 +61,10 @@ class Route<P extends AdditionalField = AdditionalField> {
 
     console.log('блок уже есть', this._block, { query });
     if (query) {
-      console.log('передаем квери в просы', query);
+      console.log('передаем квери в просы', { query });
       this._block.addQuery(query);
+    } else {
+      this._block.addQuery(null);
     }
     renderPage(this._block, this._rootQuery);
     this._block.show();
