@@ -36,7 +36,7 @@ class ChatAPI extends BaseAPI {
     return this.request({ limit, offset, title });
   }
 
-  createNewChat(title: string): Promise<IChat> {
+  createNewChat(title: string): Promise<{ id: number }> {
     return chatApiInstance.post({
       url: apiRoutes.CHATS,
       options: {
@@ -145,7 +145,7 @@ class ChatAPI extends BaseAPI {
   }
 
   getChatToken(id: number): Promise<IToken[]> {
-    return chatApiInstance.get({
+    return chatApiInstance.post({
       url: `${apiRoutes.GET_TOKEN}/${id}`,
       options: {
         id,

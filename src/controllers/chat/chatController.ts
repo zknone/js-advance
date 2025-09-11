@@ -15,10 +15,10 @@ class ChatController {
 
   @withStoreStatus('Ошибка запроса создания чата', () => router.go({ pathname: ROUTES.messenger }))
   async createNewChat(title: string) {
-    const newChat = await chatAPI.createNewChat(title);
-    const modifiedChat = transformFetchedChats(newChat);
-    const prevState = store.getState();
-    store.set('chats', { ...prevState, modifiedChat });
+    const newId = await chatAPI.createNewChat(title);
+    await this.getChats();
+
+    return newId;
   }
 
   @withStoreStatus('Ошибка запроса создания чата', () => router.go({ pathname: ROUTES.messenger }))
@@ -114,20 +114,17 @@ class ChatController {
 
   @withStoreStatus('Ошибка добавления пользователей')
   async addUsersToChat(users: number[], chatId: number) {
-    const res = await chatAPI.addUsersToChat({ users, chatId });
-    return res;
+    return chatAPI.addUsersToChat({ users, chatId });
   }
 
   @withStoreStatus('Ошибка удаления пользователей')
   async removeUsersFromChat(users: number[], chatId: number) {
-    const res = await chatAPI.removeUsersFromChat({ users, chatId });
-    return res;
+    return chatAPI.removeUsersFromChat({ users, chatId });
   }
 
   @withStoreStatus('Ошибка получения токена на подключение к сокету')
   async getChatToken(id: number) {
-    const res = await chatAPI.getChatToken(id);
-    return res;
+    return chatAPI.getChatToken(id);
   }
 }
 

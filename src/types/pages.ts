@@ -32,10 +32,14 @@ export type WithPage<P extends PublicPageProps> = P & {
 export interface MainPageProps extends AdditionalField {
   customLink: CustomLinkProps;
   search: SearchProps;
+  chosenChat: number | null;
   chatMenu: ChatMenuProps;
   chatList: ChatItemProps[];
   messageList: MessageItemProps[];
   messageQuill: MessageQuillProps;
+  query: {
+    id: null | number;
+  };
 }
 
 export interface LoginPageFormProps extends AdditionalField {

@@ -10,11 +10,11 @@ export type EventMap = {
 };
 export interface ChatItemProps extends AdditionalField {
   name: string;
-  time: string;
+  time?: string;
   className?: string;
   unreadCount?: number;
   events?: EventMap;
-  avatar: string;
+  avatar: string | null;
   createdBy: number;
   lastMessage: {
     user: {
@@ -27,7 +27,7 @@ export interface ChatItemProps extends AdditionalField {
     };
     time: string;
     content: string;
-  };
+  } | null;
 }
 
 export interface ChatListProps extends BlockBasics<AdditionalField> {

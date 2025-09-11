@@ -5,9 +5,18 @@
         {{{chatList}}}
     </div>
     <div class="main-page__chosen-chat">
-        {{{chatMenu}}}
-        {{{messageList}}}
-        {{{messageQuill}}}
+
+        {{#if chosenChat}}
+            {{{chatMenu}}}
+            {{{messageList}}}
+            {{{messageQuill}}}
+        {{/if}}
+        {{#if makeNewChat}}
+        <div class="main-page__action-button-container">
+            {{{customForm}}}
+        </div>
+
+        {{/if}}
     </div>
 </div>
 

@@ -50,7 +50,7 @@ interface IApiError {
 interface IChat extends AdditionalField {
   id: number;
   title: string;
-  avatar: string;
+  avatar: string | null;
   unread_count: number;
   created_by: number;
   last_message: {
@@ -64,7 +64,7 @@ interface IChat extends AdditionalField {
     };
     time: string;
     content: string;
-  };
+  } | null;
 }
 
 interface IFilesSent extends AdditionalField {
