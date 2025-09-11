@@ -1,5 +1,4 @@
 import store from '../../core/store/store';
-import UserAPI from '../../core/api/userAPI';
 import type {
   IApiError,
   ILogin,
@@ -11,8 +10,7 @@ import type {
 import { ROUTES } from '../../consts/routes';
 import withStoreStatus from '../../utils/decorators/withStoreStatus';
 import router from '../../core/routerEngine/router';
-
-const userAPI = new UserAPI();
+import userAPI from '../../core/api/userAPI';
 
 class UserController {
   async fetchMe() {

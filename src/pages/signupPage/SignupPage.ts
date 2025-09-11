@@ -25,12 +25,6 @@ class SignupPage extends TemplatePage<SignupPageProps> {
       tagName: 'div',
       tagClassName,
       customForm: signupFormData,
-    });
-  }
-
-  protected gatherChildren() {
-    this.children.customForm = new CustomForm({
-      ...this.props.customForm,
       events: {
         submit: {
           handler: (e: Event) => {
@@ -41,6 +35,10 @@ class SignupPage extends TemplatePage<SignupPageProps> {
         },
       },
     });
+  }
+
+  protected gatherChildren() {
+    this.children.customForm = new CustomForm(this.props.customForm);
   }
 }
 

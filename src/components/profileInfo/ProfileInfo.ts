@@ -72,7 +72,6 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
     }
 
     const handleChangeProfile = () => {
-      console.log('132');
       const data = getDataFromInputs('profile-info-form');
       if (isPass) {
         userController.changePassword(data as IPassword);

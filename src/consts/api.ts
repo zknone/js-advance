@@ -17,7 +17,7 @@ const apiRoutes = {
   CHATS_UNARCHIVE: '/chats/unarchive',
   ADD_CHAT_AVATAR: '/chats/avatar',
   CHAT_USERS: '/chats/users',
-  GET_CHAT_USERS: '/chats/token',
+  GET_TOKEN: '/chats/token',
 };
 
 export { API_BASE_URL, apiRoutes };

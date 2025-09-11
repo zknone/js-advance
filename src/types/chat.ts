@@ -1,4 +1,3 @@
-import type { IPassword, IProfile } from '../core/api/interfaces';
 import type { AdditionalField, BlockBasics, Path } from './core';
 
 export type EventHandler = (e: Event) => void;
@@ -13,9 +12,22 @@ export interface ChatItemProps extends AdditionalField {
   name: string;
   time: string;
   className?: string;
-  message: string;
   unreadCount?: number;
   events?: EventMap;
+  avatar: string;
+  createdBy: number;
+  lastMessage: {
+    user: {
+      firstName: string;
+      secondName: string;
+      avatar: string;
+      email: string;
+      login: string;
+      phone: string;
+    };
+    time: string;
+    content: string;
+  };
 }
 
 export interface ChatListProps extends BlockBasics<AdditionalField> {

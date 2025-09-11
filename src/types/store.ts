@@ -1,4 +1,5 @@
-import type { ILoggedUser } from '../core/api/interfaces';
+import type { IChat, ILoggedUser } from '../core/api/interfaces';
+import type { ChatItemProps } from './chat';
 import type { AdditionalField } from './core';
 
 interface IStore extends AdditionalField {
@@ -8,6 +9,8 @@ interface IStore extends AdditionalField {
   };
 
   user: ILoggedUser | null;
+  chats: ChatItemProps[] | null;
+  chatsArchived: IChat[] | null;
 }
 
 export type { IStore };

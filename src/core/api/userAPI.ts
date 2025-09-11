@@ -75,4 +75,5 @@ class UserAPI extends BaseAPI {
   }
 }
 
-export default UserAPI;
+const userAPI = new UserAPI();
+export default userAPI;

@@ -1,20 +1,42 @@
 import { API_BASE_URL, apiRoutes } from '../../consts/api';
 import HTTPTransport from '../../utils/fetch';
 import BaseAPI from './baseAPI';
+import type { IChat, IFilesSent, IToken, IUser } from './interfaces';
 
 const chatApiInstance = new HTTPTransport(API_BASE_URL);
-class ChatApi extends BaseAPI {
-  request() {
+class ChatAPI extends BaseAPI {
+  request({
+    limit = 100,
+    offset = 0,
+    title,
+  }: {
+    offset?: number;
+    limit?: number;
+    title?: string;
+  }): Promise<IChat[]> {
     return chatApiInstance.get({
       url: apiRoutes.CHATS,
+      options: {
+        limit,
+        offset,
+        title,
+      },
     });
   }
 
-  getChats() {
-    return this.request();
+  getChats({
+    limit = 100,
+    offset = 0,
+    title,
+  }: {
+    offset?: number;
+    limit?: number;
+    title?: string;
+  }): Promise<IChat[]> {
+    return this.request({ limit, offset, title });
   }
 
-  createNewChat(title: string) {
+  createNewChat(title: string): Promise<IChat> {
     return chatApiInstance.post({
       url: apiRoutes.CHATS,
       options: {
@@ -23,7 +45,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  deleteChat(id: string) {
+  deleteChat(id: number): Promise<{ id: number }> {
     return chatApiInstance.delete({
       url: apiRoutes.CHATS,
       options: {
@@ -32,7 +54,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  getFiles(id: string) {
+  getFiles(id: number): Promise<IFilesSent> {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/${id}/files`,
       options: {
@@ -41,13 +63,13 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  getArchive() {
+  getArchive(): Promise<IChat[]> {
     return chatApiInstance.get({
       url: apiRoutes.CHATS_ARCHIVE,
     });
   }
 
-  setArchived(id: string) {
+  setArchived(id: number): Promise<IChat> {
     return chatApiInstance.post({
       url: apiRoutes.CHATS_ARCHIVE,
       options: {
@@ -56,7 +78,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  setUnarchived(id: string) {
+  setUnarchived(id: number): Promise<IChat> {
     return chatApiInstance.post({
       url: apiRoutes.CHATS_UNARCHIVE,
       options: {
@@ -65,7 +87,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  getCommonChat(id: string) {
+  getCommonChat(id: number): Promise<IChat[]> {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/${id}/common`,
       options: {
@@ -74,7 +96,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  getChatUsers(id: string) {
+  getChatUsers(id: number): Promise<IUser> {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/${id}/users`,
       options: {
@@ -83,7 +105,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  getNewMessageCount(id: string) {
+  getNewMessageCount(id: number): Promise<{ unread_count: number }> {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/new/${id}`,
       options: {
@@ -92,7 +114,7 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  addAvatar(id: string, avatar: any) {
+  addAvatar(id: number, avatar: Blob): Promise<IChat> {
     return chatApiInstance.put({
       url: apiRoutes.ADD_CHAT_AVATAR,
       options: {
@@ -122,9 +144,9 @@ class ChatApi extends BaseAPI {
     });
   }
 
-  connectUsers(id: string) {
+  getChatToken(id: number): Promise<IToken[]> {
     return chatApiInstance.get({
-      url: `${apiRoutes.GET_CHAT_USERS}/${id}`,
+      url: `${apiRoutes.GET_TOKEN}/${id}`,
       options: {
         id,
       },
@@ -132,4 +154,6 @@ class ChatApi extends BaseAPI {
   }
 }
 
-export default ChatApi;
+const chatAPI = new ChatAPI();
+
+export default chatAPI;
