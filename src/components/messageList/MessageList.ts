@@ -20,7 +20,8 @@ class MessageList extends TemplateBlock<MessageListProps> {
   }
 
   render() {
-    this.children.messageList = this.props.messageList.map((message) => new MessageItem(message));
+    const messageList = this.props.messageList ?? [];
+    this.children.messageList = messageList.map((message) => new MessageItem(message));
     return this.compile('messageList', this.props);
   }
 }
