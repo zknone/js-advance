@@ -1,3 +1,5 @@
+import { ROUTES } from '../../consts/routes';
+import router from '../../core/routerEngine/router';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatItemProps } from '../../types/chat';
 
@@ -17,6 +19,17 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
         ...props,
         settings: {
           withInternalID: true,
+        },
+        events: {
+          click: {
+            handler(e: Event) {
+              e.preventDefault();
+              const targetId = props.id as number;
+              if (targetId) {
+                router.go({ pathname: ROUTES.messenger, query: { id: targetId.toString() } });
+              }
+            },
+          },
         },
       },
       tagName,
