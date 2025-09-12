@@ -4,6 +4,7 @@ import CustomForm from '../../components/customForm/CustomForm';
 import CustomLink from '../../components/customLink/CustomLink';
 import MessageList from '../../components/messageList/MessageList';
 import MessageQuill from '../../components/messageQuill/MessageQuill';
+import ModalItem from '../../components/modalItem/ModalItem';
 import Search from '../../components/search/Search';
 import { ROUTES } from '../../consts/routes';
 import chatController from '../../controllers/chat/chatController';
@@ -108,7 +109,14 @@ class MainPage extends TemplatePage<MainPageProps> {
       settings: { withInternalID: true },
     });
 
-    this.children.chatMenu = new ChatMenu();
+    const chatList = Array.isArray(this.props.chatList) ? this.props.chatList : [];
+
+    const exactChat = chatList.find((item) => item?.id.toString() === this.props?.query?.id);
+
+    this.children.chatMenu = new ChatMenu({
+      ...this.props.chatMenu,
+      chat: exactChat!,
+    });
 
     this.children.messageList = new MessageList({
       ...this.props,

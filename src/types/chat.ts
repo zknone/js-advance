@@ -1,4 +1,3 @@
-import type Socket from '../core/socket/socket';
 import type { AdditionalField, BlockBasics, Path } from './core';
 
 export type EventHandler = (e: Event) => void;
@@ -10,6 +9,7 @@ export type EventMap = {
   };
 };
 export interface ChatItemProps extends AdditionalField {
+  id: number;
   name: string;
   time?: string;
   className?: string;
@@ -43,10 +43,9 @@ interface IconSpec {
 }
 
 export interface ChatMenuProps extends BlockBasics<AdditionalField> {
-  name?: string;
+  chat?: ChatItemProps;
   menuOpened?: boolean;
-  showAdd?: boolean;
-  showDelete?: boolean;
+  modalOpen: 'add' | 'delete' | null;
   labels?: {
     openMenu: string;
     addUser: string;
@@ -59,6 +58,7 @@ export interface ChatMenuProps extends BlockBasics<AdditionalField> {
     deleteBg: IconSpec;
     deleteCross: IconSpec;
   };
+  toggleMenu: () => void;
 }
 
 export type Colors = 'red' | 'blue' | 'white';
@@ -130,6 +130,9 @@ export interface MessageQuillProps extends BlockBasics<AdditionalField> {
 }
 
 export interface ModalItemProps extends BlockBasics<AdditionalField> {
+  type: 'avatar' | 'input';
+  isAvatar?: boolean;
+  isInput?: boolean;
   method: string;
   action: string;
   title: string;
@@ -138,6 +141,7 @@ export interface ModalItemProps extends BlockBasics<AdditionalField> {
   inputId: string;
   inputName: string;
   labelText: string;
+  onSubmit?: () => void;
 }
 
 export interface Field {

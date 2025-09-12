@@ -1,5 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ModalItemProps } from '../../types/chat';
+import InputItem from '../inputItem/InputItem';
 
 class ModalItem extends TemplateBlock<ModalItemProps> {
   constructor(props: ModalItemProps) {
@@ -22,8 +23,18 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
       {
         ...defaultProps,
         ...props,
+        isAvatar: props.type === 'avatar',
+        isInput: props.type === 'input',
         settings: {
           withInternalID: true,
+        },
+        events: {
+          submit: {
+            handler: (e: Event) => {
+              e.preventDefault();
+              props.onSubmit?.();
+            },
+          },
         },
       },
       tagName,
@@ -32,6 +43,17 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
   }
 
   render() {
+    if (this.props.isInput) {
+      this.children.inputItem = new InputItem({
+        value: '',
+        type: 'text',
+        placeholder: 'Введите id пользователя',
+        title: 'Id пользователя',
+        error: null,
+        name: 'Id',
+        variant: 'regular',
+      });
+    }
     return this.compile('modalItem', this.props);
   }
 }

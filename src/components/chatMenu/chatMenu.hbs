@@ -1,11 +1,11 @@
 <div class="chat-menu__avatar"></div>
 
 <div class="chat-menu__name">
-  {{name}}
+  {{chat.name}}
 </div>
 
 <div class="chat-menu__actions-container">
-  <button class="chat-menu__actions-main-button" aria-label="{{labels.openMenu}}">
+  <button class="chat-menu__actions-main-button" aria-label="{{labels.openMenu}}"">
     <img
       src="{{icons.menu.src}}"
       alt="{{icons.menu.alt}}"
@@ -16,8 +16,7 @@
 
   {{#if menuOpened}}
   <div class="chat-menu__actions-menu">
-    {{#if showAdd}}
-    <button class="chat-menu__actions-button" type="button" aria-label="{{labels.addUser}}">
+    <button class="chat-menu__actions-button chat-menu__actions-button--add" type="button" aria-label="{{labels.addUser}}">
       <span class="chat-menu__icon">
         <img
           class="chat-menu__icon-background"
@@ -36,10 +35,8 @@
       </span>
       <span>{{labels.addUser}}</span>
     </button>
-    {{/if}}
 
-    {{#if showDelete}}
-    <button class="chat-menu__actions-button" type="button" aria-label="{{labels.deleteUser}}">
+    <button class="chat-menu__actions-button chat-menu__actions-button--delete" type="button" aria-label="{{labels.deleteUser}}">
       <span class="chat-menu__icon">
         <img
           class="chat-menu__icon-background"
@@ -58,8 +55,7 @@
       </span>
       <span>{{labels.deleteUser}}</span>
     </button>
-    {{/if}}
   </div>
   {{/if}}
 </div>
-
+{{{modalItem}}}
