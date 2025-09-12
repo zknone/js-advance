@@ -93,8 +93,6 @@ class MainPage extends TemplatePage<MainPageProps> {
   protected gatherChildren() {
     const messageList = Object.values(this.props.messageList ?? {}) ?? {};
 
-    console.log(messageList);
-
     this.children.customLink = new CustomLink({
       ...this.props.customLink,
       settings: { withInternalID: true },
