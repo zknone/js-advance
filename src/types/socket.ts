@@ -4,4 +4,11 @@ interface ISocketData {
   token: string;
 }
 
-export type { ISocketData };
+interface IMessageResponse {
+  content: string;
+  type: string;
+  time: string;
+  user_id: number;
+  id: number;
+}
+export type { ISocketData, IMessageResponse };

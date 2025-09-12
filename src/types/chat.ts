@@ -1,3 +1,4 @@
+import type Socket from '../core/socket/socket';
 import type { AdditionalField, BlockBasics, Path } from './core';
 
 export type EventHandler = (e: Event) => void;
@@ -100,10 +101,12 @@ export interface MessageListProps extends BlockBasics<AdditionalField> {
 }
 
 export interface MessageItemProps extends BlockBasics<AdditionalField> {
+  id: number;
   text: string;
   isOwn?: boolean;
   time: string;
   image?: string;
+  type: string;
 }
 
 export interface MessageQuillProps extends BlockBasics<AdditionalField> {

@@ -144,7 +144,7 @@ class ChatAPI extends BaseAPI {
     });
   }
 
-  getChatToken(id: number): Promise<IToken[]> {
+  getChatToken(id: number): Promise<IToken> {
     return chatApiInstance.post({
       url: `${apiRoutes.GET_TOKEN}/${id}`,
       options: {

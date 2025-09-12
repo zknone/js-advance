@@ -8,12 +8,14 @@ import Search from '../../components/search/Search';
 import { ROUTES } from '../../consts/routes';
 import chatController from '../../controllers/chat/chatController';
 import router from '../../core/routerEngine/router';
+import socketOrchestration from '../../core/socket/socketOrchestration';
 import store from '../../core/store/store';
 import TemplatePage from '../../core/templatePage/TemplatePage';
 import { mainPageData } from '../../mocks/chat';
-import { PAGE, type MainPageProps } from '../../types/pages';
+import { PAGE, type MainPageProps, type WithPage } from '../../types/pages';
 import type { IStore } from '../../types/store';
 import getDataFromInputs from '../../utils/getDataFromInputs';
+import { validateInput } from '../../utils/validation';
 
 const insideFormClassName = 'custom-form';
 
@@ -32,21 +34,23 @@ class MainPage extends TemplatePage<MainPageProps> {
       search: mainPageData.search,
       chatMenu: mainPageData.chatMenu,
       chatList: [],
-      messageList: [],
+      messageList: {},
       messageQuill: mainPageData.messageQuill,
-      chosenChat: null,
       query: { id: null },
     });
 
     this.subscribe = store.subscribe((state: IStore) => {
       const user = state?.user;
       const chats = state?.chats;
+      const messages = state?.messages;
+      const id = state?.activeChat;
       if (!user) return;
 
       this.setProps({
         ...this.props,
         chatList: chats ?? [],
-        makeNewChat: !chats?.length,
+        makeNewChat: Boolean(chats?.length) !== Boolean(id),
+        messageList: id ? messages[Number(id)] : {},
       });
     });
   }
@@ -58,24 +62,39 @@ class MainPage extends TemplatePage<MainPageProps> {
 
     const chosenChatId = this.props.query?.id ?? null;
 
-    if (chosenChatId) {
-      this.setProps({
-        ...this.props,
-        chosenChat: chosenChatId,
+    const { user } = store.getState();
+    const { id: userId } = user!;
+
+    if (chosenChatId && !socketOrchestration.isConnected(Number(chosenChatId)) && userId) {
+      const { token } = await chatController.getChatToken(Number(chosenChatId));
+      socketOrchestration.addNewSocket({
+        userId,
+        chatId: Number(chosenChatId),
+        token,
       });
-    }
-
-    // токен пересоздаем только если не устанавливали соединенение
-
-    const openedChatId = this.props.chosenChat;
-
-    if (openedChatId) {
-      const token = await chatController.getChatToken(openedChatId);
-      console.log('Токен', token);
     }
   }
 
+  componentDidUpdate(
+    oldProps: WithPage<MainPageProps>,
+    newProps: WithPage<MainPageProps>
+  ): boolean {
+    const oldId = oldProps.query?.id;
+    const newId = newProps.query?.id;
+    if (!oldId || !newId) {
+      return true;
+    }
+    if (oldId !== newId) {
+      return true;
+    }
+    return false;
+  }
+
   protected gatherChildren() {
+    const messageList = Object.values(this.props.messageList ?? {}) ?? {};
+
+    console.log(messageList);
+
     this.children.customLink = new CustomLink({
       ...this.props.customLink,
       settings: { withInternalID: true },
@@ -96,13 +115,38 @@ class MainPage extends TemplatePage<MainPageProps> {
 
     this.children.messageList = new MessageList({
       ...this.props,
-      messageList: this.props.messageList,
+      messageList,
       settings: { withInternalID: true },
     });
 
     this.children.messageQuill = new MessageQuill({
       ...this.props.messageQuill,
       settings: { withInternalID: true },
+      events: {
+        submit: {
+          handler: (e: Event) => {
+            e.preventDefault();
+            const { message } = getDataFromInputs('message-quill__form');
+            const isValidated = validateInput(message, 'message');
+
+            if (isValidated && this.props.query.id) {
+              this.setProps({
+                ...this.props,
+                messageQuill: {
+                  ...this.props.messageQuill,
+                  value: null,
+                },
+              });
+
+              socketOrchestration.sendMessage(Number(this.props.query.id), message);
+            } else if (this.props.chosenChat) {
+              throw new Error('Ошибка определения чата');
+            } else {
+              throw new Error('Пустое или невалидное поле сообщения');
+            }
+          },
+        },
+      },
     });
 
     this.children.customForm = new CustomForm({
@@ -118,7 +162,7 @@ class MainPage extends TemplatePage<MainPageProps> {
       inputFields: [
         {
           value: '',
-          title: 'Создайте свой первый чат',
+          title: 'Создайте чат',
           type: 'text',
           placeholder: 'Введите название нового чата',
           error: null,

@@ -6,7 +6,7 @@
     </div>
     <div class="main-page__chosen-chat">
 
-        {{#if chosenChat}}
+        {{#if query.id}}
             {{{chatMenu}}}
             {{{messageList}}}
             {{{messageQuill}}}
@@ -15,7 +15,6 @@
         <div class="main-page__action-button-container">
             {{{customForm}}}
         </div>
-
         {{/if}}
     </div>
 </div>

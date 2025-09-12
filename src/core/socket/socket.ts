@@ -1,4 +1,7 @@
-import type { ISocketData } from '../../types/socket';
+import type { IMessageResponse, ISocketData } from '../../types/socket';
+import { isArray } from '../../utils/checkTypes';
+import store from '../store/store';
+import socketOrchestration from './socketOrchestration';
 
 class Socket {
   userId: number;
@@ -21,7 +24,7 @@ class Socket {
     );
 
     this.socket.addEventListener('open', () => {
-      console.log('Соединение установлено');
+      socketOrchestration.fetchOld(this.chatId);
     });
 
     this.socket.addEventListener('close', (event) => {
@@ -34,7 +37,35 @@ class Socket {
     });
 
     this.socket.addEventListener('message', (event) => {
-      console.log('Получены данные', event.data);
+      try {
+        const parsed = JSON.parse(event.data) as IMessageResponse;
+
+        if (parsed) {
+          if (Array.isArray(parsed)) {
+            parsed.map((item) => {
+              const { user_id: userId, content, time, type, id } = item;
+              return store.set(`messages.${this.chatId.toString()}.${item.id}`, {
+                text: content,
+                isOwn: userId === this.userId,
+                time,
+                id,
+                type,
+              });
+            });
+          } else {
+            const { user_id: userId, content, time, type, id } = parsed;
+            store.set(`messages.${this.chatId.toString()}.${id}`, {
+              text: content,
+              isOwn: userId === this.userId,
+              time,
+              id,
+              type,
+            });
+          }
+        }
+      } catch (e) {
+        console.error('Ошибка парсинга сообщения:', e, event.data);
+      }
     });
 
     this.socket.addEventListener('error', (event) => {
@@ -42,7 +73,7 @@ class Socket {
     });
   }
 
-  send(content: string, type: 'message' | 'file' = 'message') {
+  send(content: string, type: 'message' | 'file' | 'get old' = 'message') {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify({ content, type }));
     } else {

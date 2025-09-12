@@ -60,32 +60,7 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
     this.children.attachButton = new CustomButton(this.props.attachButton);
     this.children.sendButton = new CustomButton({
       ...this.props.sendButton,
-      events: {
-        click: {
-          handler: (e: Event) => {
-            e.preventDefault();
-
-            this.isValidated = validateInput(this.state.message, this.state.fieldName);
-
-            if (this.isValidated) {
-              console.log('результат', this.state.message);
-              this.setProps({
-                ...this.props,
-                inputItem: {
-                  ...inputItem,
-                  value: null,
-                },
-              });
-              this.state = {
-                message: null,
-                fieldName: null,
-              };
-            } else {
-              console.log('Ошибка');
-            }
-          },
-        },
-      },
+      type: 'submit',
     });
     return this.compile('messageQuill', this.props);
   }
