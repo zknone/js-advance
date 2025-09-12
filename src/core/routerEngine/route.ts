@@ -47,8 +47,6 @@ class Route<P extends AdditionalField = AdditionalField> {
   }
 
   render(query?: Indexed) {
-    console.log({ query });
-
     if (!this._block) {
       const props = {
         ...this._pageProps,
@@ -59,9 +57,7 @@ class Route<P extends AdditionalField = AdditionalField> {
       return;
     }
 
-    console.log('блок уже есть', this._block, { query });
     if (query) {
-      console.log('передаем квери в просы', { query });
       this._block.addQuery(query);
     } else {
       this._block.addQuery(null);

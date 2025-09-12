@@ -49,8 +49,8 @@ class MainPage extends TemplatePage<MainPageProps> {
       this.setProps({
         ...this.props,
         chatList: chats ?? [],
-        makeNewChat: Boolean(chats?.length) !== Boolean(id),
-        messageList: id ? messages[Number(id)] : {},
+        makeNewChat: chats?.length ? Boolean(chats?.length) !== Boolean(id) : true,
+        messageList: id ? messages[id] : {},
       });
     });
   }
@@ -60,16 +60,15 @@ class MainPage extends TemplatePage<MainPageProps> {
       await chatController.getChats();
     }
 
-    const chosenChatId = this.props.query?.id ?? null;
-
     const { user } = store.getState();
     const { id: userId } = user!;
+    const { activeChat } = store.getState();
 
-    if (chosenChatId && !socketOrchestration.isConnected(Number(chosenChatId)) && userId) {
-      const { token } = await chatController.getChatToken(Number(chosenChatId));
+    if (activeChat && !socketOrchestration.isConnected(activeChat) && userId) {
+      const { token } = await chatController.getChatToken(activeChat);
       socketOrchestration.addNewSocket({
         userId,
-        chatId: Number(chosenChatId),
+        chatId: activeChat,
         token,
       });
     }
@@ -136,7 +135,7 @@ class MainPage extends TemplatePage<MainPageProps> {
                 },
               });
 
-              socketOrchestration.sendMessage(Number(this.props.query.id), message);
+              socketOrchestration.sendMessage(Number.parseInt(this.props.query.id, 10), message);
             } else if (this.props.chosenChat) {
               throw new Error('Ошибка определения чата');
             } else {
@@ -173,10 +172,11 @@ class MainPage extends TemplatePage<MainPageProps> {
           handler: async (e: Event) => {
             e.preventDefault();
             const data = getDataFromInputs(insideFormClassName);
-            const chosenChat = await chatController.createNewChat(data.title);
+            const { id: chatId } = await chatController.createNewChat(data.title);
+            store.set('activeChat', chatId);
             router.go({
               pathname: ROUTES.messenger,
-              query: { id: chosenChat.toString() },
+              query: { id: chatId.toString() },
             });
           },
         },
