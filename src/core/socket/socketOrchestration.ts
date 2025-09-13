@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { ISocketData } from '../../types/socket';
 
 import Socket from './socket';

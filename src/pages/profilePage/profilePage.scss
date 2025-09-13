@@ -24,7 +24,7 @@
     align-items: center;
     justify-content: center;
     button {
-      padding: calc((100vh - 36px)/2) 18px;
+      padding: calc((100vh - 36px) / 2) 18px;
     }
 
     &:hover {
@@ -33,11 +33,11 @@
     }
   }
 
-  &__info-menu{
+  &__info-menu {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 64px;
-    }
+  }
 }

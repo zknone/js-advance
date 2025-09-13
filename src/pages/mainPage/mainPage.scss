@@ -50,10 +50,9 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-
   }
 
-    &__action-button-wrapper {
+  &__action-button-wrapper {
     display: flex;
     flex-grow: 0;
     align-items: center;
@@ -64,5 +63,4 @@
     border-radius: 20px;
     box-shadow: 0 0 6px rgba(0 0 0/ 0.14);
   }
-
 }

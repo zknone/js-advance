@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { IMessageResponse, ISocketData } from '../../types/socket';
 import store from '../store/store';
 
