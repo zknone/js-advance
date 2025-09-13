@@ -63,7 +63,7 @@ export interface ChatMenuProps extends BlockBasics<AdditionalField> {
     addAvatar: IconSpec;
     deleteChat: IconSpec;
   };
-  toggleMenu: () => void;
+  toggleMenu?: () => void;
 }
 
 export type Colors = 'red' | 'blue' | 'white';

@@ -17,6 +17,7 @@ class Store extends EventBus {
     chats: null,
     chatsArchived: null,
     messages: {},
+    activeChat: null,
   };
 
   public getState() {

@@ -57,13 +57,13 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
           height: 11,
         },
         addAvatar: {
-          src: '/public/img-icon.svg',
+          src: '/img-icon.svg',
           alt: 'Фон иконки удаления',
           width: 22,
           height: 22,
         },
         deleteChat: {
-          src: '/public/location-icon.svg',
+          src: '/location-icon.svg',
           alt: 'Иконка удаления',
           width: 11,
           height: 11,

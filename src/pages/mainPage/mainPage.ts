@@ -115,6 +115,7 @@ class MainPage extends TemplatePage<MainPageProps> {
     this.children.chatMenu = new ChatMenu({
       ...this.props.chatMenu,
       chat: exactChat!,
+      modalOpen: null,
     });
 
     this.children.messageList = new MessageList({

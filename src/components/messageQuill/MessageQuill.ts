@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { MessageQuillProps } from '../../types/chat';
 import { validateInput } from '../../utils/validation';
@@ -8,7 +7,7 @@ import InputItem from '../inputItem/InputItem';
 class MessageQuill extends TemplateBlock<MessageQuillProps> {
   private isValidated = true;
 
-  private state: { message: string | null; fieldName: string | null } = {
+  _state: { message: string | null; fieldName: string | null } = {
     message: null,
     fieldName: null,
   };
@@ -51,7 +50,7 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
         }
       },
       onFieldChange: (value: string, name: string) => {
-        this.state = {
+        this._state = {
           message: value,
           fieldName: name,
         };
