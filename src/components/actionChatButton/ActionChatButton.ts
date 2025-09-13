@@ -11,13 +11,13 @@ class ActionChatButton extends CustomButton {
   constructor(props: ActionChatButtonProps) {
     const icons = {
       add: {
-        src: '/public/add-cross.svg',
+        src: '/add-cross.svg',
         alt: 'Добавить пользователя',
         width: 16,
         height: 16,
       },
       delete: {
-        src: '/public/delete-cross.svg',
+        src: '/delete-cross.svg',
         alt: 'Удалить пользователя',
         width: 16,
         height: 16,
