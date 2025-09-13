@@ -50,7 +50,7 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
         placeholder: 'Введите id пользователя',
         title: 'Id пользователя',
         error: null,
-        name: 'Id',
+        name: 'id',
         variant: 'regular',
       });
     }

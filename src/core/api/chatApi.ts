@@ -49,7 +49,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.delete({
       url: apiRoutes.CHATS,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -58,7 +58,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/${id}/files`,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -73,7 +73,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.post({
       url: apiRoutes.CHATS_ARCHIVE,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -82,7 +82,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.post({
       url: apiRoutes.CHATS_UNARCHIVE,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -91,7 +91,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/${id}/common`,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -100,7 +100,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/${id}/users`,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -109,7 +109,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.get({
       url: `${apiRoutes.CHATS}/new/${id}`,
       options: {
-        id,
+        data: { id },
       },
     });
   }
@@ -118,8 +118,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.put({
       url: apiRoutes.ADD_CHAT_AVATAR,
       options: {
-        id,
-        avatar,
+        data: { id, avatar },
       },
     });
   }
@@ -128,8 +127,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.put({
       url: apiRoutes.CHAT_USERS,
       options: {
-        users,
-        chatId,
+        data: { users, chatId },
       },
     });
   }
@@ -138,8 +136,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.delete({
       url: apiRoutes.CHAT_USERS,
       options: {
-        users,
-        chatId,
+        data: { users, chatId },
       },
     });
   }
@@ -148,7 +145,7 @@ class ChatAPI extends BaseAPI {
     return chatApiInstance.post({
       url: `${apiRoutes.GET_TOKEN}/${id}`,
       options: {
-        id,
+        data: { id },
       },
     });
   }

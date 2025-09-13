@@ -1,8 +1,9 @@
 /* eslint-disable nonblock-statement-body-position */
 import chatAPI from '../../core/api/chatApi';
-import socketOrchestration from '../../core/socket/socketOrchestration';
+import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatMenuProps } from '../../types/chat';
+import getDataFromInputs from '../../utils/getDataFromInputs';
 import ModalItem from '../modalItem/ModalItem';
 
 class ChatMenu extends TemplateBlock<ChatMenuProps> {
@@ -128,11 +129,16 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
       inputName: 'user',
       labelText: 'Пользователь',
       onSubmit: () => {
-        if (this.props.modalOpen === 'add') {
-          chatAPI.addUsersToChat({ users: [1], chatId: this.props.chat!.id });
-        } else {
-          chatAPI.removeUsersFromChat({ users: [1], chatId: this.props.chat!.id });
+        const { id: userId } = getDataFromInputs('modal__content');
+        const { id: chatId } = this.props.chat!;
+        if (chatId) {
+          if (this.props.modalOpen === 'add') {
+            chatAPI.addUsersToChat({ users: [userId], chatId });
+          } else {
+            chatAPI.removeUsersFromChat({ users: [userId], chatId });
+          }
         }
+
         this.closeModal();
       },
     });
