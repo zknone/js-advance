@@ -45,13 +45,11 @@ class UserAPI extends BaseAPI {
     });
   }
 
-  changeProfileAvatar(avatar: any) {
+  changeProfileAvatar(formData: any) {
     return chatAPIInstance.put({
       url: apiRoutes.CHANGE_AVATAR,
       options: {
-        data: {
-          avatar,
-        },
+        data: formData,
       },
     });
   }

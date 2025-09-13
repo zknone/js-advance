@@ -4,7 +4,6 @@ import CustomForm from '../../components/customForm/CustomForm';
 import CustomLink from '../../components/customLink/CustomLink';
 import MessageList from '../../components/messageList/MessageList';
 import MessageQuill from '../../components/messageQuill/MessageQuill';
-import ModalItem from '../../components/modalItem/ModalItem';
 import Search from '../../components/search/Search';
 import { ROUTES } from '../../consts/routes';
 import chatController from '../../controllers/chat/chatController';

@@ -34,6 +34,7 @@
       width: 130px;
       height: 130px;
       border-radius: 50%;
+       overflow: hidden;
 
       &:hover {
         background-color: black;
@@ -45,8 +46,13 @@
       }
     }
 
+
+
     img {
-      position: absolute;
+      object-fit: cover;
+      width: auto;
+      height: 130px;
+      position: relative;
       top: 50%;
       left: 50%;
       transform: translateX(-50%) translateY(-50%);

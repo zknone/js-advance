@@ -55,8 +55,10 @@ class UserController {
   }
 
   @withStoreStatus('Ошибка смены аватара')
-  async changeAvatar(avatar: any) {
-    await userAPI.changeProfileAvatar(avatar);
+  async changeAvatar(avatar: File) {
+    const formData = new FormData();
+    formData.append('avatar', avatar);
+    await userAPI.changeProfileAvatar(formData);
     await this.fetchMe();
   }
 

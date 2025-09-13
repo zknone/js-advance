@@ -1,5 +1,6 @@
 /* eslint-disable nonblock-statement-body-position */
-import chatAPI from '../../core/api/chatApi';
+import { API_BASE_URL } from '../../consts/api';
+import chatController from '../../controllers/chat/chatController';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatMenuProps } from '../../types/chat';
 import getDataFromInputs from '../../utils/getDataFromInputs';
@@ -21,6 +22,8 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
         openMenu: 'Открыть меню',
         addUser: 'Добавить пользователя',
         deleteUser: 'Удалить пользователя',
+        addAvatar: 'Установить аватар',
+        deleteChat: 'Удалить чат',
       },
       icons: {
         menu: {
@@ -53,6 +56,18 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
           width: 11,
           height: 11,
         },
+        addAvatar: {
+          src: '/public/img-icon.svg',
+          alt: 'Фон иконки удаления',
+          width: 22,
+          height: 22,
+        },
+        deleteChat: {
+          src: '/public/location-icon.svg',
+          alt: 'Иконка удаления',
+          width: 11,
+          height: 11,
+        },
       },
       settings: {
         withInternalID: true,
@@ -63,6 +78,7 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
       {
         ...defaultProps,
         ...props,
+        avatar: props.chat?.avatar ? `${API_BASE_URL}/resources${props.chat?.avatar}` : null,
         events: {
           click: {
             handler: (e: Event) => {
@@ -72,11 +88,19 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
               }
 
               if (target.closest('.chat-menu__actions-button--delete')) {
-                this.toggleToDelete();
+                this.toggleToDeleteUser();
               }
 
               if (target.closest('.chat-menu__actions-button--add')) {
-                this.toggleToAdd();
+                this.toggleToAddUser();
+              }
+
+              if (target.closest('.chat-menu__actions-button--avatar')) {
+                this.toggleToChangeAvatar();
+              }
+
+              if (target.closest('.chat-menu__actions-button--delete-chat')) {
+                this.toggleDeleteChat();
               }
             },
           },
@@ -116,26 +140,76 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
   }
 
   render() {
-    this.children.modalItem = new ModalItem({
-      type: 'input',
+    let modalProps: any = {
       method: 'POST',
       action: '',
-      title:
-        this.props.modalOpen === 'add' ? 'Добавить нового пользователя' : 'Удалить пользователя',
-      submitText: this.props.modalOpen === 'add' ? 'Добавить' : 'Удалить',
       isOpen: Boolean(this.props.modalOpen),
-      inputId: 'user',
-      inputName: 'user',
-      labelText: 'Пользователь',
-      onSubmit: () => {
-        const { id: userId } = getDataFromInputs('modal__content');
+    };
+
+    if (this.props.modalOpen === 'add') {
+      modalProps = {
+        ...modalProps,
+        type: 'input',
+        title: 'Добавить нового пользователя',
+        submitText: 'Добавить',
+        inputId: 'user',
+        inputName: 'user',
+        labelText: 'Пользователь',
+      };
+    } else if (this.props.modalOpen === 'delete') {
+      modalProps = {
+        ...modalProps,
+        type: 'input',
+        title: 'Удалить пользователя',
+        submitText: 'Удалить',
+        inputId: 'user',
+        inputName: 'user',
+        labelText: 'Пользователь',
+      };
+    } else if (this.props.modalOpen === 'avatar') {
+      modalProps = {
+        ...modalProps,
+        type: 'avatar',
+        title: 'Загрузить аватар чата',
+        submitText: 'Сохранить',
+        inputId: 'avatar',
+        inputName: 'avatar',
+        labelText: 'Выберите файл',
+      };
+    } else if (this.props.modalOpen === 'delete-chat') {
+      modalProps = {
+        ...modalProps,
+        type: 'input',
+        title: 'Удалить чат',
+        submitText: 'Удалить',
+        inputId: 'chat',
+        inputName: 'chat',
+        labelText: 'Напишите "Да", чтобы подтвердить',
+      };
+    }
+
+    this.children.modalItem = new ModalItem({
+      ...modalProps,
+      onSubmit: (e: Event) => {
+        const form = e.target as HTMLFormElement;
         const { id: chatId } = this.props.chat!;
-        if (chatId) {
-          if (this.props.modalOpen === 'add') {
-            chatAPI.addUsersToChat({ users: [userId], chatId });
-          } else {
-            chatAPI.removeUsersFromChat({ users: [userId], chatId });
+
+        if (!chatId) return;
+
+        if (this.props.modalOpen === 'add') {
+          const { user } = getDataFromInputs('modal__content');
+          chatController.addUsersToChat([user], chatId);
+        } else if (this.props.modalOpen === 'delete') {
+          const { user } = getDataFromInputs('modal__content');
+          chatController.removeUsersFromChat([user], chatId);
+        } else if (this.props.modalOpen === 'avatar') {
+          const input = form.querySelector<HTMLInputElement>('input[type="file"]');
+          const file = input?.files?.[0];
+          if (file) {
+            chatController.addAvatar(chatId, file);
           }
+        } else if (this.props.modalOpen === 'delete-chat') {
+          chatController.deleteChat(chatId);
         }
 
         this.closeModal();
@@ -145,13 +219,23 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
     return this.compile('chatMenu', this.props);
   }
 
-  toggleToDelete() {
+  toggleToDeleteUser() {
     this.setProps({ ...this.props, modalOpen: 'delete' });
     document.addEventListener('click', this.handleOutsideModalClick, true);
   }
 
-  toggleToAdd() {
+  toggleToAddUser() {
     this.setProps({ ...this.props, modalOpen: 'add' });
+    document.addEventListener('click', this.handleOutsideModalClick, true);
+  }
+
+  toggleToChangeAvatar() {
+    this.setProps({ ...this.props, modalOpen: 'avatar' });
+    document.addEventListener('click', this.handleOutsideModalClick, true);
+  }
+
+  toggleDeleteChat() {
+    this.setProps({ ...this.props, modalOpen: 'delete-chat' });
     document.addEventListener('click', this.handleOutsideModalClick, true);
   }
 

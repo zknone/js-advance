@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../consts/api';
 import { ROUTES } from '../../consts/routes';
 import router from '../../core/routerEngine/router';
 import store from '../../core/store/store';
@@ -20,6 +21,7 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       {
         ...defaultProps,
         ...props,
+        avatar: props.avatar ? `${API_BASE_URL}/resources${props.avatar}` : null,
         settings: {
           withInternalID: true,
         },

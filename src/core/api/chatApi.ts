@@ -45,11 +45,11 @@ class ChatAPI extends BaseAPI {
     });
   }
 
-  deleteChat(id: number): Promise<{ id: number }> {
+  deleteChat(chatId: number): Promise<{ chatId: number }> {
     return chatApiInstance.delete({
       url: apiRoutes.CHATS,
       options: {
-        data: { id },
+        data: { chatId },
       },
     });
   }
@@ -114,11 +114,11 @@ class ChatAPI extends BaseAPI {
     });
   }
 
-  addAvatar(id: number, avatar: Blob): Promise<IChat> {
+  addAvatar(formData: any): Promise<IChat> {
     return chatApiInstance.put({
       url: apiRoutes.ADD_CHAT_AVATAR,
       options: {
-        data: { id, avatar },
+        data: formData,
       },
     });
   }

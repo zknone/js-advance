@@ -32,7 +32,7 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
           submit: {
             handler: (e: Event) => {
               e.preventDefault();
-              props.onSubmit?.();
+              props.onSubmit?.(e);
             },
           },
         },
@@ -47,10 +47,10 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
       this.children.inputItem = new InputItem({
         value: '',
         type: 'text',
-        placeholder: 'Введите id пользователя',
-        title: 'Id пользователя',
+        placeholder: `Введите ${this.props.inputName} id`,
+        title: `${this.props.inputName} id`,
         error: null,
-        name: 'id',
+        name: this.props.inputId,
         variant: 'regular',
       });
     }

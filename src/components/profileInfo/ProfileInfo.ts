@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../consts/api';
 import userController from '../../controllers/user/userController';
 import type { ILoggedUser, IPassword, IProfile } from '../../core/api/interfaces';
 import store from '../../core/store/store';
@@ -55,6 +56,11 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
         ...this.props,
         name: `${user.second_name ?? ''} ${user.first_name ?? ''}`.trim(),
         infoFields: fields,
+        avatar: {
+          changeText: 'Аватар',
+          iconSrc: `${API_BASE_URL}/resources${user.avatar}`,
+          iconAlt: user.avatar ?? '',
+        },
       });
     });
   }
@@ -123,6 +129,17 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       labelText: 'добавьте аватарку',
       type: 'avatar',
       isOpen: Boolean(this.props.menuOpened),
+      onSubmit: (e: Event) => {
+        e.preventDefault();
+        const input = (e.target as HTMLFormElement).querySelector<HTMLInputElement>(
+          'input[type="file"]'
+        );
+        const file = input?.files?.[0];
+        if (file) {
+          userController.changeAvatar(file);
+        }
+        this.closeModal();
+      },
     });
 
     const handleChangeProfile = () => {

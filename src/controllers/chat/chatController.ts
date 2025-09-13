@@ -103,7 +103,10 @@ class ChatController {
 
   @withStoreStatus('Ошибка загрузки аватарки')
   async addAvatar(id: number, file: File) {
-    const updated = await chatAPI.addAvatar(id, file);
+    const formData = new FormData();
+    formData.append('chatId', String(id));
+    formData.append('avatar', file);
+    const updated = await chatAPI.addAvatar(formData);
     const { chats } = store.getState();
     if (Array.isArray(chats)) {
       const next = chats.map((c) => (String(c.id) === String(id) ? { ...c, ...updated } : c));

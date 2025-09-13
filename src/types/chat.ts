@@ -45,11 +45,14 @@ interface IconSpec {
 export interface ChatMenuProps extends BlockBasics<AdditionalField> {
   chat?: ChatItemProps;
   menuOpened?: boolean;
-  modalOpen: 'add' | 'delete' | null;
+  avatar?: string | null;
+  modalOpen: 'add' | 'delete' | 'avatar' | 'delete-chat' | null;
   labels?: {
     openMenu: string;
     addUser: string;
     deleteUser: string;
+    addAvatar: string;
+    deleteChat: string;
   };
   icons?: {
     menu: IconSpec;
@@ -57,6 +60,8 @@ export interface ChatMenuProps extends BlockBasics<AdditionalField> {
     addCross: IconSpec;
     deleteBg: IconSpec;
     deleteCross: IconSpec;
+    addAvatar: IconSpec;
+    deleteChat: IconSpec;
   };
   toggleMenu: () => void;
 }
@@ -141,7 +146,7 @@ export interface ModalItemProps extends BlockBasics<AdditionalField> {
   inputId: string;
   inputName: string;
   labelText: string;
-  onSubmit?: () => void;
+  onSubmit?: (e: Event) => void;
 }
 
 export interface Field {
