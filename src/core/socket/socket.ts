@@ -1,10 +1,10 @@
 import type { IMessageResponse, ISocketData } from '../../types/socket';
-import { isArray } from '../../utils/checkTypes';
 import store from '../store/store';
-import socketOrchestration from './socketOrchestration';
 
 class Socket {
   userId: number;
+
+  onOpen?: () => void;
 
   private socket: WebSocket | null = null;
 
@@ -24,7 +24,7 @@ class Socket {
     );
 
     this.socket.addEventListener('open', () => {
-      socketOrchestration.fetchOld(this.chatId);
+      this.onOpen?.();
     });
 
     this.socket.addEventListener('close', (event) => {

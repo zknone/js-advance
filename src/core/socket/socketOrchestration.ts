@@ -11,12 +11,10 @@ class SocketOrchestration {
 
   addNewSocket(data: ISocketData) {
     const { chatId } = data;
-    const exactSocket = this.getSocketByChatId(chatId);
-
-    if (!exactSocket) {
+    if (!this.getSocketByChatId(chatId)) {
       const newSocket = new Socket(data);
+      newSocket.onOpen = () => this.fetchOld(chatId);
       newSocket.init();
-
       this.activeSockets[chatId] = newSocket;
     }
   }
