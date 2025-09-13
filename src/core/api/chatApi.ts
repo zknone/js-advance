@@ -1,6 +1,6 @@
 import { API_BASE_URL, apiRoutes } from '../../consts/api';
 import HTTPTransport from '../../utils/fetch';
-import BaseAPI from './baseAPI';
+import BaseAPI from './baseApi';
 import type { IChat, IFilesSent, IToken, IUser } from './interfaces';
 
 const chatApiInstance = new HTTPTransport(API_BASE_URL);
