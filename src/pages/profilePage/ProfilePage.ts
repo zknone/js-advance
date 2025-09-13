@@ -22,7 +22,7 @@ class ProfilePage extends TemplatePage<AdditionalField> {
       text: null,
       variant: 'icon',
       icon: {
-        src: '/public/exit-icon.svg',
+        src: '/exit-icon.svg',
         alt: 'Назад',
       },
       type: 'button',
