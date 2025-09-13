@@ -184,6 +184,7 @@ export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
 
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   className?: string;
+  menuOpened?: boolean;
   name: string;
   avatar?: AvatarCfg;
   infoFields: InfoFieldProps[];

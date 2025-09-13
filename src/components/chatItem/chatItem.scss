@@ -5,6 +5,17 @@
   border-bottom: 1px solid var(--color-light-grey);
   cursor: pointer;
 
+  &--active {
+    background-color: var(--color-light-grey);
+    border-bottom: 1px solid var(--color-bg-sidebar);
+  }
+
+
+  &:hover {
+    background-color: var(--color-light-grey);
+    border-bottom: 1px solid var(--color-bg-sidebar);
+  }
+
   &__avatar {
     width: 48px;
     height: 48px;

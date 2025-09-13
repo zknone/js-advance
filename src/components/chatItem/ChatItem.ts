@@ -10,8 +10,10 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       unreadCount: 0,
     };
 
+    const chosenChat = store.getState().activeChat;
+
     const tagName = 'li';
-    const tagClassName = 'chat-item';
+    const tagClassName = `chat-item ${props.id === chosenChat && 'chat-item--active'}`;
 
     super(
       'chatItem',

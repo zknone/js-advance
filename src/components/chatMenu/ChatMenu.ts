@@ -1,6 +1,5 @@
 /* eslint-disable nonblock-statement-body-position */
 import chatAPI from '../../core/api/chatApi';
-import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatMenuProps } from '../../types/chat';
 import getDataFromInputs from '../../utils/getDataFromInputs';

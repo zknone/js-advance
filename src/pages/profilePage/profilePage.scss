@@ -27,7 +27,7 @@
       padding: calc((100vh - 36px)/2) 18px;
     }
 
-    :hover {
+    &:hover {
       background-color: var(--color-light-grey);
       cursor: pointer;
     }

@@ -13,6 +13,10 @@ import ProfileInfoView from '../profileInfoView/ProfileInfoView';
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   private subscribe?: () => void;
 
+  private isOpened = false;
+
+  private mountCtl = new AbortController();
+
   constructor(props: ProfilePageProps) {
     const defaultProps: ProfileInfoProps = {
       infoFields: baseFields,
@@ -55,21 +59,71 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
     });
   }
 
+  componentDidMount(): void {
+    this.mountCtl.abort();
+    this.mountCtl = new AbortController();
+    const avatarDiv = document.querySelector<HTMLDivElement>('.profile-info__avatar');
+    avatarDiv?.addEventListener('click', this.handleOpenModal, { signal: this.mountCtl.signal });
+  }
+
   destroy() {
     this.subscribe?.();
     super.destroy?.();
+
+    this.mountCtl.abort();
+  }
+
+  private handleOpenModal = (e: MouseEvent): void => {
+    e.stopPropagation();
+
+    this.openModal();
+
+    if (this.isOpened) {
+      document.addEventListener('click', this.handleOutsideModalClick, {
+        signal: this.mountCtl.signal,
+      });
+    } else {
+      document.removeEventListener('click', this.handleOutsideModalClick);
+    }
+  };
+
+  private handleOutsideModalClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+
+    if (!target.closest('.modal') && !target.closest('.profile-info__avatar')) {
+      this.closeModal();
+    }
+  };
+
+  openModal() {
+    this.isOpened = true;
+    this.setProps({ ...this.props, menuOpened: true });
+    document.removeEventListener('click', this.handleOpenModal);
+  }
+
+  closeModal() {
+    this.isOpened = false;
+    this.setProps({ ...this.props, menuOpened: false });
+    const avatarDiv = document.querySelector<HTMLDivElement>('.profile-info__avatar');
+    document.removeEventListener('click', this.handleOutsideModalClick);
+    avatarDiv?.addEventListener('click', this.handleOpenModal);
   }
 
   render(): DocumentFragment {
     const mode = this.props.query?.editing;
-
-    const { modalItem } = this.props;
-
     const isPass = mode === 'pass';
 
-    if (modalItem) {
-      this.children.modalItem = new ModalItem(modalItem);
-    }
+    this.children.modalItem = new ModalItem({
+      method: 'PUT',
+      action: '123',
+      title: 'Заменим аватар',
+      submitText: 'Сохранить',
+      inputId: 'avatar',
+      inputName: 'Аватар',
+      labelText: 'добавьте аватарку',
+      type: 'avatar',
+      isOpen: Boolean(this.props.menuOpened),
+    });
 
     const handleChangeProfile = () => {
       const data = getDataFromInputs('profile-info-form');
