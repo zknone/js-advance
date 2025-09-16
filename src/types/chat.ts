@@ -195,7 +195,7 @@ export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
   modalItem?: ModalItemProps;
   query: {
-    editing: null | 'credentials' | 'pass';
+    editing: 'view' | 'credentials' | 'pass';
   };
 }
 

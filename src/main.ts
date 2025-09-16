@@ -19,12 +19,14 @@ import.meta.glob('./pages/**/*.scss', {
 });
 
 const templates = import.meta.glob('./components/**/*.hbs', {
-  as: 'raw',
+  query: '?raw',
+  import: 'default',
   eager: true,
 }) as Record<string, string>;
 
 const pages = import.meta.glob('./pages/**/*.hbs', {
-  as: 'raw',
+  query: '?raw',
+  import: 'default',
   eager: true,
 }) as Record<string, string>;
 

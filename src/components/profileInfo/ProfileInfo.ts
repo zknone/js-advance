@@ -23,7 +23,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       infoFields: baseFields,
       name: typeof props.name === 'string' ? props.name : 'Ошибка',
       settings: { withInternalID: true },
-      query: { editing: null },
+      query: { editing: 'view' },
     };
     const tagName = 'section';
     const tagClassName = 'profile-info';
