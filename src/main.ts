@@ -30,15 +30,17 @@ const pages = import.meta.glob('./pages/**/*.hbs', {
 
 TemplateEngine.init(templates, pages);
 
-try {
-  await userController.fetchMe();
-} finally {
-  router
-    .use({ pathname: ROUTES.login }, LoginPage)
-    .use({ pathname: ROUTES.messenger, protected: true }, MainPage)
-    .use({ pathname: ROUTES.signup }, SignupPage)
-    .use({ pathname: ROUTES[404] }, NotFoundPage)
-    .use({ pathname: ROUTES[500] }, LoadingErrorPage)
-    .use({ pathname: ROUTES.settings, protected: true }, ProfilePage)
-    .start();
-}
+(async () => {
+  try {
+    await userController.fetchMe();
+  } finally {
+    router
+      .use({ pathname: ROUTES.login }, LoginPage)
+      .use({ pathname: ROUTES.messenger, protected: true }, MainPage)
+      .use({ pathname: ROUTES.signup }, SignupPage)
+      .use({ pathname: ROUTES[404] }, NotFoundPage)
+      .use({ pathname: ROUTES[500] }, LoadingErrorPage)
+      .use({ pathname: ROUTES.settings, protected: true }, ProfilePage)
+      .start();
+  }
+})();

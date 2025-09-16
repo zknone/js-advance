@@ -14,7 +14,7 @@ interface IStore extends AdditionalField {
   messages: Record<number, Record<number, MessageItemProps>>;
   query: {
     id: number | string | null;
-    editing: null | 'credentials' | 'pass';
+    editing: 'view' | 'credentials' | 'pass';
   };
 }
 

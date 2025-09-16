@@ -119,9 +119,11 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   render(): DocumentFragment {
     const { query } = store.getState();
 
-    const mode = query ? query.editing : null;
+    const mode = query.editing;
 
+    const isView = mode === 'view';
     const isPass = mode === 'pass';
+    const isCreds = mode === 'credentials';
 
     this.children.modalItem = new ModalItem({
       method: 'PUT',
@@ -150,16 +152,17 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       const data = getDataFromInputs('profile-info-form');
       if (isPass) {
         userController.changePassword(data as IPassword);
-      } else {
+      } else if (isCreds) {
         userController.changeProfile(data as IProfile);
       }
     };
 
-    const formProps = !isPass
-      ? { ...this.props, onSubmit: handleChangeProfile }
-      : { ...this.props, infoFields: basePasswordFields, onSubmit: handleChangeProfile };
+    const formProps =
+      !isView && !isPass
+        ? { ...this.props, onSubmit: handleChangeProfile }
+        : { ...this.props, infoFields: basePasswordFields, onSubmit: handleChangeProfile };
 
-    this.children.infoFields = mode
+    this.children.infoFields = !isView
       ? new ProfileInfoEdit(formProps)
       : new ProfileInfoView(this.props);
 

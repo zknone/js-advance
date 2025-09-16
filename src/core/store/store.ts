@@ -19,7 +19,7 @@ class Store extends EventBus {
     messages: {},
     query: {
       id: null,
-      editing: null,
+      editing: 'view',
     },
   };
 
