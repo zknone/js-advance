@@ -41,6 +41,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
     this.subscribe = store.subscribe((state: IStore) => {
       const user = state?.user;
       if (!user) return;
+      const { query } = state;
 
       const fields = [...defaultProps.infoFields].map((item) => {
         const { name } = item;
@@ -61,6 +62,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
           iconSrc: `${API_BASE_URL}/resources${user.avatar}`,
           iconAlt: user.avatar ?? '',
         },
+        query,
       });
     });
   }
@@ -75,7 +77,6 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   destroy() {
     this.subscribe?.();
     super.destroy?.();
-
     this.mountCtl.abort();
   }
 
@@ -116,7 +117,10 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   }
 
   render(): DocumentFragment {
-    const mode = this.props.query?.editing;
+    const { query } = store.getState();
+
+    const mode = query ? query.editing : null;
+
     const isPass = mode === 'pass';
 
     this.children.modalItem = new ModalItem({

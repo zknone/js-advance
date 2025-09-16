@@ -52,6 +52,7 @@ class Route<P extends AdditionalField = AdditionalField> {
         ...this._pageProps,
         query,
       } as unknown as P;
+
       this._block = new this._blockClass(props);
       renderPage(this._block, this._rootQuery);
       return;

@@ -56,6 +56,7 @@ class Router {
 
   _onRoute(pathname: Path) {
     const route = this.getRoute(pathname);
+
     if (!route) {
       this.go({ pathname: ROUTES[404] });
       return;
@@ -70,7 +71,7 @@ class Router {
     }
 
     if ((pathname.pathname === ROUTES.login || pathname.pathname === ROUTES.signup) && isLoggedIn) {
-      this.go({ pathname: ROUTES.messenger });
+      this.go({ pathname: ROUTES.messenger, query: pathname.query });
       return;
     }
 
@@ -79,24 +80,38 @@ class Router {
     }
 
     this._currentRoute = route;
+
+    if (pathname.query) {
+      store.set('query', pathname.query);
+    } else {
+      store.set('query', null);
+    }
     route.navigate(pathname);
   }
 
   @(GuardProperty<Router>()('history', 'there is no history'))
   private pushState(path: Path) {
-    const qs = path.query ? queryStringify(path.query) : undefined;
-    const url = qs ? `${path.pathname}?${qs}` : path.pathname;
+    const qs = path.query ? queryStringify(path.query) : '';
+    const url = `${path.pathname}${qs ? `?${qs}` : ''}`;
     this.history.pushState(path, '', url);
   }
 
-  go(pathname: Path) {
-    this.pushState(pathname);
-    this._onRoute(pathname);
+  go(path: Path) {
+    const current = parsePath(window.location.pathname, window.location.search);
+
+    const target: Path = {
+      pathname: path.pathname,
+      query:
+        path.pathname !== current.pathname ? path.query : path.query ? path.query : current.query,
+    };
+
+    this.pushState(target);
+    this._onRoute(target);
   }
 
   @(GuardProperty<Router>()('history', 'there is no history'))
   back() {
-    this.history!.back();
+    this.history.back();
   }
 
   @(GuardProperty<Router>()('history', 'there is no history'))

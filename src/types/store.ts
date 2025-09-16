@@ -12,7 +12,10 @@ interface IStore extends AdditionalField {
   chats: ChatItemProps[] | null;
   chatsArchived: IChat[] | null;
   messages: Record<number, Record<number, MessageItemProps>>;
-  activeChat: number | null;
+  query: {
+    id: number | string | null;
+    editing: null | 'credentials' | 'pass';
+  };
 }
 
 export type { IStore };

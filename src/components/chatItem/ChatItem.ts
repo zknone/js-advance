@@ -11,7 +11,7 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       unreadCount: 0,
     };
 
-    const chosenChat = store.getState().activeChat;
+    const chosenChat = Number(store.getState().query.id);
 
     const tagName = 'li';
     const tagClassName = `chat-item ${props.id === chosenChat && 'chat-item--active'}`;
