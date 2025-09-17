@@ -20,4 +20,16 @@ const apiRoutes = {
   GET_TOKEN: '/chats/token',
 };
 
-export { API_BASE_URL, apiRoutes };
+const httpStatus = {
+  Ok: 200,
+  Created: 201,
+  NoContent: 204,
+  MultipleChoices: 300,
+  BadRequest: 400,
+  Unauthorized: 401,
+  Forbidden: 403,
+  NotFound: 404,
+  Conflict: 409,
+  InternalServerError: 500,
+};
+export { API_BASE_URL, apiRoutes, httpStatus };

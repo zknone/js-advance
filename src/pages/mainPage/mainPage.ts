@@ -23,7 +23,7 @@ const insideFormClassName = 'custom-form';
 class MainPage extends TemplatePage<MainPageProps> {
   unsubscribe: StoreListener;
 
-  constructor() {
+  constructor(props: MainPageProps) {
     super({
       page: PAGE.MAIN,
       settings: {
@@ -37,25 +37,37 @@ class MainPage extends TemplatePage<MainPageProps> {
       chatList: [],
       messageList: {},
       messageQuill: mainPageData.messageQuill,
-      query: { id: null },
+      query: props.query,
     });
 
     this.unsubscribe = store.subscribe((state: IStore) => {
       const { user } = state;
       const chats = state.chats ?? [];
       const messages = state.messages ?? {};
-      const id = state.query.id ? state.query.id.toString() : null;
-      const digitId = state.query.id;
+
+      const { query } = state;
+      const digitId = query?.id ?? null;
+
       const messageList = digitId ? messages[Number(digitId)] : {};
       if (!user) return;
 
-      this.setProps({
-        ...this.props,
-        chatList: chats,
-        makeNewChat: chats?.length ? Boolean(chats?.length) !== Boolean(id) : true,
-        messageList,
-        query: { id },
-      });
+      if (digitId) {
+        const stringId = digitId.toString();
+        this.setProps({
+          ...this.props,
+          chatList: chats,
+          makeNewChat: !chats?.length,
+          messageList,
+          query: { id: stringId },
+        });
+      } else {
+        this.setProps({
+          ...this.props,
+          chatList: chats,
+          makeNewChat: true,
+          messageList,
+        });
+      }
     });
   }
 
@@ -64,13 +76,12 @@ class MainPage extends TemplatePage<MainPageProps> {
       await chatController.getChats();
     }
 
-    const { user } = store.getState();
+    const { user, chats, query } = store.getState();
     const { id: userId } = user!;
-    const {
-      query: { id: activeChat },
-    } = store.getState();
 
-    if (activeChat && !socketOrchestration.isConnected(Number(activeChat)) && userId) {
+    const activeChat = query?.id ?? null;
+
+    if (chats && activeChat && !socketOrchestration.isConnected(Number(activeChat)) && userId) {
       const { token } = await chatController.getChatToken(Number(activeChat));
       socketOrchestration.addNewSocket({
         userId,
@@ -93,15 +104,16 @@ class MainPage extends TemplatePage<MainPageProps> {
       settings: { withInternalID: true },
     });
 
+    const chatList = Array.isArray(this.props.chatList) ? this.props.chatList : [];
+
     this.children.chatList = new ChatList({
       ...this.props,
-      chatList: this.props.chatList ?? [],
+      chatList,
       settings: { withInternalID: true },
     });
 
-    const chatList = Array.isArray(this.props.chatList) ? this.props.chatList : [];
-
     const queryId = store.getState()?.query?.id;
+
     const exactChat = chatList.find(
       (item) => item?.id.toString() === (queryId != null ? queryId.toString() : '')
     );
@@ -112,11 +124,13 @@ class MainPage extends TemplatePage<MainPageProps> {
       modalOpen: null,
     });
 
-    this.children.messageList = new MessageList({
-      ...this.props,
-      messageList,
-      settings: { withInternalID: true },
-    });
+    if (messageList.length) {
+      this.children.messageList = new MessageList({
+        ...this.props,
+        messageList,
+        settings: { withInternalID: true },
+      });
+    }
 
     this.children.messageQuill = new MessageQuill({
       ...this.props.messageQuill,
@@ -152,10 +166,6 @@ class MainPage extends TemplatePage<MainPageProps> {
 
     this.children.customForm = new CustomForm({
       title: 'Создание чата',
-      customLink: {
-        text: 'Назад',
-        href: '',
-      },
       customButton: {
         text: 'Создать',
         type: 'submit',

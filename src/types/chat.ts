@@ -73,7 +73,7 @@ export interface CustomButtonProps extends BlockBasics<AdditionalField> {
   text: string | null;
   color?: Colors;
   variant?: ButtonVariants;
-  onClick?: () => void;
+  onClick?: (e: Event) => void;
   type?: 'button' | 'submit' | 'reset';
   icon?: IconSpec;
   path?: Path;
@@ -83,7 +83,7 @@ export interface CustomFormProps extends BlockBasics<AdditionalField> {
   title: string;
   customButton: CustomButtonProps;
   inputFields: InputItemProps[];
-  customLink: CustomLinkProps;
+  customLink?: CustomLinkProps;
 }
 
 export interface CustomLinkProps extends BlockBasics<AdditionalField> {
@@ -135,7 +135,7 @@ export interface MessageQuillProps extends BlockBasics<AdditionalField> {
 }
 
 export interface ModalItemProps extends BlockBasics<AdditionalField> {
-  type: 'avatar' | 'input';
+  type: 'avatar' | 'input' | 'yesNo';
   isAvatar?: boolean;
   isInput?: boolean;
   method: string;
@@ -184,7 +184,7 @@ export interface InfoFieldProps extends BlockBasics<AdditionalField> {
 export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
   button?: CustomButtonProps;
-  onSubmit?: () => void;
+  onSubmit?: (e: Event) => void;
 }
 
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {

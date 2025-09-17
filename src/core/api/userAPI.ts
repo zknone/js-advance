@@ -3,11 +3,11 @@ import HTTPTransport from '../../utils/fetch';
 import BaseAPI from './baseApi';
 import type { ILogin, INewUser, IPassword, IProfile } from './interfaces';
 
-const chatAPIInstance = new HTTPTransport(API_BASE_URL);
-
 class UserAPI extends BaseAPI {
+  private readonly userAPIInstance = new HTTPTransport(API_BASE_URL);
+
   signUp(data: INewUser) {
-    return chatAPIInstance.post({
+    return this.userAPIInstance.post({
       url: apiRoutes.SIGNUP,
       options: {
         data,
@@ -16,7 +16,7 @@ class UserAPI extends BaseAPI {
   }
 
   signIn(data: ILogin): Promise<{ id: number }> {
-    return chatAPIInstance.post({
+    return this.userAPIInstance.post({
       url: apiRoutes.SIGNIN,
       options: {
         data,
@@ -25,7 +25,7 @@ class UserAPI extends BaseAPI {
   }
 
   request() {
-    return chatAPIInstance.get({ url: apiRoutes.USER });
+    return this.userAPIInstance.get({ url: apiRoutes.USER });
   }
 
   getUser() {
@@ -33,11 +33,11 @@ class UserAPI extends BaseAPI {
   }
 
   logOut() {
-    return chatAPIInstance.post({ url: apiRoutes.LOGOUT });
+    return this.userAPIInstance.post({ url: apiRoutes.LOGOUT });
   }
 
   changeProfile(data: IProfile) {
-    return chatAPIInstance.put({
+    return this.userAPIInstance.put({
       url: apiRoutes.CHANGE_PROFILE,
       options: {
         data,
@@ -46,7 +46,7 @@ class UserAPI extends BaseAPI {
   }
 
   changeProfileAvatar(formData: any) {
-    return chatAPIInstance.put({
+    return this.userAPIInstance.put({
       url: apiRoutes.CHANGE_AVATAR,
       options: {
         data: formData,
@@ -55,7 +55,7 @@ class UserAPI extends BaseAPI {
   }
 
   changePassword(data: IPassword) {
-    return chatAPIInstance.put({
+    return this.userAPIInstance.put({
       url: apiRoutes.CHANGE_PASSWORD,
       options: {
         data,
@@ -64,7 +64,7 @@ class UserAPI extends BaseAPI {
   }
 
   findUser(login: string) {
-    return chatAPIInstance.put({
+    return this.userAPIInstance.put({
       url: apiRoutes.FIND_USER,
       options: {
         data: { login },

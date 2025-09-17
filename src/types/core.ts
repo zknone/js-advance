@@ -29,7 +29,7 @@ export type PlainObject<T = unknown> = {
 
 export interface Path {
   pathname: string;
-  query?: Record<string, string | number>;
+  query?: Record<string, string | number> | null;
   protected?: boolean;
 }
 

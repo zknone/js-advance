@@ -6,7 +6,7 @@ import chatAPI from '../../core/api/chatApi';
 import transformFetchedChats from '../../utils/transformFetchedChats';
 
 class ChatController {
-  @withStoreStatus('Ошибка запроса чатов', () => router.go({ pathname: ROUTES.messenger }))
+  @withStoreStatus('Ошибка запроса чатов')
   async getChats() {
     const rawChats = await chatAPI.getChats({ limit: 100 });
     const modifiedChats = transformFetchedChats(rawChats);
@@ -17,13 +17,13 @@ class ChatController {
   async createNewChat(title: string) {
     const newId = await chatAPI.createNewChat(title);
     await this.getChats();
-
     return newId;
   }
 
-  @withStoreStatus('Ошибка запроса создания чата', () => router.go({ pathname: ROUTES.messenger }))
+  @withStoreStatus('Ошибка запроса удаления чата', () => router.go({ pathname: ROUTES.messenger }))
   async deleteChat(id: number) {
     await chatAPI.deleteChat(id);
+    store.set('query', null);
     const { chats } = store.getState();
     if (chats) {
       const updatedChats = chats.filter((item) => item.id !== id);
@@ -31,9 +31,9 @@ class ChatController {
     }
   }
 
-  @withStoreStatus('Ошибка запроса создания чата')
+  @withStoreStatus('Ошибка запроса файлов')
   async getFiles(id: number) {
-    const files = chatAPI.deleteChat(id);
+    const files = chatAPI.getFiles(id);
     store.set('chatFiles', { [String(id)]: files });
     return files;
   }

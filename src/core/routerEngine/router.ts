@@ -46,9 +46,9 @@ class Router {
   start() {
     window.onpopstate = (event: PopStateEvent) => {
       if (event.state) {
-        this._onRoute(event.state as Path);
+        this._onRoute(event.state as Path, event.state);
       } else {
-        this._onRoute(parsePath(window.location.pathname, window.location.search));
+        this._onRoute(parsePath(window.location.pathname, window.location.search), event.state);
       }
     };
     this._onRoute(parsePath(window.location.pathname, window.location.search));
@@ -84,8 +84,9 @@ class Router {
     if (pathname.query) {
       store.set('query', pathname.query);
     } else {
-      store.set('query', null);
+      store.set('query', {});
     }
+
     route.navigate(pathname);
   }
 
@@ -97,16 +98,8 @@ class Router {
   }
 
   go(path: Path) {
-    const current = parsePath(window.location.pathname, window.location.search);
-
-    const target: Path = {
-      pathname: path.pathname,
-      query:
-        path.pathname !== current.pathname ? path.query : path.query ? path.query : current.query,
-    };
-
-    this.pushState(target);
-    this._onRoute(target);
+    this.pushState(path);
+    this._onRoute(path);
   }
 
   @(GuardProperty<Router>()('history', 'there is no history'))

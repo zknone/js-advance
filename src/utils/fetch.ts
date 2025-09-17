@@ -1,3 +1,4 @@
+import { httpStatus } from '../consts/api';
 import type { AdditionalField } from '../types/core';
 
 const METHODS = {
@@ -112,7 +113,7 @@ class HTTPTransport {
 
         const response = isJson ? JSON.parse(xhr.responseText) : xhr.responseText;
 
-        if (xhr.status >= 200 && xhr.status < 300) {
+        if (xhr.status >= httpStatus.Ok && xhr.status < httpStatus.MultipleChoices) {
           resolve(response as T);
         } else {
           // eslint-disable-next-line prefer-promise-reject-errors

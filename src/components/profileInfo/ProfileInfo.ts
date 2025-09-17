@@ -119,7 +119,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   render(): DocumentFragment {
     const { query } = store.getState();
 
-    const mode = query.editing;
+    const mode = query?.editing ?? null;
 
     const isView = mode === 'view';
     const isPass = mode === 'pass';

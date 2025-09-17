@@ -40,11 +40,11 @@ class CustomButton extends TemplateBlock<CustomButtonProps> {
       if (path && variant === 'link') {
         e.preventDefault();
         if (onClick) {
-          onClick();
+          onClick(e);
         }
         router.go(path);
       } else if (onClick) {
-        onClick();
+        onClick(e);
       }
     };
 

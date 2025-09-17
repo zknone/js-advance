@@ -1,5 +1,12 @@
 /* eslint-disable nonblock-statement-body-position */
 import { API_BASE_URL } from '../../consts/api';
+import {
+  chatMenuAddButtonProps,
+  chatMenuAvatarButtonProps,
+  chatMenuDefaultProps,
+  chatMenuDeleteButtonProps,
+  chatMenuDeleteChatButtonProps,
+} from '../../consts/components';
 import chatController from '../../controllers/chat/chatController';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatMenuProps } from '../../types/chat';
@@ -8,71 +15,7 @@ import ModalItem from '../modalItem/ModalItem';
 
 class ChatMenu extends TemplateBlock<ChatMenuProps> {
   constructor(props: ChatMenuProps) {
-    const defaultProps: Partial<ChatMenuProps> = {
-      chat: {
-        id: 0,
-        name: 'Error',
-        avatar: null,
-        createdBy: 0,
-        lastMessage: null,
-      },
-      menuOpened: false,
-      modalOpen: null,
-      labels: {
-        openMenu: 'Открыть меню',
-        addUser: 'Добавить пользователя',
-        deleteUser: 'Удалить пользователя',
-        addAvatar: 'Установить аватар',
-        deleteChat: 'Удалить чат',
-      },
-      icons: {
-        menu: {
-          src: '/menu-icon.svg',
-          alt: 'Открыть меню',
-          width: 3,
-          height: 15,
-        },
-        addBg: {
-          src: '/add-icon.svg',
-          alt: 'Фон иконки добавления',
-          width: 22,
-          height: 22,
-        },
-        addCross: {
-          src: '/add-cross.svg',
-          alt: 'Иконка добавления',
-          width: 11,
-          height: 11,
-        },
-        deleteBg: {
-          src: '/delete-icon.svg',
-          alt: 'Фон иконки удаления',
-          width: 22,
-          height: 22,
-        },
-        deleteCross: {
-          src: '/delete-cross.svg',
-          alt: 'Иконка удаления',
-          width: 11,
-          height: 11,
-        },
-        addAvatar: {
-          src: '/img-icon.svg',
-          alt: 'Фон иконки удаления',
-          width: 22,
-          height: 22,
-        },
-        deleteChat: {
-          src: '/location-icon.svg',
-          alt: 'Иконка удаления',
-          width: 11,
-          height: 11,
-        },
-      },
-      settings: {
-        withInternalID: true,
-      },
-    };
+    const defaultProps: Partial<ChatMenuProps> = chatMenuDefaultProps;
     super(
       'chatMenu',
       {
@@ -149,42 +92,22 @@ class ChatMenu extends TemplateBlock<ChatMenuProps> {
     if (this.props.modalOpen === 'add') {
       modalProps = {
         ...modalProps,
-        type: 'input',
-        title: 'Добавить нового пользователя',
-        submitText: 'Добавить',
-        inputId: 'user',
-        inputName: 'user',
-        labelText: 'Пользователь',
+        ...chatMenuAddButtonProps,
       };
     } else if (this.props.modalOpen === 'delete') {
       modalProps = {
         ...modalProps,
-        type: 'input',
-        title: 'Удалить пользователя',
-        submitText: 'Удалить',
-        inputId: 'user',
-        inputName: 'user',
-        labelText: 'Пользователь',
+        ...chatMenuDeleteButtonProps,
       };
     } else if (this.props.modalOpen === 'avatar') {
       modalProps = {
         ...modalProps,
-        type: 'avatar',
-        title: 'Загрузить аватар чата',
-        submitText: 'Сохранить',
-        inputId: 'avatar',
-        inputName: 'avatar',
-        labelText: 'Выберите файл',
+        ...chatMenuAvatarButtonProps,
       };
     } else if (this.props.modalOpen === 'delete-chat') {
       modalProps = {
         ...modalProps,
-        type: 'input',
-        title: 'Удалить чат',
-        submitText: 'Удалить',
-        inputId: 'chat',
-        inputName: 'chat',
-        labelText: 'Напишите "Да", чтобы подтвердить',
+        ...chatMenuDeleteChatButtonProps,
       };
     }
 
