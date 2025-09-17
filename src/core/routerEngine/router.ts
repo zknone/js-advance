@@ -46,9 +46,9 @@ class Router {
   start() {
     window.onpopstate = (event: PopStateEvent) => {
       if (event.state) {
-        this._onRoute(event.state as Path, event.state);
+        this._onRoute(event.state as Path);
       } else {
-        this._onRoute(parsePath(window.location.pathname, window.location.search), event.state);
+        this._onRoute(parsePath(window.location.pathname, window.location.search));
       }
     };
     this._onRoute(parsePath(window.location.pathname, window.location.search));
