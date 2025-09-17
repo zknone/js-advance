@@ -1,23 +1,39 @@
 import CustomForm from '../../components/customForm/CustomForm';
+import userController from '../../controllers/user/userController';
+import type { INewUser } from '../../core/api/interfaces';
 import TemplatePage from '../../core/templatePage/TemplatePage';
+import { signupFormData } from '../../mocks/signup';
 import type { CustomFormProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
+import getDataFromInputs from '../../utils/getDataFromInputs';
 
 interface SignupPageProps extends BlockBasics<AdditionalField> {
   customForm: CustomFormProps;
 }
 
+const tagClassName = 'signup-page';
+const insideFormClassName = 'custom-form';
+
 class SignupPage extends TemplatePage<SignupPageProps> {
-  constructor(props: SignupPageProps) {
+  constructor() {
     super({
-      ...props,
       page: PAGE.SIGN_UP,
       settings: {
         withInternalID: true,
       },
       tagName: 'div',
-      tagClassName: 'signup-page',
+      tagClassName,
+      customForm: signupFormData,
+      events: {
+        submit: {
+          handler: (e: Event) => {
+            e.preventDefault();
+            const data = getDataFromInputs(insideFormClassName);
+            userController.signUp(data as INewUser);
+          },
+        },
+      },
     });
   }
 

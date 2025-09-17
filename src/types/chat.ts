@@ -1,4 +1,4 @@
-import type { AdditionalField, BlockBasics } from './core';
+import type { AdditionalField, BlockBasics, Path } from './core';
 
 export type EventHandler = (e: Event) => void;
 
@@ -9,12 +9,26 @@ export type EventMap = {
   };
 };
 export interface ChatItemProps extends AdditionalField {
+  id: number;
   name: string;
-  time: string;
+  time?: string;
   className?: string;
-  message: string;
   unreadCount?: number;
   events?: EventMap;
+  avatar: string | null;
+  createdBy: number;
+  lastMessage: {
+    user: {
+      firstName: string;
+      secondName: string;
+      avatar: string;
+      email: string;
+      login: string;
+      phone: string;
+    };
+    time: string;
+    content: string;
+  } | null;
 }
 
 export interface ChatListProps extends BlockBasics<AdditionalField> {
@@ -29,14 +43,16 @@ interface IconSpec {
 }
 
 export interface ChatMenuProps extends BlockBasics<AdditionalField> {
-  name?: string;
+  chat?: ChatItemProps;
   menuOpened?: boolean;
-  showAdd?: boolean;
-  showDelete?: boolean;
+  avatar?: string | null;
+  modalOpen: 'add' | 'delete' | 'avatar' | 'delete-chat' | null;
   labels?: {
     openMenu: string;
     addUser: string;
     deleteUser: string;
+    addAvatar: string;
+    deleteChat: string;
   };
   icons?: {
     menu: IconSpec;
@@ -44,7 +60,10 @@ export interface ChatMenuProps extends BlockBasics<AdditionalField> {
     addCross: IconSpec;
     deleteBg: IconSpec;
     deleteCross: IconSpec;
+    addAvatar: IconSpec;
+    deleteChat: IconSpec;
   };
+  toggleMenu?: () => void;
 }
 
 export type Colors = 'red' | 'blue' | 'white';
@@ -54,8 +73,10 @@ export interface CustomButtonProps extends BlockBasics<AdditionalField> {
   text: string | null;
   color?: Colors;
   variant?: ButtonVariants;
+  onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   icon?: IconSpec;
+  path?: Path;
 }
 
 export interface CustomFormProps extends BlockBasics<AdditionalField> {
@@ -85,10 +106,12 @@ export interface MessageListProps extends BlockBasics<AdditionalField> {
 }
 
 export interface MessageItemProps extends BlockBasics<AdditionalField> {
+  id: number;
   text: string;
   isOwn?: boolean;
   time: string;
   image?: string;
+  type: string;
 }
 
 export interface MessageQuillProps extends BlockBasics<AdditionalField> {
@@ -112,6 +135,9 @@ export interface MessageQuillProps extends BlockBasics<AdditionalField> {
 }
 
 export interface ModalItemProps extends BlockBasics<AdditionalField> {
+  type: 'avatar' | 'input';
+  isAvatar?: boolean;
+  isInput?: boolean;
   method: string;
   action: string;
   title: string;
@@ -120,6 +146,7 @@ export interface ModalItemProps extends BlockBasics<AdditionalField> {
   inputId: string;
   inputName: string;
   labelText: string;
+  onSubmit?: (e: Event) => void;
 }
 
 export interface Field {
@@ -148,24 +175,28 @@ export interface AvatarCfg {
 export interface InfoFieldProps extends BlockBasics<AdditionalField> {
   label: string;
   type?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
-  value: string;
+  value: string | null;
   error: string | null;
 }
 
 export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
   button?: CustomButtonProps;
+  onSubmit?: () => void;
 }
 
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   className?: string;
+  menuOpened?: boolean;
   name: string;
-  mode?: ProfileMods;
   avatar?: AvatarCfg;
   infoFields: InfoFieldProps[];
   modalItem?: ModalItemProps;
+  query: {
+    editing: 'view' | 'credentials' | 'pass';
+  };
 }
 
 export type ProfilePageProps = Omit<ProfileInfoProps, 'infoFields'>;
@@ -177,4 +208,4 @@ export interface SearchProps extends BlockBasics<AdditionalField> {
   name?: string;
 }
 
-export type ProfileMods = 'view' | 'edit';
+export type ProfileMods = 'view' | 'edit-pass' | 'edit-credentials';

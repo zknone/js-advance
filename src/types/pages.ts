@@ -1,7 +1,9 @@
 import type {
   ChatItemProps,
   ChatMenuProps,
+  CustomButtonProps,
   CustomLinkProps,
+  InputItemProps,
   MessageItemProps,
   MessageQuillProps,
   SearchProps,
@@ -30,8 +32,18 @@ export type WithPage<P extends PublicPageProps> = P & {
 export interface MainPageProps extends AdditionalField {
   customLink: CustomLinkProps;
   search: SearchProps;
-  chatMenu: ChatMenuProps;
-  chatList: ChatItemProps[];
-  messageList: MessageItemProps[];
+  chatMenu?: ChatMenuProps;
+  chatList?: ChatItemProps[];
+  messageList?: Record<number, MessageItemProps>;
   messageQuill: MessageQuillProps;
+  query: {
+    id: null | string;
+  };
+}
+
+export interface LoginPageFormProps extends AdditionalField {
+  title: string;
+  customButton: CustomButtonProps;
+  inputFields: InputItemProps[];
+  customLink: CustomLinkProps;
 }

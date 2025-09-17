@@ -1,9 +1,9 @@
-import type { AvatarCfg, InfoFieldProps, ProfileInfoProps, ProfileMods } from '../types/chat';
+import type { AvatarCfg, InfoFieldProps, ProfileMods } from '../types/chat';
 
 const baseFields: InfoFieldProps[] = [
   {
     label: 'Почта',
-    value: 'ivanov@mail.ru',
+    value: null,
     name: 'email',
     type: 'email',
     placeholder: 'Почта',
@@ -11,7 +11,7 @@ const baseFields: InfoFieldProps[] = [
   },
   {
     label: 'Логин',
-    value: 'ivanivanov',
+    value: null,
     name: 'login',
     type: 'text',
     placeholder: 'Логин',
@@ -19,7 +19,7 @@ const baseFields: InfoFieldProps[] = [
   },
   {
     label: 'Имя',
-    value: 'Иван',
+    value: null,
     name: 'first_name',
     type: 'text',
     placeholder: 'Имя',
@@ -27,7 +27,7 @@ const baseFields: InfoFieldProps[] = [
   },
   {
     label: 'Фамилия',
-    value: 'Иванов',
+    value: null,
     name: 'second_name',
     type: 'text',
     placeholder: 'Фамилия',
@@ -35,7 +35,7 @@ const baseFields: InfoFieldProps[] = [
   },
   {
     label: 'Имя в чате',
-    value: 'Иван',
+    value: null,
     name: 'display_name',
     type: 'text',
     placeholder: 'Имя в чате',
@@ -43,7 +43,7 @@ const baseFields: InfoFieldProps[] = [
   },
   {
     label: 'Телефон',
-    value: '+79121234567',
+    value: null,
     name: 'phone',
     type: 'tel',
     placeholder: 'Телефон',
@@ -54,7 +54,7 @@ const baseFields: InfoFieldProps[] = [
 const basePasswordFields: InfoFieldProps[] = [
   {
     label: 'Старый пароль',
-    value: '',
+    value: null,
     name: 'oldPassword',
     type: 'password',
     placeholder: 'Введите старый пароль',
@@ -62,7 +62,7 @@ const basePasswordFields: InfoFieldProps[] = [
   },
   {
     label: 'Новый пароль',
-    value: '',
+    value: null,
     name: 'newPassword',
     type: 'password',
     placeholder: 'Введите старый пароль',
@@ -70,7 +70,7 @@ const basePasswordFields: InfoFieldProps[] = [
   },
   {
     label: 'Повторите новый пароль',
-    value: '',
+    value: null,
     name: 'confirmPassword',
     type: 'password',
     placeholder: 'Введите старый пароль',
@@ -86,15 +86,7 @@ const avatarMock: AvatarCfg = {
   iconH: 40,
 };
 
-const baseProfileMocks: Omit<ProfileInfoProps, 'infoFields'> = {
-  className: '',
-  name: 'Иван Стрельцов',
-  avatar: avatarMock,
-  mode: 'view' as ProfileMods,
-};
-
 const profileInfoMockEditingCredentials = {
-  ...baseProfileMocks,
   modalItem: {
     isOpen: false,
     method: 'POST',
@@ -109,13 +101,11 @@ const profileInfoMockEditingCredentials = {
 };
 
 const profileInfoMockEditingPass = {
-  ...baseProfileMocks,
   infoFields: basePasswordFields,
   mode: 'edit' as ProfileMods,
 };
 
 const profileInfoMock = {
-  ...baseProfileMocks,
   infoFields: basePasswordFields,
   mode: 'edit' as ProfileMods,
 };
@@ -123,7 +113,6 @@ const profileInfoMock = {
 export {
   baseFields,
   avatarMock,
-  baseProfileMocks,
   basePasswordFields,
   profileInfoMock,
   profileInfoMockEditingCredentials,

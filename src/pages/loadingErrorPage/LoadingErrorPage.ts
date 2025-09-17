@@ -1,15 +1,11 @@
 import CustomLink from '../../components/customLink/CustomLink';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import type { CustomLinkProps } from '../../types/chat';
-import type { AdditionalField, BlockBasics } from '../../types/core';
-import { PAGE } from '../../types/pages';
+import type { AdditionalField } from '../../types/core';
 
-interface LoadingErrorPublicProps extends BlockBasics<AdditionalField> {
-  customLink: CustomLinkProps;
-}
+import { PAGE, type WithPage } from '../../types/pages';
 
-class LoadingErrorPage extends TemplatePage<LoadingErrorPublicProps> {
-  constructor(props: LoadingErrorPublicProps) {
+class LoadingErrorPage extends TemplatePage<WithPage<AdditionalField>> {
+  constructor(props?: WithPage<AdditionalField>) {
     super({
       ...props,
       page: PAGE.LOADING_ERROR,
@@ -23,7 +19,8 @@ class LoadingErrorPage extends TemplatePage<LoadingErrorPublicProps> {
 
   protected gatherChildren() {
     this.children.customLink = new CustomLink({
-      ...this.props.customLink,
+      text: 'Назад',
+      href: '/',
       settings: { withInternalID: true },
     });
   }

@@ -80,10 +80,11 @@ const signupFormData: CustomFormProps = {
   inputFields: signupFields,
   customLink: {
     text: 'Войти',
-    href: '/login',
+    href: '/',
   },
   customButton: {
     text: 'Зарегистрироваться',
+    type: 'submit',
   },
 };
 

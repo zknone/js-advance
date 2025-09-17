@@ -1,15 +1,11 @@
 import CustomLink from '../../components/customLink/CustomLink';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import type { CustomLinkProps } from '../../types/chat';
-import type { AdditionalField, BlockBasics } from '../../types/core';
+import type { AdditionalField } from '../../types/core';
+
 import { PAGE } from '../../types/pages';
 
-interface NotFoundPageProps extends BlockBasics<AdditionalField> {
-  customLink: CustomLinkProps;
-}
-
-class NotFoundPage extends TemplatePage<NotFoundPageProps> {
-  constructor(props: NotFoundPageProps) {
+class NotFoundPage extends TemplatePage<AdditionalField> {
+  constructor(props?: AdditionalField) {
     super({
       ...props,
       page: PAGE.NOT_FOUND,
@@ -22,7 +18,7 @@ class NotFoundPage extends TemplatePage<NotFoundPageProps> {
   }
 
   protected gatherChildren() {
-    this.children.customLink = new CustomLink(this.props.customLink);
+    this.children.customLink = new CustomLink({ text: 'Назад', href: '/' });
   }
 }
 

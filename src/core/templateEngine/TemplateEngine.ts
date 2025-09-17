@@ -1,5 +1,7 @@
 import Handlebars from 'handlebars';
 
+import GuardProperty from '../../utils/decorators/guardProperty';
+
 const getTemplateFrom = (templateName: string, templates: Record<string, string>): string => {
   const key = Object.keys(templates).find((path) =>
     path.includes(`/${templateName}/${templateName}.hbs`)
@@ -18,20 +20,17 @@ class TemplateEngine {
   private constructor(templates: Record<string, string>, pages: Record<string, string>) {
     this.templates = templates;
     this.pages = pages;
-    // this.registerPartials();
   }
 
   static init(templates: Record<string, string>, pages: Record<string, string>) {
     if (!TemplateEngine.registry) {
       TemplateEngine.registry = new TemplateEngine(templates, pages);
     }
-    return TemplateEngine.registry;
+    return this.getRegistry();
   }
 
+  @(GuardProperty<typeof TemplateEngine>()('getRegistry', 'TemplateEngine not initialized'))
   static getRegistry(): TemplateEngine {
-    if (!TemplateEngine.registry) {
-      throw new Error('TemplateEngine not initialized');
-    }
     return TemplateEngine.registry;
   }
 

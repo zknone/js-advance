@@ -1,11 +1,20 @@
-<div class="main-page__sidebar">
-    {{{customLink}}}
-    {{{search}}}
-    {{{chatList}}}
-</div>
-<div class="main-page__chosen-chat">
-    {{{chatMenu}}}
-    {{{messageList}}}
-    {{{messageQuill}}}
-</div>
+<div class="main-page__wrapper">
+    <div class="main-page__sidebar">
+        {{{customLink}}}
+        {{{search}}}
+        {{{chatList}}}
+    </div>
+    <div class="main-page__chosen-chat">
 
+        {{#if query.id}}
+            {{{chatMenu}}}
+            {{{messageList}}}
+            {{{messageQuill}}}
+        {{/if}}
+        {{#if makeNewChat}}
+        <div class="main-page__action-button-container">
+            {{{customForm}}}
+        </div>
+        {{/if}}
+    </div>
+</div>

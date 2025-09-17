@@ -1,10 +1,13 @@
 import type TemplateBlock from '../core/templateBlock/TemplateBlock';
 
-const renderPage = <T extends Record<string, unknown>>(page: TemplateBlock<T>) => {
-  const root = document.getElementById('app');
-
+const renderPage = <T extends Record<string, unknown>>(
+  page: TemplateBlock<T>,
+  rootQuery: string
+) => {
+  const root = document.querySelector(rootQuery);
   const content = page.getContent();
   if (root && content) {
+    root.innerHTML = '';
     root.appendChild(content);
   }
 

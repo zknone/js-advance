@@ -23,6 +23,27 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
         ...defaultProps,
         ...props,
         settings: { withInternalID: true },
+        events: {
+          submit: {
+            handler: (e: Event) => {
+              console.log('вызвали');
+              e.preventDefault();
+              e.stopPropagation();
+              this.isValidated = this.validateAllFields();
+
+              if (this.isValidated) {
+                if (this.props.onSubmit) {
+                  this.props.onSubmit();
+                }
+                console.log('Валидация пройдена', this.state.inputFields);
+                this.isValidated = false;
+              } else {
+                console.log('Ошибки! Валидация не пройдена', this.state.inputFields);
+                this.isValidated = false;
+              }
+            },
+          },
+        },
       },
       tagName,
       tagClassName
@@ -79,26 +100,11 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
     this.children.buttons = new CustomButton({
       text: 'Отправить',
       type: 'submit',
+      variant: 'primary',
       tagName: 'button',
       tagClassName: 'custom-button',
       settings: {
         withInternalID: false,
-      },
-      events: {
-        click: {
-          handler: (e: Event) => {
-            e.preventDefault();
-            this.isValidated = this.validateAllFields();
-
-            if (this.isValidated) {
-              console.log('Валидация пройдена', this.state.inputFields);
-              this.isValidated = false;
-            } else {
-              console.log('Ошибки! Валидация не пройдена', this.state.inputFields);
-              this.isValidated = false;
-            }
-          },
-        },
       },
     });
     return this.compile('profileInfoEdit', this.props);

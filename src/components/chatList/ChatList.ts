@@ -20,7 +20,8 @@ class ChatList extends TemplateBlock<ChatListProps> {
   }
 
   render() {
-    this.children.chatList = this.props.chatList.map((chat) => new ChatItem(chat));
+    const chats = this.props.chatList ?? [];
+    this.children.chatList = chats.map((chat) => new ChatItem(chat));
     return this.compile('chatList', this.props);
   }
 }

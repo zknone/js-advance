@@ -8,19 +8,27 @@ step-2 updated:
 добавил TemplateBlock – отвечает за постпроцессинг инпутов и компиляцию темплейтов с чилдренами и без в нужных местах
 добавил templatePage - отвечает за сбор чилдренов в лейауте
 добавил синглтон templateEngine - отвечает за регистрацию шаблонов.
+добавлены хелперы
+
+step-3 updated:
+добавил Route и Router
+добавил Socket и SocketOrchestration
+добавил Котроллеры
+добавил Добавил Api
+добавил Стор
 
 ---
 
 ## 🚀 Деплой
 
-🔗 Главная: [ws-chat-advance.netlify.app](https://ws-chat-advance.netlify.app/)
-🔐 Логин: [https://ws-chat-advance.netlify.app/login](https://ws-chat-advance.netlify.app/login)
+🔗 Приложение: [ws-chat-advance.netlify.app](https://ws-chat-advance.netlify.app/messages)
+🔐 Логин: [https://ws-chat-advance.netlify.app/login](https://ws-chat-advance.netlify.app/)
 🆕 Регистрация: [https://ws-chat-advance.netlify.app/signup](https://ws-chat-advance.netlify.app/signup)
 🙈 404: [https://ws-chat-advance.netlify.app/404](https://ws-chat-advance.netlify.app/404)
 💥 500: [https://ws-chat-advance.netlify.app/500](https://ws-chat-advance.netlify.app/500)
 👤 Профиль: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile)
-👤 Измнение данных: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile/edit-credentials)
-👤 Измнение пароля: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile/edit-pass)
+👤 Измнение данных: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile?editing=credentials)
+👤 Измнение пароля: [https://ws-chat-advance.netlify.app/profile](https://ws-chat-advance.netlify.app/profile?editing=pass)
 👤 Измнение пароля: Модалка для измненения аватара вызывается по клику.
 
 ---

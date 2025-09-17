@@ -1,13 +1,13 @@
-type Listener<T> = (...args: T[]) => void;
+import type { Listener } from '../../types/core';
 
 class EventBus {
-  private listeners: Record<string, Listener<unknown>[]>;
+  private listeners: Record<string, Listener[]>;
 
   constructor() {
     this.listeners = {};
   }
 
-  on(event: string, callback: Listener<unknown>) {
+  on(event: string, callback: Listener) {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -15,17 +15,17 @@ class EventBus {
     this.listeners[event].push(callback);
   }
 
-  off(event: string, callback: Listener<unknown>) {
+  off(event: string, callback: Listener) {
     if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      return;
     }
 
     this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
   }
 
-  emit(event: string, ...args: Listener<unknown>[]) {
+  emit(event: string, ...args: unknown[]) {
     if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      return;
     }
 
     this.listeners[event].forEach((listener) => {

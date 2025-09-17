@@ -2,6 +2,7 @@
   <form class="modal__content" method="{{method}}" action="{{action}}">
     <h2 class="modal__title">{{title}}</h2>
 
+    {{#if isAvatar}}
     <label for="{{inputId}}" class="modal__text">{{labelText}}</label>
 
     <input
@@ -10,6 +11,12 @@
       name="{{inputName}}"
       class="visually-hidden"
     />
+    {{/if}}
+
+    {{#if isInput}}
+    {{{inputItem}}}
+    {{/if}}
+
 
     <button type="submit" class="modal__close-button" aria-label="{{submitText}}">
       {{submitText}}

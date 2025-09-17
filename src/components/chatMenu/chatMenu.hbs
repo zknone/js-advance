@@ -1,11 +1,13 @@
-<div class="chat-menu__avatar"></div>
+<div class="chat-menu__avatar">
+  {{#if avatar}}<img src="{{avatar}}" alt=""> {{/if}}
+</div>
 
 <div class="chat-menu__name">
-  {{name}}
+  {{chat.name}}
 </div>
 
 <div class="chat-menu__actions-container">
-  <button class="chat-menu__actions-main-button" aria-label="{{labels.openMenu}}">
+  <button class="chat-menu__actions-main-button" aria-label="{{labels.openMenu}}"">
     <img
       src="{{icons.menu.src}}"
       alt="{{icons.menu.alt}}"
@@ -16,8 +18,7 @@
 
   {{#if menuOpened}}
   <div class="chat-menu__actions-menu">
-    {{#if showAdd}}
-    <button class="chat-menu__actions-button" type="button" aria-label="{{labels.addUser}}">
+    <button class="chat-menu__actions-button chat-menu__actions-button--add" type="button" aria-label="{{labels.addUser}}">
       <span class="chat-menu__icon">
         <img
           class="chat-menu__icon-background"
@@ -36,10 +37,8 @@
       </span>
       <span>{{labels.addUser}}</span>
     </button>
-    {{/if}}
 
-    {{#if showDelete}}
-    <button class="chat-menu__actions-button" type="button" aria-label="{{labels.deleteUser}}">
+    <button class="chat-menu__actions-button chat-menu__actions-button--delete" type="button" aria-label="{{labels.deleteUser}}">
       <span class="chat-menu__icon">
         <img
           class="chat-menu__icon-background"
@@ -58,8 +57,33 @@
       </span>
       <span>{{labels.deleteUser}}</span>
     </button>
-    {{/if}}
+
+    <button class="chat-menu__actions-button chat-menu__actions-button--avatar" type="button" aria-label="{{labels.deleteUser}}">
+      <span class="chat-menu__icon">
+        <img
+          class="chat-menu__icon-background"
+          src="{{icons.addAvatar.src}}"
+          alt="{{icons.addAvatar.alt}}"
+          {{#if icons.addAvatar.width}}width="{{icons.addAvatar.width}}"{{/if}}
+          {{#if icons.addAvatar.height}}height="{{icons.addAvatar.height}}"{{/if}}
+        />
+      </span>
+      <span>{{labels.addAvatar}}</span>
+    </button>
+
+    <button class="chat-menu__actions-button chat-menu__actions-button--delete-chat" type="button" aria-label="{{labels.deleteUser}}">
+      <span class="chat-menu__icon">
+        <img
+          class="chat-menu__icon-background"
+          src="{{icons.deleteChat.src}}"
+          alt="{{icons.deleteChat.alt}}"
+          {{#if icons.deleteChat.width}}width="{{icons.deleteChat.width}}"{{/if}}
+          {{#if icons.deleteChat.height}}height="{{icons.deleteChat.height}}"{{/if}}
+        />
+      </span>
+      <span>{{labels.deleteChat}}</span>
+    </button>
   </div>
   {{/if}}
 </div>
-
+{{{modalItem}}}

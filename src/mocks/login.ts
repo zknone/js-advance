@@ -28,5 +28,6 @@ export const loginFormData: CustomFormProps = {
   },
   customButton: {
     text: 'Авторизоваться',
+    type: 'submit',
   },
 };

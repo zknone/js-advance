@@ -1,12 +1,13 @@
+import CustomButton from '../../components/customButton/CustomButton';
 import ProfileInfo from '../../components/profileInfo/ProfileInfo';
+import router from '../../core/routerEngine/router';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import type { ProfilePageProps } from '../../types/chat';
+import type { AdditionalField } from '../../types/core';
 import { PAGE } from '../../types/pages';
 
-class ProfilePage extends TemplatePage<ProfilePageProps> {
-  constructor(props: ProfilePageProps) {
+class ProfilePage extends TemplatePage<AdditionalField> {
+  constructor() {
     super({
-      ...props,
       page: PAGE.PROFILE,
       settings: {
         withInternalID: true,
@@ -17,6 +18,18 @@ class ProfilePage extends TemplatePage<ProfilePageProps> {
   }
 
   protected gatherChildren() {
+    this.children.customButton = new CustomButton({
+      text: null,
+      variant: 'icon',
+      icon: {
+        src: '/exit-icon.svg',
+        alt: 'Назад',
+      },
+      type: 'button',
+      onClick: () => {
+        router.back();
+      },
+    });
     this.children.profileInfo = new ProfileInfo(this.props);
   }
 }
