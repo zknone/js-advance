@@ -37,7 +37,7 @@ export interface MainPageProps extends AdditionalField {
   messageList?: Record<number, MessageItemProps>;
   messageQuill: MessageQuillProps;
   query: {
-    id: null | string;
+    id: string | null | string;
   };
 }
 

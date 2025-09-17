@@ -8,6 +8,22 @@ export type EventMap = {
     selector?: string;
   };
 };
+
+export interface User {
+  firstName: string;
+  secondName: string;
+  avatar: string;
+  email: string;
+  login: string;
+  phone: string;
+}
+
+export interface LastMessage {
+  user: User;
+  time: string;
+  content: string;
+}
+
 export interface ChatItemProps extends AdditionalField {
   id: number;
   name: string;
@@ -17,18 +33,7 @@ export interface ChatItemProps extends AdditionalField {
   events?: EventMap;
   avatar: string | null;
   createdBy: number;
-  lastMessage: {
-    user: {
-      firstName: string;
-      secondName: string;
-      avatar: string;
-      email: string;
-      login: string;
-      phone: string;
-    };
-    time: string;
-    content: string;
-  } | null;
+  lastMessage: LastMessage | null;
 }
 
 export interface ChatListProps extends BlockBasics<AdditionalField> {
@@ -42,39 +47,46 @@ interface IconSpec {
   height?: number;
 }
 
+export type ModalOpen = 'add' | 'delete' | 'avatar' | 'delete-chat' | null;
+
+export interface ModalLabels {
+  openMenu: string;
+  addUser: string;
+  deleteUser: string;
+  addAvatar: string;
+  deleteChat: string;
+}
+
+export interface ModalIcons {
+  menu: IconSpec;
+  addBg: IconSpec;
+  addCross: IconSpec;
+  deleteBg: IconSpec;
+  deleteCross: IconSpec;
+  addAvatar: IconSpec;
+  deleteChat: IconSpec;
+}
+
 export interface ChatMenuProps extends BlockBasics<AdditionalField> {
   chat?: ChatItemProps;
   menuOpened?: boolean;
   avatar?: string | null;
-  modalOpen: 'add' | 'delete' | 'avatar' | 'delete-chat' | null;
-  labels?: {
-    openMenu: string;
-    addUser: string;
-    deleteUser: string;
-    addAvatar: string;
-    deleteChat: string;
-  };
-  icons?: {
-    menu: IconSpec;
-    addBg: IconSpec;
-    addCross: IconSpec;
-    deleteBg: IconSpec;
-    deleteCross: IconSpec;
-    addAvatar: IconSpec;
-    deleteChat: IconSpec;
-  };
+  modalOpen: ModalOpen;
+  labels?: ModalLabels;
+  icons?: ModalIcons;
   toggleMenu?: () => void;
 }
 
 export type Colors = 'red' | 'blue' | 'white';
 export type ButtonVariants = 'primary' | 'link' | 'icon';
+export type ButtonTypes = 'button' | 'submit' | 'reset';
 
 export interface CustomButtonProps extends BlockBasics<AdditionalField> {
   text: string | null;
   color?: Colors;
   variant?: ButtonVariants;
   onClick?: (e: Event) => void;
-  type?: 'button' | 'submit' | 'reset';
+  type?: ButtonTypes;
   icon?: IconSpec;
   path?: Path;
 }
@@ -91,6 +103,8 @@ export interface CustomLinkProps extends BlockBasics<AdditionalField> {
   href: string;
 }
 
+export type InputItemVariants = 'regular' | 'quill';
+
 export interface InputItemProps extends BlockBasics<AdditionalField> {
   value: string | null;
   title: string | null;
@@ -98,7 +112,7 @@ export interface InputItemProps extends BlockBasics<AdditionalField> {
   placeholder: string;
   error: string | null;
   name: string;
-  variant: 'regular' | 'quill';
+  variant: InputItemVariants;
 }
 
 export interface MessageListProps extends BlockBasics<AdditionalField> {
@@ -114,28 +128,29 @@ export interface MessageItemProps extends BlockBasics<AdditionalField> {
   type: string;
 }
 
+export interface MessageQuillLabels {
+  attach?: string;
+  photoVideo?: string;
+  file?: string;
+  location?: string;
+  send?: string;
+}
+
 export interface MessageQuillProps extends BlockBasics<AdditionalField> {
   inputItem: InputItemProps;
-
   showAttachmentMenu?: boolean;
   imgIcon?: IconSpec;
   fileIcon?: IconSpec;
   locationIcon?: IconSpec;
-
   attachButton: CustomButtonProps;
   sendButton: CustomButtonProps;
-
-  labels?: {
-    attach?: string;
-    photoVideo?: string;
-    file?: string;
-    location?: string;
-    send?: string;
-  };
+  labels?: MessageQuillLabels;
 }
 
+export type ModalItemVariants = 'avatar' | 'input' | 'yesNo';
+
 export interface ModalItemProps extends BlockBasics<AdditionalField> {
-  type: 'avatar' | 'input' | 'yesNo';
+  type: ModalItemVariants;
   isAvatar?: boolean;
   isInput?: boolean;
   method: string;
@@ -149,12 +164,14 @@ export interface ModalItemProps extends BlockBasics<AdditionalField> {
   onSubmit?: (e: Event) => void;
 }
 
+export type FieldType = 'text' | 'email' | 'password' | 'tel';
+
 export interface Field {
   name: string;
   label: string;
   value?: string;
   placeholder?: string;
-  type?: 'text' | 'email' | 'password' | 'tel';
+  type?: FieldType;
 }
 
 export interface ActionLink {
@@ -187,6 +204,8 @@ export interface ProfileInfoModeProps extends BlockBasics<AdditionalField> {
   onSubmit?: (e: Event) => void;
 }
 
+export type FormEditingState = 'view' | 'credentials' | 'pass';
+
 export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   className?: string;
   menuOpened?: boolean;
@@ -195,7 +214,7 @@ export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   infoFields: InfoFieldProps[];
   modalItem?: ModalItemProps;
   query: {
-    editing: 'view' | 'credentials' | 'pass';
+    editing: FormEditingState;
   };
 }
 

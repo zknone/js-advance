@@ -1,5 +1,5 @@
 import type { IChat, ILoggedUser } from '../core/api/interfaces';
-import type { ChatItemProps, MessageItemProps } from './chat';
+import type { ChatItemProps, FormEditingState, MessageItemProps } from './chat';
 import type { AdditionalField } from './core';
 
 interface IStore extends AdditionalField {
@@ -14,7 +14,7 @@ interface IStore extends AdditionalField {
   messages: Record<number, Record<number, MessageItemProps>>;
   query: {
     id: number | string | null;
-    editing: 'view' | 'credentials' | 'pass';
+    editing: FormEditingState;
   };
 }
 
