@@ -124,7 +124,7 @@ class MainPage extends TemplatePage<MainPageProps> {
       modalOpen: null,
     });
 
-    if (messageList.length) {
+    if (messageList) {
       this.children.messageList = new MessageList({
         ...this.props,
         messageList,
