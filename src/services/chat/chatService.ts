@@ -5,7 +5,7 @@ import router from '../../core/routerEngine/router';
 import chatAPI from '../../core/api/chatApi';
 import transformFetchedChats from '../../utils/transformFetchedChats';
 
-class ChatController {
+class ChatService {
   @withStoreStatus('Ошибка запроса чатов')
   async getChats() {
     const rawChats = await chatAPI.getChats({ limit: 100 });
@@ -131,6 +131,6 @@ class ChatController {
   }
 }
 
-const chatController = new ChatController();
+const chatController = new ChatService();
 
 export default chatController;

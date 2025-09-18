@@ -7,7 +7,7 @@ import {
   chatMenuDeleteButtonProps,
   chatMenuDeleteChatButtonProps,
 } from '../../consts/components';
-import chatController from '../../controllers/chat/chatController';
+import chatController from '../../services/chat/chatService';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatMenuProps } from '../../types/chat';
 import getDataFromInputs from '../../utils/getDataFromInputs';

@@ -33,7 +33,6 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
               e.preventDefault();
               const targetId = props.id as number;
               if (targetId) {
-                store.set('activeChat', targetId);
                 router.go({ pathname: ROUTES.messenger, query: { id: targetId.toString() } });
               }
             },

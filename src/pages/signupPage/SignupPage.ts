@@ -1,5 +1,5 @@
 import CustomForm from '../../components/customForm/CustomForm';
-import userController from '../../controllers/user/userController';
+import userController from '../../services/user/userService';
 import type { INewUser } from '../../core/api/interfaces';
 import TemplatePage from '../../core/templatePage/TemplatePage';
 import { signupFormData } from '../../mocks/signup';

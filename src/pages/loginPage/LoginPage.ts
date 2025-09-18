@@ -5,7 +5,7 @@ import type { CustomFormProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
 import getDataFromInputs from '../../utils/getDataFromInputs';
-import userController from '../../controllers/user/userController';
+import userController from '../../services/user/userService';
 import type { ILogin } from '../../core/api/interfaces';
 
 interface ILoginPageProps extends BlockBasics<AdditionalField> {

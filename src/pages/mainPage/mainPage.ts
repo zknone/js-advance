@@ -6,7 +6,7 @@ import MessageList from '../../components/messageList/MessageList';
 import MessageQuill from '../../components/messageQuill/MessageQuill';
 import Search from '../../components/search/Search';
 import { ROUTES } from '../../consts/routes';
-import chatController from '../../controllers/chat/chatController';
+import chatController from '../../services/chat/chatService';
 import router from '../../core/routerEngine/router';
 import socketOrchestration from '../../core/socket/socketOrchestration';
 import store from '../../core/store/store';
@@ -35,7 +35,6 @@ class MainPage extends TemplatePage<MainPageProps> {
       search: mainPageData.search,
       chatMenu: mainPageData.chatMenu,
       chatList: [],
-      messageList: {},
       messageQuill: mainPageData.messageQuill,
       query: props.query,
     });
@@ -43,12 +42,10 @@ class MainPage extends TemplatePage<MainPageProps> {
     this.unsubscribe = store.subscribe((state: IStore) => {
       const { user } = state;
       const chats = state.chats ?? [];
-      const messages = state.messages ?? {};
 
       const { query } = state;
       const digitId = query?.id ?? null;
 
-      const messageList = digitId ? messages[Number(digitId)] : {};
       if (!user) return;
 
       if (digitId) {
@@ -57,7 +54,6 @@ class MainPage extends TemplatePage<MainPageProps> {
           ...this.props,
           chatList: chats,
           makeNewChat: !chats?.length,
-          messageList,
           query: { id: stringId },
         });
       } else {
@@ -65,7 +61,6 @@ class MainPage extends TemplatePage<MainPageProps> {
           ...this.props,
           chatList: chats,
           makeNewChat: true,
-          messageList,
         });
       }
     });
@@ -92,8 +87,6 @@ class MainPage extends TemplatePage<MainPageProps> {
   }
 
   protected gatherChildren() {
-    const messageList = Object.values(this.props.messageList ?? {}) ?? {};
-
     this.children.customLink = new CustomLink({
       ...this.props.customLink,
       settings: { withInternalID: true },
@@ -124,13 +117,7 @@ class MainPage extends TemplatePage<MainPageProps> {
       modalOpen: null,
     });
 
-    if (messageList) {
-      this.children.messageList = new MessageList({
-        ...this.props,
-        messageList,
-        settings: { withInternalID: true },
-      });
-    }
+    this.children.messageList = new MessageList();
 
     this.children.messageQuill = new MessageQuill({
       ...this.props.messageQuill,

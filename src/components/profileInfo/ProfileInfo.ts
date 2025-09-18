@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../../consts/api';
-import userController from '../../controllers/user/userController';
+import userController from '../../services/user/userService';
 import type { ILoggedUser, IPassword, IProfile } from '../../core/api/interfaces';
 import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
