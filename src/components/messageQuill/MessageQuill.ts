@@ -12,6 +12,13 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
     fieldName: null,
   };
 
+  private handleAttachmentButtonClick = () => {
+    this.setProps({
+      ...this.props,
+      showAttachmentMenu: !this.props.showAttachmentMenu,
+    });
+  };
+
   constructor(props: MessageQuillProps) {
     const defaultProps: Partial<MessageQuillProps> = {};
 
@@ -56,7 +63,10 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
         };
       },
     });
-    this.children.attachButton = new CustomButton(this.props.attachButton);
+    this.children.attachButton = new CustomButton({
+      ...this.props.attachButton,
+      onClick: () => this.handleAttachmentButtonClick(),
+    });
     this.children.sendButton = new CustomButton({
       ...this.props.sendButton,
       type: 'submit',

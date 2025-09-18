@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import type { IMessageResponse, ISocketData } from '../../types/socket';
+import parseMessages from '../../utils/parseMessages';
 import store from '../store/store';
 
 class Socket {
@@ -39,30 +40,18 @@ class Socket {
 
     this.socket.addEventListener('message', (event) => {
       try {
-        const parsed = JSON.parse(event.data) as IMessageResponse;
+        const parsed = parseMessages(
+          JSON.parse(event.data) as IMessageResponse | IMessageResponse[]
+        );
 
-        if (parsed) {
-          if (Array.isArray(parsed)) {
-            parsed.map((item) => {
-              const { user_id: userId, content, time, type, id } = item;
-              return store.set(`messages.${this.chatId.toString()}.${item.id}`, {
-                text: content,
-                isOwn: userId === this.userId,
-                time,
-                id,
-                type,
-              });
-            });
-          } else {
-            const { user_id: userId, content, time, type, id } = parsed;
-            store.set(`messages.${this.chatId.toString()}.${id}`, {
-              text: content,
-              isOwn: userId === this.userId,
-              time,
-              id,
-              type,
-            });
-          }
+        if (Array.isArray(parsed)) {
+          store.set(`messages.${this.chatId.toString()}`, parsed);
+        } else {
+          const { messages } = store.getState();
+          const chatMessages = messages[this.chatId];
+          const newMessages = [parsed, ...chatMessages];
+          console.log({ newMessages });
+          store.set(`messages.${this.chatId.toString()}`, newMessages);
         }
       } catch (e) {
         console.error('Ошибка парсинга сообщения:', e, event.data);

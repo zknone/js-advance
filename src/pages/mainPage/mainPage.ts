@@ -42,9 +42,12 @@ class MainPage extends TemplatePage<MainPageProps> {
     this.unsubscribe = store.subscribe((state: IStore) => {
       const { user } = state;
       const chats = state.chats ?? [];
+      const messages = state.messages ?? {};
 
       const { query } = state;
       const digitId = query?.id ?? null;
+
+      const messageList = digitId ? messages[Number(digitId)] : [];
 
       if (!user) return;
 
@@ -55,6 +58,7 @@ class MainPage extends TemplatePage<MainPageProps> {
           chatList: chats,
           makeNewChat: !chats?.length,
           query: { id: stringId },
+          messageList,
         });
       } else {
         this.setProps({
@@ -70,7 +74,6 @@ class MainPage extends TemplatePage<MainPageProps> {
     if (!store.getState().chats) {
       await chatController.getChats();
     }
-
     const { user, chats, query } = store.getState();
     const { id: userId } = user!;
 
@@ -87,6 +90,8 @@ class MainPage extends TemplatePage<MainPageProps> {
   }
 
   protected gatherChildren() {
+    const messageList = this.props.messageList ?? [];
+
     this.children.customLink = new CustomLink({
       ...this.props.customLink,
       settings: { withInternalID: true },
@@ -117,7 +122,13 @@ class MainPage extends TemplatePage<MainPageProps> {
       modalOpen: null,
     });
 
-    this.children.messageList = new MessageList();
+    if (messageList) {
+      this.children.messageList = new MessageList({
+        ...this.props,
+        messageList,
+        settings: { withInternalID: true },
+      });
+    }
 
     this.children.messageQuill = new MessageQuill({
       ...this.props.messageQuill,

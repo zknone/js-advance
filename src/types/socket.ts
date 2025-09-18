@@ -10,5 +10,7 @@ interface IMessageResponse {
   time: string;
   user_id: number;
   id: number;
+  file: string | null;
+  is_read: boolean;
 }
 export type { ISocketData, IMessageResponse };

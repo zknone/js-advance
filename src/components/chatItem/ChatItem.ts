@@ -11,12 +11,17 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       unreadCount: 0,
     };
 
-    const chosenChat = Number(store.getState().query?.id) ?? null;
+    const queryId = store.getState().query?.id;
+    const chosenChat = queryId !== undefined ? Number(queryId) : null;
 
     const chatId = props?.id ?? null;
+    const isActive =
+      chatId !== null && chosenChat !== null && !Number.isNaN(chosenChat) && chatId === chosenChat;
 
     const tagName = 'li';
-    const tagClassName = `chat-item ${chatId === chosenChat && 'chat-item--active'}`;
+    const tagClassName = ['chat-item', isActive ? 'chat-item--active' : null]
+      .filter(Boolean)
+      .join(' ');
 
     super(
       'chatItem',
