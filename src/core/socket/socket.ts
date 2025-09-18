@@ -41,7 +41,8 @@ class Socket {
     this.socket.addEventListener('message', (event) => {
       try {
         const parsed = parseMessages(
-          JSON.parse(event.data) as IMessageResponse | IMessageResponse[]
+          JSON.parse(event.data) as IMessageResponse | IMessageResponse[],
+          this.userId
         );
 
         if (Array.isArray(parsed)) {
@@ -50,7 +51,6 @@ class Socket {
           const { messages } = store.getState();
           const chatMessages = messages[this.chatId];
           const newMessages = [parsed, ...chatMessages];
-          console.log({ newMessages });
           store.set(`messages.${this.chatId.toString()}`, newMessages);
         }
       } catch (e) {
