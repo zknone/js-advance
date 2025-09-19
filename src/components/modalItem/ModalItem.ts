@@ -1,5 +1,6 @@
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ModalItemProps } from '../../types/chat';
+import trim from '../../utils/trim';
 import InputItem from '../inputItem/InputItem';
 
 const APPROVAL = 'подтверждаю';
@@ -40,7 +41,7 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
                 const input = (e.target as HTMLFormElement).querySelector<HTMLInputElement>(
                   'input'
                 );
-                if (!input || input.value.trim().toLowerCase() !== APPROVAL) {
+                if (!input || trim(input.value.toLowerCase()) !== APPROVAL) {
                   alert('Введите «подтвердить» для подтверждения действия');
                   return;
                 }

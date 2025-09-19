@@ -10,6 +10,7 @@ import ModalItem from '../modalItem/ModalItem';
 import ProfileInfoEdit from '../profileInfoEdit/ProfileInfoEdit';
 import ProfileInfoView from '../profileInfoView/ProfileInfoView';
 import type { ILoggedUser, IPassword, IProfile } from '../../types/api';
+import trim from '../../utils/trim';
 
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   private subscribe?: () => void;
@@ -55,7 +56,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       });
       this.setProps({
         ...this.props,
-        name: `${user.second_name ?? ''} ${user.first_name ?? ''}`.trim(),
+        name: trim(`${user.second_name ?? ''} ${user.first_name ?? ''}`),
         infoFields: fields,
         avatar: {
           changeText: 'Аватар',
