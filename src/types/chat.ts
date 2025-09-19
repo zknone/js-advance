@@ -119,12 +119,22 @@ export interface MessageListProps extends BlockBasics<AdditionalField> {
   messageList: MessageItemProps[];
 }
 
+export interface FileProps {
+  id: number;
+  userId: number;
+  path: string;
+  filename: string;
+  contentType: string;
+  contentSize: number;
+  uploadDate: string;
+}
+
 export interface MessageItemProps extends BlockBasics<AdditionalField> {
   id: number;
   text: string;
   isOwn?: boolean;
   time: string;
-  image?: string;
+  file?: FileProps;
   type: string;
 }
 
