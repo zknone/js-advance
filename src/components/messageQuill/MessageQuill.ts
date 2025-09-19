@@ -20,7 +20,25 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
   };
 
   constructor(props: MessageQuillProps) {
-    const defaultProps: Partial<MessageQuillProps> = {};
+    const defaultProps: Partial<MessageQuillProps> = {
+      imgIcon: {
+        src: './attach-icon.svg',
+        alt: '',
+      },
+      fileIcon: {
+        src: './file-icon.svg',
+        alt: '',
+      },
+      locationIcon: {
+        src: './location-icon.svg',
+        alt: '',
+      },
+      labels: {
+        photoVideo: 'Прикрепить медиа',
+        file: 'Прикрепить файл',
+        location: 'Указать локацию',
+      },
+    };
 
     const tagName = 'div';
     const tagClassName = 'message-quill';
