@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import type { FlattenIfArray } from '../../types/core';
 import type { IMessageResponse, ISocketData } from '../../types/socket';
 import parseMessages from '../../utils/parseMessages';
 import store from '../store/store';
@@ -51,7 +52,7 @@ class Socket {
     this.socket.addEventListener('message', (event) => {
       try {
         const parsed = parseMessages(
-          JSON.parse(event.data) as IMessageResponse | IMessageResponse[],
+          JSON.parse(event.data) as FlattenIfArray<IMessageResponse>,
           this.userId
         );
 

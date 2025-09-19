@@ -1,6 +1,7 @@
 import { ROUTES } from '../../consts/routes';
 import type { AdditionalField, Path } from '../../types/core';
 import GuardProperty from '../../utils/decorators/guardProperty';
+import hidden from '../../utils/decorators/hidden';
 import parsePath from '../../utils/parsePath';
 import queryStringify from '../../utils/queryStringify';
 import store from '../store/store';
@@ -54,6 +55,7 @@ class Router {
     this._onRoute(parsePath(window.location.pathname, window.location.search));
   }
 
+  @hidden
   _onRoute(pathname: Path) {
     const route = this.getRoute(pathname);
 
