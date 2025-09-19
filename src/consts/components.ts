@@ -1,3 +1,5 @@
+import type { CustomFormProps } from '../types/chat';
+
 const chatMenuIcons = {
   menu: {
     src: '/menu-icon.svg',
@@ -104,6 +106,28 @@ const chatMenuDefaultProps = {
   },
 };
 
+const newChatFormProps: CustomFormProps = {
+  title: 'Создание чата',
+  customButton: {
+    text: 'Создать',
+    type: 'submit',
+  },
+  inputFields: [
+    {
+      value: '',
+      title: 'Создайте чат',
+      type: 'text',
+      placeholder: 'Введите название нового чата',
+      error: null,
+      name: 'title',
+      variant: 'regular',
+    },
+  ],
+  settings: {
+    withInternalID: true,
+  },
+};
+
 export {
   chatMenuIcons,
   chatMenuLabels,
@@ -112,4 +136,5 @@ export {
   chatMenuAvatarButtonProps,
   chatMenuDeleteChatButtonProps,
   chatMenuDefaultProps,
+  newChatFormProps,
 };

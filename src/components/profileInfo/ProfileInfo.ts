@@ -1,6 +1,5 @@
 import { API_BASE_URL } from '../../consts/api';
 import userController from '../../services/user/userService';
-import type { ILoggedUser, IPassword, IProfile } from '../../core/api/interfaces';
 import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import { baseFields, basePasswordFields } from '../../mocks/profile';
@@ -10,6 +9,7 @@ import getDataFromInputs from '../../utils/getDataFromInputs';
 import ModalItem from '../modalItem/ModalItem';
 import ProfileInfoEdit from '../profileInfoEdit/ProfileInfoEdit';
 import ProfileInfoView from '../profileInfoView/ProfileInfoView';
+import type { ILoggedUser, IPassword, IProfile } from '../../types/api';
 
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   private subscribe?: () => void;

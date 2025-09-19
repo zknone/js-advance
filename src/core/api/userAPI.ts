@@ -1,7 +1,7 @@
 import { API_BASE_URL, apiRoutes } from '../../consts/api';
+import type { ILogin, INewUser, IPassword, IProfile } from '../../types/api';
 import HTTPTransport from '../../utils/fetch';
 import BaseAPI from './baseApi';
-import type { ILogin, INewUser, IPassword, IProfile } from './interfaces';
 
 class UserAPI extends BaseAPI {
   private readonly userAPIInstance = new HTTPTransport(API_BASE_URL);

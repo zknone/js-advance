@@ -6,7 +6,7 @@ import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
 import getDataFromInputs from '../../utils/getDataFromInputs';
 import userController from '../../services/user/userService';
-import type { ILogin } from '../../core/api/interfaces';
+import type { ILogin } from '../../types/api';
 
 interface ILoginPageProps extends BlockBasics<AdditionalField> {
   customForm: CustomFormProps;

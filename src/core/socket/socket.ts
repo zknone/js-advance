@@ -3,6 +3,8 @@ import type { IMessageResponse, ISocketData } from '../../types/socket';
 import parseMessages from '../../utils/parseMessages';
 import store from '../store/store';
 
+const OLD_MESSAGES_COUNT = 20;
+
 class Socket {
   userId: number;
 
@@ -14,10 +16,18 @@ class Socket {
 
   token: string;
 
+  messagesStartWith = 0;
+
   constructor(props: ISocketData) {
     this.userId = props.userId;
     this.chatId = props.chatId;
     this.token = props.token;
+  }
+
+  fetchOld() {
+    const howMuchMore =
+      this.messagesStartWith === 0 ? '0' : (this.messagesStartWith * OLD_MESSAGES_COUNT).toString();
+    this.send(howMuchMore, 'get old');
   }
 
   init() {
@@ -45,11 +55,18 @@ class Socket {
           this.userId
         );
 
+        if (parsed.length === OLD_MESSAGES_COUNT) {
+          this.messagesStartWith += 1;
+          this.fetchOld();
+        }
         if (Array.isArray(parsed)) {
-          store.set(`messages.${this.chatId.toString()}`, parsed);
+          const { messages } = store.getState();
+          const chatMessages = messages[this.chatId] ?? [];
+          const newMessages = [...chatMessages, ...parsed];
+          store.set(`messages.${this.chatId.toString()}`, newMessages);
         } else {
           const { messages } = store.getState();
-          const chatMessages = messages[this.chatId];
+          const chatMessages = messages[this.chatId] ?? [];
           const newMessages = [parsed, ...chatMessages];
           store.set(`messages.${this.chatId.toString()}`, newMessages);
         }

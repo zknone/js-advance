@@ -17,8 +17,11 @@ import { PAGE, type MainPageProps } from '../../types/pages';
 import type { IStore } from '../../types/store';
 import getDataFromInputs from '../../utils/getDataFromInputs';
 import { validateInput } from '../../utils/validation';
+import { newChatFormProps } from '../../consts/components';
 
 const insideFormClassName = 'custom-form';
+const tagName = 'section';
+const pageClassName = 'main-page';
 
 class MainPage extends TemplatePage<MainPageProps> {
   unsubscribe: StoreListener;
@@ -29,8 +32,8 @@ class MainPage extends TemplatePage<MainPageProps> {
       settings: {
         withInternalID: true,
       },
-      tagName: 'section',
-      tagClassName: 'main-page',
+      tagName,
+      tagClassName: pageClassName,
       customLink: mainPageData.customLink,
       search: mainPageData.search,
       chatMenu: mainPageData.chatMenu,
@@ -162,23 +165,8 @@ class MainPage extends TemplatePage<MainPageProps> {
       },
     });
 
-    this.children.customForm = new CustomForm({
-      title: 'Создание чата',
-      customButton: {
-        text: 'Создать',
-        type: 'submit',
-      },
-      inputFields: [
-        {
-          value: '',
-          title: 'Создайте чат',
-          type: 'text',
-          placeholder: 'Введите название нового чата',
-          error: null,
-          name: 'title',
-          variant: 'regular',
-        },
-      ],
+    const customFormPropsWithHook = {
+      ...newChatFormProps,
       events: {
         submit: {
           handler: async (e: Event) => {
@@ -192,8 +180,9 @@ class MainPage extends TemplatePage<MainPageProps> {
           },
         },
       },
-      settings: { withInternalID: true },
-    });
+    };
+
+    this.children.customForm = new CustomForm(customFormPropsWithHook);
   }
 }
 
