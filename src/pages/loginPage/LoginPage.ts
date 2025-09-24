@@ -1,6 +1,6 @@
 import CustomForm from '../../components/customForm/CustomForm';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import { loginFormData } from '../../mocks/login';
+import { loginFormDefaultProps } from '../../consts/login';
 import type { CustomFormProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
@@ -24,7 +24,7 @@ class LoginPage extends TemplatePage<ILoginPageProps> {
       },
       tagName: 'div',
       tagClassName,
-      customForm: loginFormData,
+      customForm: loginFormDefaultProps,
     });
   }
 

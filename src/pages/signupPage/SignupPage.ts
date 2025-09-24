@@ -1,7 +1,7 @@
 import CustomForm from '../../components/customForm/CustomForm';
 import userController from '../../services/user/userService';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import { signupFormData } from '../../mocks/signup';
+import { signupFormDefaultData } from '../../consts/signup';
 import type { CustomFormProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
@@ -24,7 +24,7 @@ class SignupPage extends TemplatePage<SignupPageProps> {
       },
       tagName: 'div',
       tagClassName,
-      customForm: signupFormData,
+      customForm: signupFormDefaultData,
       events: {
         submit: {
           handler: (e: Event) => {

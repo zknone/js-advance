@@ -2,7 +2,7 @@ import { API_BASE_URL } from '../../consts/api';
 import userController from '../../services/user/userService';
 import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import { baseFields, basePasswordFields } from '../../mocks/profile';
+import { baseFields, basePasswordFields } from '../../consts/profile';
 import type { ProfileInfoProps, ProfilePageProps } from '../../types/chat';
 import type { IStore } from '../../types/store';
 import getDataFromInputs from '../../utils/getDataFromInputs';

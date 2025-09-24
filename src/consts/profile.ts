@@ -78,7 +78,7 @@ const basePasswordFields: InfoFieldProps[] = [
   },
 ];
 
-const avatarMock: AvatarCfg = {
+const avatarBaseProps: AvatarCfg = {
   changeText: 'Поменять аватар',
   iconSrc: '/avatar-replacement-icon.svg',
   iconAlt: 'Заменить аватар',
@@ -86,7 +86,7 @@ const avatarMock: AvatarCfg = {
   iconH: 40,
 };
 
-const profileInfoMockEditingCredentials = {
+const profileInfoEditingBaseCredentials = {
   modalItem: {
     isOpen: false,
     method: 'POST',
@@ -112,9 +112,9 @@ const profileInfoMock = {
 
 export {
   baseFields,
-  avatarMock,
+  avatarBaseProps,
   basePasswordFields,
   profileInfoMock,
-  profileInfoMockEditingCredentials,
+  profileInfoEditingBaseCredentials,
   profileInfoMockEditingPass,
 };

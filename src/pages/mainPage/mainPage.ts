@@ -11,7 +11,7 @@ import router from '../../core/routerEngine/router';
 import socketOrchestration from '../../core/socket/socketOrchestration';
 import store from '../../core/store/store';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import { mainPageData } from '../../mocks/chat';
+import { mainPageDefaultProps } from '../../consts/chat';
 import type { StoreListener } from '../../types/core';
 import { PAGE, type MainPageProps } from '../../types/pages';
 import type { IStore } from '../../types/store';
@@ -34,11 +34,11 @@ class MainPage extends TemplatePage<MainPageProps> {
       },
       tagName,
       tagClassName: pageClassName,
-      customLink: mainPageData.customLink,
-      search: mainPageData.search,
-      chatMenu: mainPageData.chatMenu,
+      customLink: mainPageDefaultProps.customLink,
+      search: mainPageDefaultProps.search,
+      chatMenu: mainPageDefaultProps.chatMenu,
       chatList: [],
-      messageQuill: mainPageData.messageQuill,
+      messageQuill: mainPageDefaultProps.messageQuill,
       query: props.query,
     });
 

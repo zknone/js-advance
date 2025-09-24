@@ -7,22 +7,40 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "start": "npm run build && npm run preview",
-    "lint": "npx eslint . --ext .ts,.tsx --fix",
+    "check:lint": "npx eslint . --ext .ts,.tsx --fix",
+    "lint:css": "stylelint **/*.css",
+    "lint:js": "eslint .",
+    "lint": "npm-run-all --parallel lint:css lint:js",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "clean": "rm -rf node_modules/",
+    "check:test": "mocha test/",
+    "check": "npm run check:lint && npm run check:test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all test lint:all",
+      "pre-push": "npm run build"
+    }
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "devDependencies": {
+    "@babel/register": "^7.28.3",
+    "@types/chai": "^5.2.2",
+    "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "chai": "^6.0.1",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-prettier": "^5.5.3",
+    "husky": "^9.1.7",
+    "mocha": "^11.7.2",
     "postcss": "^8.5.6",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.6.2",
@@ -31,7 +49,7 @@
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
     "typescript": "~5.8.3",
-    "vite": "^5.2.10"
+    "vite": "^7.1.7"
   },
   "dependencies": {
     "handlebars": "^4.7.8",

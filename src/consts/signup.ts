@@ -1,6 +1,6 @@
 import type { CustomFormProps, InputItemProps } from '../types/chat';
 
-const signupFields: InputItemProps[] = [
+const signupDefaultFields: InputItemProps[] = [
   {
     title: 'Почта',
     name: 'email',
@@ -75,9 +75,9 @@ const signupFields: InputItemProps[] = [
   },
 ];
 
-const signupFormData: CustomFormProps = {
+const signupFormDefaultData: CustomFormProps = {
   title: 'Регистрация',
-  inputFields: signupFields,
+  inputFields: signupDefaultFields,
   customLink: {
     text: 'Войти',
     href: '/',
@@ -88,4 +88,4 @@ const signupFormData: CustomFormProps = {
   },
 };
 
-export { signupFormData };
+export { signupFormDefaultData };
