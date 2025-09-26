@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ModalItemProps } from '../../types/chat';
 import trim from '../../utils/trim';
@@ -42,7 +43,7 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
                   'input'
                 );
                 if (!input || trim(input.value.toLowerCase()) !== APPROVAL) {
-                  alert('Введите «подтвердить» для подтверждения действия');
+                  console.error('Введите «подтверждаю» для подтверждения действия');
                   return;
                 }
               }
