@@ -1,5 +1,6 @@
 import { httpStatus } from '../consts/api';
 import type { AdditionalField } from '../types/core';
+import queryStringify from './queryStringify';
 
 const METHODS = {
   GET: 'GET',
@@ -20,18 +21,6 @@ interface RequestOptions extends AdditionalField {
 interface FetchRequest {
   url: string;
   options?: RequestOptions;
-}
-
-function queryStringify(data: Record<string, unknown>) {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  const keys = Object.keys(data);
-  return keys.reduce(
-    (result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`,
-    '?'
-  );
 }
 
 function getFullUrl(baseUrl: string, url: string) {

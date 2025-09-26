@@ -223,7 +223,7 @@ export interface ProfileInfoProps extends BlockBasics<AdditionalField> {
   avatar?: AvatarCfg;
   infoFields: InfoFieldProps[];
   modalItem?: ModalItemProps;
-  query: {
+  query?: {
     editing: FormEditingState;
   };
 }

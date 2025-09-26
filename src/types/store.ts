@@ -13,7 +13,7 @@ interface IStore extends AdditionalField {
   chatsArchived: IChat[] | null;
   messages: Record<number, MessageItemProps[]> | null;
   query?: {
-    id: number | string | null;
+    id?: number | string | null;
     editing: FormEditingState;
   };
 }

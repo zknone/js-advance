@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import type { MessageItemProps } from 'types/chat';
 import type { FlattenIfArray } from '../../types/core';
 import type { IMessageResponse, ISocketData } from '../../types/socket';
 import parseMessages from '../../utils/parseMessages';
@@ -31,6 +32,20 @@ class Socket {
     this.send(howMuchMore, 'get old');
   }
 
+  private handleParsedMessages(parsed: MessageItemProps[] | MessageItemProps) {
+    if (Array.isArray(parsed) && parsed.length === OLD_MESSAGES_COUNT) {
+      this.messagesStartWith += 1;
+      this.fetchOld();
+    }
+
+    const { messages } = store.getState();
+    const current = messages?.[this.chatId] ?? [];
+
+    const newMessages = Array.isArray(parsed) ? [...current, ...parsed] : [parsed, ...current];
+
+    store.set(`messages.${this.chatId}`, newMessages);
+  }
+
   init() {
     this.socket = new WebSocket(
       `wss://ya-praktikum.tech/ws/chats/${this.userId}/${this.chatId}/${this.token}`
@@ -56,21 +71,7 @@ class Socket {
           this.userId
         );
 
-        if (parsed.length === OLD_MESSAGES_COUNT) {
-          this.messagesStartWith += 1;
-          this.fetchOld();
-        }
-        if (Array.isArray(parsed)) {
-          const { messages } = store.getState();
-          const chatMessages = messages[this.chatId] ?? [];
-          const newMessages = [...chatMessages, ...parsed];
-          store.set(`messages.${this.chatId.toString()}`, newMessages);
-        } else {
-          const { messages } = store.getState();
-          const chatMessages = messages[this.chatId] ?? [];
-          const newMessages = [parsed, ...chatMessages];
-          store.set(`messages.${this.chatId.toString()}`, newMessages);
-        }
+        this.handleParsedMessages(parsed);
       } catch (e) {
         console.error('Ошибка парсинга сообщения:', e, event.data);
       }
