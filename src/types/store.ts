@@ -6,13 +6,13 @@ interface IStore extends AdditionalField {
   auth: {
     error: string | null;
     loading: boolean;
-  };
+  } | null;
 
   user: ILoggedUser | null;
   chats: ChatItemProps[] | null;
   chatsArchived: IChat[] | null;
-  messages: Record<number, MessageItemProps[]>;
-  query: {
+  messages: Record<number, MessageItemProps[]> | null;
+  query?: {
     id: number | string | null;
     editing: FormEditingState;
   };

@@ -38,6 +38,10 @@ class Route<P extends AdditionalField = AdditionalField> {
     }
   }
 
+  getPathname() {
+    return this._pathname;
+  }
+
   isProtected() {
     return this._pathname.protected;
   }

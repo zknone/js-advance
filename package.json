@@ -14,8 +14,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "clean": "rm -rf node_modules/",
-    "check:test": "mocha test/",
-    "check": "npm run check:lint && npm run check:test"
+    "test": "mocha",
+    "check": "npm run check:lint && npm run test"
   },
   "husky": {
     "hooks": {
@@ -27,8 +27,11 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
     "@babel/register": "^7.28.3",
     "@types/chai": "^5.2.2",
+    "@types/jsdom": "^21.1.7",
     "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
@@ -40,6 +43,7 @@
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-prettier": "^5.5.3",
     "husky": "^9.1.7",
+    "jsdom": "^27.0.0",
     "mocha": "^11.7.2",
     "postcss": "^8.5.6",
     "postcss-scss": "^4.0.9",
@@ -48,6 +52,8 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "~5.8.3",
     "vite": "^7.1.7"
   },

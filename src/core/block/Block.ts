@@ -72,7 +72,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  protected getProps(): RawProps {
+  getProps(): RawProps {
     return this.props;
   }
 

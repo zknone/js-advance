@@ -1,4 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const env =
+  (import.meta as unknown as { env?: Record<string, string | undefined> }).env ??
+  (typeof process !== 'undefined' ? process.env : undefined);
+
+const API_BASE_URL = env?.VITE_API_BASE_URL ?? '';
 
 const apiRoutes = {
   SIGNUP: '/auth/signup',

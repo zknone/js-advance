@@ -6,6 +6,8 @@ import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatItemProps } from '../../types/chat';
 
 class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
+  public tagClassName: string;
+
   constructor(props: ChatItemProps) {
     const defaultProps: Partial<ChatItemProps> = {
       unreadCount: 0,
@@ -28,7 +30,7 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       {
         ...defaultProps,
         ...props,
-        avatar: props.avatar ? `${API_BASE_URL}/resources${props.avatar}` : null,
+        avatar: props.avatar ? `${API_BASE_URL}/resources/${props.avatar}` : null,
         settings: {
           withInternalID: true,
         },
@@ -38,7 +40,7 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
               e.preventDefault();
               const targetId = props.id as number;
               if (targetId) {
-                router.go({ pathname: ROUTES.messenger, query: { id: targetId.toString() } });
+                router.go({ pathname: ROUTES.messenger, query: { id: targetId } });
               }
             },
           },
@@ -47,6 +49,8 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       tagName,
       tagClassName
     );
+
+    this.tagClassName = tagClassName;
   }
 
   render() {
