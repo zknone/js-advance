@@ -12,16 +12,16 @@ import { mockStoreState, startingStateForTest } from '../../../test/setup';
 
 describe('ChatItem', () => {
   let originalRouterGo: (path: Path) => void;
-
-  const restore = mockStoreState(startingStateForTest);
+  let restoreStore: () => void;
 
   beforeEach(() => {
+    restoreStore = mockStoreState(startingStateForTest);
     originalRouterGo = router.go;
   });
 
   afterEach(() => {
     router.go = originalRouterGo;
-    restore();
+    restoreStore();
   });
 
   const testData: ChatItemProps = {
@@ -86,7 +86,7 @@ describe('ChatItem', () => {
 
   it('make element active if query.id equal to props.id', () => {
     store.getState = () => ({
-      ...startingStateForTest,
+      ...startingStateForTest(),
       query: {
         id: 5,
         editing: 'view',

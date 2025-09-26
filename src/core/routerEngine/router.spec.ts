@@ -12,9 +12,12 @@ import {
 
 describe('router start', () => {
   let calledWith: Path | null;
+  let restoreStore: () => void;
 
   beforeEach(() => {
+    calledWith = null;
     window.history.pushState({}, '', ROUTES.login);
+    restoreStore = mockStoreState(unauthorizedStateForTest);
     const existingRoutes = [ROUTES.login, ROUTES.messenger, ROUTES.settings, ROUTES.signup];
 
     const defaultFakeRoutMock = {
@@ -69,15 +72,16 @@ describe('router start', () => {
     ];
   });
 
+  afterEach(() => {
+    restoreStore();
+  });
+
   it('navigates to /login on start', () => {
-    const restore = mockStoreState(unauthorizedStateForTest);
     router.start();
     expect(calledWith).to.deep.equal({ pathname: ROUTES.login, query: {} });
-    restore();
   });
 
   it('moves forward to next routes', () => {
-    const restore = mockStoreState(unauthorizedStateForTest);
     router.start();
 
     window.history.pushState({}, '', ROUTES.signup);
@@ -91,7 +95,6 @@ describe('router start', () => {
       })
     );
     expect(calledWith).to.deep.equal({ pathname: ROUTES.signup });
-    restore();
   });
 
   it('moves with router go', () => {
@@ -102,22 +105,21 @@ describe('router start', () => {
 
   it('moves with router go with actual query', () => {
     router.start();
-
-    const restoreFromStartingState = mockStoreState(startingStateForTest);
+    const restoreStarting = mockStoreState(startingStateForTest);
 
     router.go({ pathname: ROUTES.messenger, query: { id: 12 } });
     expect(calledWith).to.deep.equal({ pathname: ROUTES.messenger, query: { id: 12 } });
-    restoreFromStartingState();
+    restoreStarting();
   });
 
   it('moves with router go, between multiple routes', () => {
     router.start();
     router.go({ pathname: ROUTES.login });
     expect(calledWith).to.deep.equal({ pathname: ROUTES.login });
-    const restoreFromStartingState = mockStoreState(startingStateForTest);
+    const restoreStarting = mockStoreState(startingStateForTest);
     router.go({ pathname: ROUTES.messenger, query: { id: 12 } });
     expect(calledWith).to.deep.equal({ pathname: ROUTES.messenger, query: { id: 12 } });
-    restoreFromStartingState();
+    restoreStarting();
   });
 
   it('calls leave on previous route when navigating to another', () => {
@@ -137,10 +139,10 @@ describe('router start', () => {
 
   it('moves with router go to non-existing path', () => {
     router.start();
-    const restoreFromStartingState = mockStoreState(startingStateForTest);
+    const restoreStarting = mockStoreState(startingStateForTest);
     router.go({ pathname: '/non-existents-path' });
     expect(calledWith).to.deep.equal({ pathname: ROUTES[404] });
-    restoreFromStartingState();
+    restoreStarting();
   });
 
   it('moves with router go under protected route', () => {
@@ -182,10 +184,10 @@ describe('router start', () => {
 
     let queryState: any = { id: null, editing: 'view' };
 
-    const restoreFromStartingStateWithQuery = mockStoreState({
-      ...startingStateForTest,
+    const restoreStarting = mockStoreState(() => ({
+      ...startingStateForTest(),
       query: queryState,
-    });
+    }));
     (store as any).set = (key: string, value: any) => {
       if (key === 'query') {
         queryState = value;
@@ -195,6 +197,6 @@ describe('router start', () => {
     router.go({ pathname: ROUTES.login });
 
     expect(queryState).to.deep.equal({});
-    restoreFromStartingStateWithQuery();
+    restoreStarting();
   });
 });

@@ -18,7 +18,9 @@ const dom = new JSDOM('<!doctype html><html><body><div id="app"></div></body></h
 
 const { window } = dom;
 
-const startingStateForTest: IStore = {
+const cloneStoreState = <T>(value: T): T => JSON.parse(JSON.stringify(value));
+
+const baseStartingState: IStore = {
   query: { id: null, editing: 'view' },
   user: {
     id: 0,
@@ -31,7 +33,7 @@ const startingStateForTest: IStore = {
     email: '',
   },
   chats: [],
-  messages: [],
+  messages: {},
   auth: {
     error: null,
     loading: false,
@@ -39,13 +41,18 @@ const startingStateForTest: IStore = {
   chatsArchived: [],
 };
 
-const unauthorizedStateForTest: IStore = {
+const baseUnauthorizedState: IStore = {
   auth: null,
   user: null,
   chats: null,
   chatsArchived: null,
   messages: null,
+  query: { id: null, editing: 'view' },
 };
+
+const startingStateForTest = () => cloneStoreState(baseStartingState);
+
+const unauthorizedStateForTest = () => cloneStoreState(baseUnauthorizedState);
 
 Object.assign(global, {
   window,
@@ -102,14 +109,20 @@ const collectTemplates = (dir: string) => {
 const componentTemplates = collectTemplates(resolve(__dirname, '../src/components'));
 const pageTemplates = collectTemplates(resolve(__dirname, '../src/pages'));
 
-const mockStoreState = (state: Partial<IStore>) => {
-  const original = store.getState;
-  store.getState = () => state as IStore;
+const mockStoreState = (stateOrFactory: IStore | (() => IStore)) => {
+  const originalGetState = store.getState.bind(store);
+  const provider: () => IStore =
+    typeof stateOrFactory === 'function'
+      ? () => cloneStoreState((stateOrFactory as () => IStore)())
+      : () => cloneStoreState(stateOrFactory);
+
+  store.getState = provider;
+
   return () => {
-    store.getState = original;
+    store.getState = originalGetState;
   };
 };
 
 TemplateEngine.init(componentTemplates, pageTemplates);
 
-export { mockStoreState, startingStateForTest, unauthorizedStateForTest };
+export { cloneStoreState, mockStoreState, startingStateForTest, unauthorizedStateForTest };
