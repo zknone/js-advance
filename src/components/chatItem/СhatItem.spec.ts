@@ -4,46 +4,24 @@ import { API_BASE_URL } from '../../consts/api';
 import router from '../../core/routerEngine/router';
 import store from '../../core/store/store';
 import ChatItem from './ChatItem';
-import type { IStore } from '../../types/store';
+
 import type { Path } from '../../types/core';
 import type { ChatItemProps } from '../../types/chat';
 import { ROUTES } from '../../consts/routes';
+import { mockStoreState, startingStateForTest } from '../../../test/setup';
 
 describe('ChatItem', () => {
-  let originalGetState: () => IStore;
   let originalRouterGo: (path: Path) => void;
 
-  const startingState: IStore = {
-    query: { id: null, editing: 'view' },
-    user: {
-      id: 0,
-      first_name: '',
-      second_name: '',
-      display_name: null,
-      phone: '',
-      login: '',
-      avatar: null,
-      email: '',
-    },
-    chats: [],
-    messages: [],
-    auth: {
-      error: null,
-      loading: false,
-    },
-    chatsArchived: [],
-  };
+  const restore = mockStoreState(startingStateForTest);
 
   beforeEach(() => {
-    originalGetState = store.getState;
     originalRouterGo = router.go;
-
-    store.getState = () => startingState;
   });
 
   afterEach(() => {
-    store.getState = originalGetState;
     router.go = originalRouterGo;
+    restore();
   });
 
   const testData: ChatItemProps = {
@@ -108,7 +86,7 @@ describe('ChatItem', () => {
 
   it('делает элемент активным, если query.id совпадает с props.id', () => {
     store.getState = () => ({
-      ...startingState,
+      ...startingStateForTest,
       query: {
         id: 5,
         editing: 'view',

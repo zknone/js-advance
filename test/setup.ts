@@ -5,6 +5,8 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import type { IStore } from 'types/store';
+import store from '../src/core/store/store';
 import TemplateEngine from '../src/core/templateEngine/TemplateEngine';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,6 +17,35 @@ const dom = new JSDOM('<!doctype html><html><body><div id="app"></div></body></h
 });
 
 const { window } = dom;
+
+const startingStateForTest: IStore = {
+  query: { id: null, editing: 'view' },
+  user: {
+    id: 0,
+    first_name: '',
+    second_name: '',
+    display_name: null,
+    phone: '',
+    login: '',
+    avatar: null,
+    email: '',
+  },
+  chats: [],
+  messages: [],
+  auth: {
+    error: null,
+    loading: false,
+  },
+  chatsArchived: [],
+};
+
+const unauthorizedStateForTest: IStore = {
+  auth: null,
+  user: null,
+  chats: null,
+  chatsArchived: null,
+  messages: null,
+};
 
 Object.assign(global, {
   window,
@@ -71,6 +102,14 @@ const collectTemplates = (dir: string) => {
 const componentTemplates = collectTemplates(resolve(__dirname, '../src/components'));
 const pageTemplates = collectTemplates(resolve(__dirname, '../src/pages'));
 
+const mockStoreState = (state: Partial<IStore>) => {
+  const original = store.getState;
+  store.getState = () => state as IStore;
+  return () => {
+    store.getState = original;
+  };
+};
+
 TemplateEngine.init(componentTemplates, pageTemplates);
 
-export {};
+export { mockStoreState, startingStateForTest, unauthorizedStateForTest };
