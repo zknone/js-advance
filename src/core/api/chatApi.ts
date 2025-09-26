@@ -1,6 +1,6 @@
 import { API_BASE_URL, apiRoutes } from '../../consts/api';
 import type { IChat, IFilesSent, IToken, IUser } from '../../types/api';
-import HTTPTransport from '../../utils/fetch';
+import HTTPTransport from './HTTPtransport';
 import BaseAPI from './baseApi';
 
 class ChatAPI extends BaseAPI {

@@ -1,6 +1,6 @@
-import { httpStatus } from '../consts/api';
-import type { AdditionalField } from '../types/core';
-import queryStringify from './queryStringify';
+import { httpStatus } from '../../consts/api';
+import type { AdditionalField } from '../../types/core';
+import queryStringify from '../../utils/queryStringify';
 
 const METHODS = {
   GET: 'GET',
@@ -15,7 +15,7 @@ interface RequestOptions extends AdditionalField {
   method?: HTTPMethod;
   timeout?: number;
   headers?: Record<string, string>;
-  data?: Record<string, unknown>;
+  data?: Record<string, unknown> | FormData | string;
 }
 
 interface FetchRequest {
@@ -89,7 +89,12 @@ class HTTPTransport {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
 
-      xhr.open(method, isGet && !!data ? `${fullUrl}${queryStringify(data)}` : fullUrl);
+      let urlWithQuery = fullUrl;
+      if (isGet && data && typeof data === 'object' && !(data instanceof FormData)) {
+        urlWithQuery = `${fullUrl}${queryStringify(data)}`;
+      }
+
+      xhr.open(method, urlWithQuery);
       xhr.withCredentials = true;
 
       Object.keys(headers).forEach((key) => {
@@ -110,10 +115,10 @@ class HTTPTransport {
         }
       };
 
-      xhr.onabort = reject;
-      xhr.onerror = reject;
       xhr.timeout = timeout;
-      xhr.ontimeout = reject;
+      xhr.onabort = () => reject(new Error('Request aborted'));
+      xhr.onerror = () => reject(new Error('Network error'));
+      xhr.ontimeout = () => reject(new Error('Request timed out'));
 
       if (isGet || !data) {
         xhr.send();

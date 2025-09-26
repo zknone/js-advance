@@ -84,7 +84,7 @@ describe('ChatItem', () => {
     expect(item.getProps().className).to.equal(testData.className);
   });
 
-  it('делает элемент активным, если query.id совпадает с props.id', () => {
+  it('make element active if query.id equal to props.id', () => {
     store.getState = () => ({
       ...startingStateForTest,
       query: {
@@ -96,7 +96,7 @@ describe('ChatItem', () => {
     expect((item as any).tagClassName).to.include('chat-item--active');
   });
 
-  it('вызывает router.go при клике', () => {
+  it('call router.go on click', () => {
     let calledWith: any = null;
     router.go = (args: any) => {
       calledWith = args;
