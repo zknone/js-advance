@@ -1,4 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const env =
+  (import.meta as unknown as { env?: Record<string, string | undefined> }).env ??
+  (typeof process !== 'undefined' ? process.env : undefined);
+
+const API_BASE_URL = env?.VITE_API_BASE_URL ?? '';
 
 const apiRoutes = {
   SIGNUP: '/auth/signup',
@@ -20,4 +24,16 @@ const apiRoutes = {
   GET_TOKEN: '/chats/token',
 };
 
-export { API_BASE_URL, apiRoutes };
+const httpStatus = {
+  Ok: 200,
+  Created: 201,
+  NoContent: 204,
+  MultipleChoices: 300,
+  BadRequest: 400,
+  Unauthorized: 401,
+  Forbidden: 403,
+  NotFound: 404,
+  Conflict: 409,
+  InternalServerError: 500,
+};
+export { API_BASE_URL, apiRoutes, httpStatus };

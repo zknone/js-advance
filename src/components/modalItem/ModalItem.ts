@@ -1,6 +1,10 @@
+/* eslint-disable no-console */
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ModalItemProps } from '../../types/chat';
+import trim from '../../utils/trim';
 import InputItem from '../inputItem/InputItem';
+
+const APPROVAL = 'подтверждаю';
 
 class ModalItem extends TemplateBlock<ModalItemProps> {
   constructor(props: ModalItemProps) {
@@ -25,6 +29,7 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
         ...props,
         isAvatar: props.type === 'avatar',
         isInput: props.type === 'input',
+        isYesNo: props.type === 'yesNo',
         settings: {
           withInternalID: true,
         },
@@ -32,6 +37,16 @@ class ModalItem extends TemplateBlock<ModalItemProps> {
           submit: {
             handler: (e: Event) => {
               e.preventDefault();
+
+              if (props.type === 'yesNo') {
+                const input = (e.target as HTMLFormElement).querySelector<HTMLInputElement>(
+                  'input'
+                );
+                if (!input || trim(input.value.toLowerCase()) !== APPROVAL) {
+                  console.error('Введите «подтверждаю» для подтверждения действия');
+                  return;
+                }
+              }
               props.onSubmit?.(e);
             },
           },

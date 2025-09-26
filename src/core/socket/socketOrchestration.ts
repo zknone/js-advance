@@ -14,7 +14,7 @@ class SocketOrchestration {
     const { chatId } = data;
     if (!this.getSocketByChatId(chatId)) {
       const newSocket = new Socket(data);
-      newSocket.onOpen = () => this.fetchOld(chatId);
+      newSocket.onOpen = () => newSocket.fetchOld();
       newSocket.init();
       this.activeSockets[chatId] = newSocket;
     }
@@ -40,15 +40,6 @@ class SocketOrchestration {
     const socket = this.getSocketByChatId(chatId);
     if (socket) {
       socket.send(message);
-    } else {
-      console.warn(`Нет активного сокета для чата ${chatId}`);
-    }
-  }
-
-  fetchOld(chatId: number) {
-    const socket = this.getSocketByChatId(chatId);
-    if (socket) {
-      socket.send('0', 'get old');
     } else {
       console.warn(`Нет активного сокета для чата ${chatId}`);
     }

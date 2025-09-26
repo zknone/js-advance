@@ -1,6 +1,11 @@
 /* eslint-disable no-console */
+import type { MessageItemProps } from 'types/chat';
+import type { FlattenIfArray } from '../../types/core';
 import type { IMessageResponse, ISocketData } from '../../types/socket';
+import parseMessages from '../../utils/parseMessages';
 import store from '../store/store';
+
+const OLD_MESSAGES_COUNT = 20;
 
 class Socket {
   userId: number;
@@ -13,10 +18,32 @@ class Socket {
 
   token: string;
 
+  messagesStartWith = 0;
+
   constructor(props: ISocketData) {
     this.userId = props.userId;
     this.chatId = props.chatId;
     this.token = props.token;
+  }
+
+  fetchOld() {
+    const howMuchMore =
+      this.messagesStartWith === 0 ? '0' : (this.messagesStartWith * OLD_MESSAGES_COUNT).toString();
+    this.send(howMuchMore, 'get old');
+  }
+
+  private handleParsedMessages(parsed: MessageItemProps[] | MessageItemProps) {
+    if (Array.isArray(parsed) && parsed.length === OLD_MESSAGES_COUNT) {
+      this.messagesStartWith += 1;
+      this.fetchOld();
+    }
+
+    const { messages } = store.getState();
+    const current = messages?.[this.chatId] ?? [];
+
+    const newMessages = Array.isArray(parsed) ? [...current, ...parsed] : [parsed, ...current];
+
+    store.set(`messages.${this.chatId}`, newMessages);
   }
 
   init() {
@@ -39,31 +66,12 @@ class Socket {
 
     this.socket.addEventListener('message', (event) => {
       try {
-        const parsed = JSON.parse(event.data) as IMessageResponse;
+        const parsed = parseMessages(
+          JSON.parse(event.data) as FlattenIfArray<IMessageResponse>,
+          this.userId
+        );
 
-        if (parsed) {
-          if (Array.isArray(parsed)) {
-            parsed.map((item) => {
-              const { user_id: userId, content, time, type, id } = item;
-              return store.set(`messages.${this.chatId.toString()}.${item.id}`, {
-                text: content,
-                isOwn: userId === this.userId,
-                time,
-                id,
-                type,
-              });
-            });
-          } else {
-            const { user_id: userId, content, time, type, id } = parsed;
-            store.set(`messages.${this.chatId.toString()}.${id}`, {
-              text: content,
-              isOwn: userId === this.userId,
-              time,
-              id,
-              type,
-            });
-          }
-        }
+        this.handleParsedMessages(parsed);
       } catch (e) {
         console.error('Ошибка парсинга сообщения:', e, event.data);
       }

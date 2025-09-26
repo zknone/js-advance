@@ -4,4 +4,10 @@
   display: flex;
   flex-direction: column;
   padding: 10px 0 0;
+  flex-direction: column-reverse;
+}
+
+.message-list::before {
+  content: '';
+  flex: 1 0 auto;
 }

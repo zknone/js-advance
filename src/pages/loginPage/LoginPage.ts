@@ -1,12 +1,12 @@
 import CustomForm from '../../components/customForm/CustomForm';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import { loginFormData } from '../../mocks/login';
+import { loginFormDefaultProps } from '../../consts/login';
 import type { CustomFormProps } from '../../types/chat';
 import type { AdditionalField, BlockBasics } from '../../types/core';
 import { PAGE } from '../../types/pages';
 import getDataFromInputs from '../../utils/getDataFromInputs';
-import userController from '../../controllers/user/userController';
-import type { ILogin } from '../../core/api/interfaces';
+import userController from '../../services/user/userService';
+import type { ILogin } from '../../types/api';
 
 interface ILoginPageProps extends BlockBasics<AdditionalField> {
   customForm: CustomFormProps;
@@ -24,7 +24,7 @@ class LoginPage extends TemplatePage<ILoginPageProps> {
       },
       tagName: 'div',
       tagClassName,
-      customForm: loginFormData,
+      customForm: loginFormDefaultProps,
     });
   }
 

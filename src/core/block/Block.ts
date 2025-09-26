@@ -4,6 +4,7 @@ import type { AdditionalField, Meta, BlockBasics } from '../../types/core';
 import type { EventMap } from '../../types/chat';
 import GuardMethodResult from '../../utils/decorators/guardMethodResults';
 import GuardProperty from '../../utils/decorators/guardProperty';
+import hidden from '../../utils/decorators/hidden';
 
 class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
   static EVENTS = {
@@ -71,7 +72,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  protected getProps(): RawProps {
+  getProps(): RawProps {
     return this.props;
   }
 
@@ -90,12 +91,14 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     return this._meta!.tagClassName;
   }
 
+  @hidden
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  @hidden
   _getChildren(propsAndChildren: BlockBasics<AdditionalField>): {
     children: Record<string, Block<any> | Block<any>[]>;
     props: Partial<RawProps>;
@@ -127,6 +130,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
+  @hidden
   _componentDidMount() {
     this.componentDidMount();
     Object.values(this.children).forEach((childOrList) => {
@@ -141,6 +145,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
+  @hidden
   _componentDidUpdate(oldProps: RawProps, newProps: RawProps): boolean {
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
 
@@ -189,6 +194,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     return this._element;
   }
 
+  @hidden
   _render() {
     const element = this._element;
 
@@ -228,6 +234,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     return this.element;
   }
 
+  @hidden
   _addEvents() {
     const { events = {} } = this.props as { events?: EventMap };
 
@@ -245,6 +252,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     });
   }
 
+  @hidden
   _removeEvents() {
     const { events = {} } = this.props as { events?: EventMap };
 
@@ -262,6 +270,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     });
   }
 
+  @hidden
   _makePropsProxy(props: RawProps) {
     return new Proxy(props, {
       set: (target, prop: string | symbol, value) => {
@@ -281,6 +290,7 @@ class Block<RawProps extends BlockBasics<TAdditional>, TAdditional = object> {
     });
   }
 
+  @hidden
   _createDocumentElement(tagName: string) {
     const element = document.createElement(tagName);
     const withInternalID = (this.props as any)?.settings?.withInternalID;

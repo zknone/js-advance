@@ -30,8 +30,16 @@ class Route<P extends AdditionalField = AdditionalField> {
 
   navigate(pathname: Path) {
     if (this.match(pathname)) {
-      this.render(pathname.query);
+      if (pathname.query) {
+        this.render(pathname.query);
+      } else {
+        this.render();
+      }
     }
+  }
+
+  getPathname() {
+    return this._pathname;
   }
 
   isProtected() {
@@ -52,6 +60,7 @@ class Route<P extends AdditionalField = AdditionalField> {
         ...this._pageProps,
         query,
       } as unknown as P;
+
       this._block = new this._blockClass(props);
       renderPage(this._block, this._rootQuery);
       return;

@@ -26,7 +26,7 @@ class CustomLink extends TemplateBlock<CustomLinkProps> {
           click: {
             handler(e: Event) {
               e.preventDefault();
-              router.go({ pathname: props.href });
+              router.go({ pathname: props.href, query: { editing: 'view' } });
             },
           },
         },

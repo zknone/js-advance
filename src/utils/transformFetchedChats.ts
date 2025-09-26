@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import type { IChat } from '../core/api/interfaces';
+import type { IChat } from '../types/api';
 import type { ChatItemProps } from '../types/chat';
 
 const transformFetchedChats = (data: IChat | IChat[]) => {

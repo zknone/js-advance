@@ -5,6 +5,7 @@ import type {
   CustomLinkProps,
   InputItemProps,
   MessageItemProps,
+  // MessageItemProps,
   MessageQuillProps,
   SearchProps,
 } from './chat';
@@ -34,10 +35,10 @@ export interface MainPageProps extends AdditionalField {
   search: SearchProps;
   chatMenu?: ChatMenuProps;
   chatList?: ChatItemProps[];
-  messageList?: Record<number, MessageItemProps>;
+  messageList?: MessageItemProps[];
   messageQuill: MessageQuillProps;
   query: {
-    id: null | string;
+    id: string | null | string;
   };
 }
 

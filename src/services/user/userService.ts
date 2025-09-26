@@ -6,13 +6,13 @@ import type {
   INewUserResponse,
   IPassword,
   IProfile,
-} from '../../core/api/interfaces';
+} from '../../types/api';
 import { ROUTES } from '../../consts/routes';
 import withStoreStatus from '../../utils/decorators/withStoreStatus';
 import router from '../../core/routerEngine/router';
 import userAPI from '../../core/api/userAPI';
 
-class UserController {
+class UserService {
   async fetchMe() {
     const user = await userAPI.getUser();
     store.set('user', user);
@@ -69,5 +69,5 @@ class UserController {
   }
 }
 
-const userController = new UserController();
+const userController = new UserService();
 export default userController;

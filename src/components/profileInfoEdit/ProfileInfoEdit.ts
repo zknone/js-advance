@@ -26,19 +26,16 @@ class ProfileInfoEdit extends TemplateBlock<ProfileInfoModeProps> {
         events: {
           submit: {
             handler: (e: Event) => {
-              console.log('вызвали');
               e.preventDefault();
               e.stopPropagation();
               this.isValidated = this.validateAllFields();
 
               if (this.isValidated) {
                 if (this.props.onSubmit) {
-                  this.props.onSubmit();
+                  this.props.onSubmit(e);
                 }
-                console.log('Валидация пройдена', this.state.inputFields);
                 this.isValidated = false;
               } else {
-                console.log('Ошибки! Валидация не пройдена', this.state.inputFields);
                 this.isValidated = false;
               }
             },

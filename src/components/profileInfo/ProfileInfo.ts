@@ -1,15 +1,16 @@
 import { API_BASE_URL } from '../../consts/api';
-import userController from '../../controllers/user/userController';
-import type { ILoggedUser, IPassword, IProfile } from '../../core/api/interfaces';
+import userController from '../../services/user/userService';
 import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import { baseFields, basePasswordFields } from '../../mocks/profile';
+import { baseFields, basePasswordFields } from '../../consts/profile';
 import type { ProfileInfoProps, ProfilePageProps } from '../../types/chat';
 import type { IStore } from '../../types/store';
 import getDataFromInputs from '../../utils/getDataFromInputs';
 import ModalItem from '../modalItem/ModalItem';
 import ProfileInfoEdit from '../profileInfoEdit/ProfileInfoEdit';
 import ProfileInfoView from '../profileInfoView/ProfileInfoView';
+import type { ILoggedUser, IPassword, IProfile } from '../../types/api';
+import trim from '../../utils/trim';
 
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   private subscribe?: () => void;
@@ -23,7 +24,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       infoFields: baseFields,
       name: typeof props.name === 'string' ? props.name : 'Ошибка',
       settings: { withInternalID: true },
-      query: { editing: null },
+      query: { editing: 'view' },
     };
     const tagName = 'section';
     const tagClassName = 'profile-info';
@@ -41,6 +42,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
     this.subscribe = store.subscribe((state: IStore) => {
       const user = state?.user;
       if (!user) return;
+      const { query } = state;
 
       const fields = [...defaultProps.infoFields].map((item) => {
         const { name } = item;
@@ -54,13 +56,14 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       });
       this.setProps({
         ...this.props,
-        name: `${user.second_name ?? ''} ${user.first_name ?? ''}`.trim(),
+        name: trim(`${user.second_name ?? ''} ${user.first_name ?? ''}`),
         infoFields: fields,
         avatar: {
           changeText: 'Аватар',
           iconSrc: `${API_BASE_URL}/resources${user.avatar}`,
           iconAlt: user.avatar ?? '',
         },
+        query,
       });
     });
   }
@@ -75,7 +78,6 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   destroy() {
     this.subscribe?.();
     super.destroy?.();
-
     this.mountCtl.abort();
   }
 
@@ -116,8 +118,13 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   }
 
   render(): DocumentFragment {
-    const mode = this.props.query?.editing;
+    const { query } = store.getState();
+
+    const mode = query?.editing ?? null;
+
+    const isView = mode === 'view';
     const isPass = mode === 'pass';
+    const isCreds = mode === 'credentials';
 
     this.children.modalItem = new ModalItem({
       method: 'PUT',
@@ -146,16 +153,17 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       const data = getDataFromInputs('profile-info-form');
       if (isPass) {
         userController.changePassword(data as IPassword);
-      } else {
+      } else if (isCreds) {
         userController.changeProfile(data as IProfile);
       }
     };
 
-    const formProps = !isPass
-      ? { ...this.props, onSubmit: handleChangeProfile }
-      : { ...this.props, infoFields: basePasswordFields, onSubmit: handleChangeProfile };
+    const formProps =
+      !isView && !isPass
+        ? { ...this.props, onSubmit: handleChangeProfile }
+        : { ...this.props, infoFields: basePasswordFields, onSubmit: handleChangeProfile };
 
-    this.children.infoFields = mode
+    this.children.infoFields = !isView
       ? new ProfileInfoEdit(formProps)
       : new ProfileInfoView(this.props);
 

@@ -1,9 +1,9 @@
 import type { Indexed } from '../types/core';
 import { isArrayOrObject } from './checkTypes';
 
-function isEqual(lhs: Indexed | string, rhs: Indexed | string): boolean {
+function isEqual(lhs: unknown, rhs: unknown): boolean {
   if (typeof lhs !== typeof rhs) {
-    throw new Error('Should be same types');
+    return false;
   }
 
   if (lhs === rhs) return true;
@@ -13,15 +13,19 @@ function isEqual(lhs: Indexed | string, rhs: Indexed | string): boolean {
     return lhs.every((item, i) => isEqual(item as Indexed, rhs[i] as Indexed));
   }
 
-  return Object.entries(lhs).every(([key, value]) => {
-    const rightValue = (rhs as Indexed)[key];
+  if (isArrayOrObject(lhs) && isArrayOrObject(rhs)) {
+    return Object.entries(lhs).every(([key, value]) => {
+      const rightValue = (rhs as Indexed)[key];
 
-    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-      return isEqual(value as Indexed, rightValue as Indexed);
-    }
+      if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+        return isEqual(value as Indexed, rightValue as Indexed);
+      }
 
-    return value === rightValue;
-  });
+      return value === rightValue;
+    });
+  }
+
+  return false;
 }
 
 export default isEqual;
