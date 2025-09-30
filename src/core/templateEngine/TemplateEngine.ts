@@ -3,11 +3,15 @@ import Handlebars from 'handlebars';
 import GuardProperty from '../../utils/decorators/guardProperty';
 
 const getTemplateFrom = (templateName: string, templates: Record<string, string>): string => {
-  const key = Object.keys(templates).find((path) =>
-    path.includes(`/${templateName}/${templateName}.hbs`)
-  );
-  if (!key) throw new Error(`Template not found for: ${templateName}`);
-  return templates[key];
+  const normalizedTarget = `/${templateName}/${templateName}.hbs`;
+  const entry = Object.entries(templates).find(([filePath]) => {
+    const normalizedPath = filePath.split('\\').join('/');
+    return normalizedPath.includes(normalizedTarget);
+  });
+
+  if (!entry) throw new Error(`Template not found for: ${templateName}`);
+
+  return entry[1];
 };
 
 class TemplateEngine {
