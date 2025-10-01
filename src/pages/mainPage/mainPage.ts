@@ -6,56 +6,70 @@ import MessageList from '../../components/messageList/MessageList';
 import MessageQuill from '../../components/messageQuill/MessageQuill';
 import Search from '../../components/search/Search';
 import { ROUTES } from '../../consts/routes';
-import chatController from '../../controllers/chat/chatController';
+import chatController from '../../services/chat/chatService';
 import router from '../../core/routerEngine/router';
 import socketOrchestration from '../../core/socket/socketOrchestration';
 import store from '../../core/store/store';
 import TemplatePage from '../../core/templatePage/TemplatePage';
-import { mainPageData } from '../../mocks/chat';
+import { mainPageDefaultProps } from '../../consts/chat';
 import type { StoreListener } from '../../types/core';
 import { PAGE, type MainPageProps } from '../../types/pages';
 import type { IStore } from '../../types/store';
 import getDataFromInputs from '../../utils/getDataFromInputs';
 import { validateInput } from '../../utils/validation';
+import { newChatFormProps } from '../../consts/components';
 
 const insideFormClassName = 'custom-form';
+const tagName = 'section';
+const pageClassName = 'main-page';
 
 class MainPage extends TemplatePage<MainPageProps> {
   unsubscribe: StoreListener;
 
-  constructor() {
+  constructor(props: MainPageProps) {
     super({
       page: PAGE.MAIN,
       settings: {
         withInternalID: true,
       },
-      tagName: 'section',
-      tagClassName: 'main-page',
-      customLink: mainPageData.customLink,
-      search: mainPageData.search,
-      chatMenu: mainPageData.chatMenu,
+      tagName,
+      tagClassName: pageClassName,
+      customLink: mainPageDefaultProps.customLink,
+      search: mainPageDefaultProps.search,
+      chatMenu: mainPageDefaultProps.chatMenu,
       chatList: [],
-      messageList: {},
-      messageQuill: mainPageData.messageQuill,
-      query: { id: null },
+      messageQuill: mainPageDefaultProps.messageQuill,
+      query: props.query,
     });
 
     this.unsubscribe = store.subscribe((state: IStore) => {
       const { user } = state;
       const chats = state.chats ?? [];
       const messages = state.messages ?? {};
-      const id = state.query.id ? state.query.id.toString() : null;
-      const digitId = state.query.id;
-      const messageList = digitId ? messages[Number(digitId)] : {};
+
+      const { query } = state;
+      const digitId = query?.id ?? null;
+
+      const messageList = digitId ? messages[Number(digitId)] : [];
+
       if (!user) return;
 
-      this.setProps({
-        ...this.props,
-        chatList: chats,
-        makeNewChat: chats?.length ? Boolean(chats?.length) !== Boolean(id) : true,
-        messageList,
-        query: { id },
-      });
+      if (digitId) {
+        const stringId = digitId.toString();
+        this.setProps({
+          ...this.props,
+          chatList: chats,
+          makeNewChat: !chats?.length,
+          query: { id: stringId },
+          messageList,
+        });
+      } else {
+        this.setProps({
+          ...this.props,
+          chatList: chats,
+          makeNewChat: true,
+        });
+      }
     });
   }
 
@@ -63,14 +77,12 @@ class MainPage extends TemplatePage<MainPageProps> {
     if (!store.getState().chats) {
       await chatController.getChats();
     }
-
-    const { user } = store.getState();
+    const { user, chats, query } = store.getState();
     const { id: userId } = user!;
-    const {
-      query: { id: activeChat },
-    } = store.getState();
 
-    if (activeChat && !socketOrchestration.isConnected(Number(activeChat)) && userId) {
+    const activeChat = query?.id ?? null;
+
+    if (chats && activeChat && !socketOrchestration.isConnected(Number(activeChat)) && userId) {
       const { token } = await chatController.getChatToken(Number(activeChat));
       socketOrchestration.addNewSocket({
         userId,
@@ -81,7 +93,7 @@ class MainPage extends TemplatePage<MainPageProps> {
   }
 
   protected gatherChildren() {
-    const messageList = Object.values(this.props.messageList ?? {}) ?? {};
+    const messageList = this.props.messageList ?? [];
 
     this.children.customLink = new CustomLink({
       ...this.props.customLink,
@@ -93,15 +105,16 @@ class MainPage extends TemplatePage<MainPageProps> {
       settings: { withInternalID: true },
     });
 
+    const chatList = Array.isArray(this.props.chatList) ? this.props.chatList : [];
+
     this.children.chatList = new ChatList({
       ...this.props,
-      chatList: this.props.chatList ?? [],
+      chatList,
       settings: { withInternalID: true },
     });
 
-    const chatList = Array.isArray(this.props.chatList) ? this.props.chatList : [];
-
     const queryId = store.getState()?.query?.id;
+
     const exactChat = chatList.find(
       (item) => item?.id.toString() === (queryId != null ? queryId.toString() : '')
     );
@@ -112,11 +125,13 @@ class MainPage extends TemplatePage<MainPageProps> {
       modalOpen: null,
     });
 
-    this.children.messageList = new MessageList({
-      ...this.props,
-      messageList,
-      settings: { withInternalID: true },
-    });
+    if (messageList) {
+      this.children.messageList = new MessageList({
+        ...this.props,
+        messageList,
+        settings: { withInternalID: true },
+      });
+    }
 
     this.children.messageQuill = new MessageQuill({
       ...this.props.messageQuill,
@@ -150,27 +165,8 @@ class MainPage extends TemplatePage<MainPageProps> {
       },
     });
 
-    this.children.customForm = new CustomForm({
-      title: 'Создание чата',
-      customLink: {
-        text: 'Назад',
-        href: '',
-      },
-      customButton: {
-        text: 'Создать',
-        type: 'submit',
-      },
-      inputFields: [
-        {
-          value: '',
-          title: 'Создайте чат',
-          type: 'text',
-          placeholder: 'Введите название нового чата',
-          error: null,
-          name: 'title',
-          variant: 'regular',
-        },
-      ],
+    const customFormPropsWithHook = {
+      ...newChatFormProps,
       events: {
         submit: {
           handler: async (e: Event) => {
@@ -184,8 +180,9 @@ class MainPage extends TemplatePage<MainPageProps> {
           },
         },
       },
-      settings: { withInternalID: true },
-    });
+    };
+
+    this.children.customForm = new CustomForm(customFormPropsWithHook);
   }
 }
 

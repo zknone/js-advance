@@ -14,9 +14,21 @@
     {{/if}}
 
     {{#if isInput}}
-    {{{inputItem}}}
+      {{{inputItem}}}
     {{/if}}
 
+    {{#if isYesNo}}
+      <label for="{{inputId}}" class="modal__disclaimer">Введите «подтверждаю»
+        <input
+          type="text"
+          id="{{inputId}}"
+          name="{{inputName}}"
+          placeholder="подтверждаю"
+          class="modal__auth-input"
+          required
+        />
+      </label>
+    {{/if}}
 
     <button type="submit" class="modal__close-button" aria-label="{{submitText}}">
       {{submitText}}

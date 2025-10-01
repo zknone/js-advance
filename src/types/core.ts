@@ -4,6 +4,10 @@ import type { IStore } from './store';
 
 export type AdditionalField = Record<string, unknown>;
 
+export type FlattenIfArray<T> = T extends (infer R)[] ? R : T;
+
+export type ReturnType<T> = T extends (...args: any) => infer R ? R : never;
+
 export type BlockBasics<T> = T & {
   events?: EventMap;
   settings?: {

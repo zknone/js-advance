@@ -6,22 +6,31 @@ import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { ChatItemProps } from '../../types/chat';
 
 class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
+  public tagClassName: string;
+
   constructor(props: ChatItemProps) {
     const defaultProps: Partial<ChatItemProps> = {
       unreadCount: 0,
     };
 
-    const chosenChat = Number(store.getState().query.id);
+    const queryId = store.getState().query?.id;
+    const chosenChat = queryId !== undefined ? Number(queryId) : null;
+
+    const chatId = props?.id ?? null;
+    const isActive =
+      chatId !== null && chosenChat !== null && !Number.isNaN(chosenChat) && chatId === chosenChat;
 
     const tagName = 'li';
-    const tagClassName = `chat-item ${props.id === chosenChat && 'chat-item--active'}`;
+    const tagClassName = ['chat-item', isActive ? 'chat-item--active' : null]
+      .filter(Boolean)
+      .join(' ');
 
     super(
       'chatItem',
       {
         ...defaultProps,
         ...props,
-        avatar: props.avatar ? `${API_BASE_URL}/resources${props.avatar}` : null,
+        avatar: props.avatar ? `${API_BASE_URL}/resources/${props.avatar}` : null,
         settings: {
           withInternalID: true,
         },
@@ -31,8 +40,7 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
               e.preventDefault();
               const targetId = props.id as number;
               if (targetId) {
-                store.set('activeChat', targetId);
-                router.go({ pathname: ROUTES.messenger, query: { id: targetId.toString() } });
+                router.go({ pathname: ROUTES.messenger, query: { id: targetId } });
               }
             },
           },
@@ -41,6 +49,8 @@ class ChatItem extends TemplateBlock<ChatItemProps & Record<string, unknown>> {
       tagName,
       tagClassName
     );
+
+    this.tagClassName = tagClassName;
   }
 
   render() {

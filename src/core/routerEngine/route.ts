@@ -30,8 +30,16 @@ class Route<P extends AdditionalField = AdditionalField> {
 
   navigate(pathname: Path) {
     if (this.match(pathname)) {
-      this.render(pathname.query);
+      if (pathname.query) {
+        this.render(pathname.query);
+      } else {
+        this.render();
+      }
     }
+  }
+
+  getPathname() {
+    return this._pathname;
   }
 
   isProtected() {

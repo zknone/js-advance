@@ -1,6 +1,7 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
   "customSyntax": "postcss-scss",
+  "ignoreFiles": ["dist/**/*.css"],
   "rules": {
     "declaration-empty-line-before": null,
     "color-hex-length": null,

@@ -1,6 +1,6 @@
 import type { CustomFormProps } from '../types/chat';
 
-export const loginFormData: CustomFormProps = {
+export const loginFormDefaultProps: CustomFormProps = {
   title: 'Вход',
   inputFields: [
     {

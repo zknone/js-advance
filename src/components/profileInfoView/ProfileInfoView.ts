@@ -1,5 +1,5 @@
 import { ROUTES } from '../../consts/routes';
-import userController from '../../controllers/user/userController';
+import userController from '../../services/user/userService';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
 import type { CustomButtonProps, ProfileInfoModeProps } from '../../types/chat';
 import CustomButton from '../customButton/CustomButton';

@@ -12,8 +12,33 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
     fieldName: null,
   };
 
+  private handleAttachmentButtonClick = () => {
+    this.setProps({
+      ...this.props,
+      showAttachmentMenu: !this.props.showAttachmentMenu,
+    });
+  };
+
   constructor(props: MessageQuillProps) {
-    const defaultProps: Partial<MessageQuillProps> = {};
+    const defaultProps: Partial<MessageQuillProps> = {
+      imgIcon: {
+        src: './attach-icon.svg',
+        alt: '',
+      },
+      fileIcon: {
+        src: './file-icon.svg',
+        alt: '',
+      },
+      locationIcon: {
+        src: './location-icon.svg',
+        alt: '',
+      },
+      labels: {
+        photoVideo: 'Прикрепить медиа',
+        file: 'Прикрепить файл',
+        location: 'Указать локацию',
+      },
+    };
 
     const tagName = 'div';
     const tagClassName = 'message-quill';
@@ -56,7 +81,10 @@ class MessageQuill extends TemplateBlock<MessageQuillProps> {
         };
       },
     });
-    this.children.attachButton = new CustomButton(this.props.attachButton);
+    this.children.attachButton = new CustomButton({
+      ...this.props.attachButton,
+      onClick: () => this.handleAttachmentButtonClick(),
+    });
     this.children.sendButton = new CustomButton({
       ...this.props.sendButton,
       type: 'submit',

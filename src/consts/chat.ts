@@ -1,7 +1,7 @@
-import { ROUTES } from '../consts/routes';
+import { ROUTES } from './routes';
 import type { MainPageProps } from '../types/pages';
 
-export const mainPageData: MainPageProps = {
+export const mainPageDefaultProps: MainPageProps = {
   customLink: {
     text: 'Профиль',
     href: ROUTES.settings,

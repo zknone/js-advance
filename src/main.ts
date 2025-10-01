@@ -1,5 +1,5 @@
 import { ROUTES } from './consts/routes';
-import userController from './controllers/user/userController';
+import userController from './services/user/userService';
 import router from './core/routerEngine/router';
 import TemplateEngine from './core/templateEngine/TemplateEngine';
 import LoadingErrorPage from './pages/loadingErrorPage/LoadingErrorPage';

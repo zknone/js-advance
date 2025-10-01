@@ -1,4 +1,6 @@
-import type { AdditionalField } from '../types/core';
+import { httpStatus } from '../../consts/api';
+import type { AdditionalField } from '../../types/core';
+import queryStringify from '../../utils/queryStringify';
 
 const METHODS = {
   GET: 'GET',
@@ -13,24 +15,12 @@ interface RequestOptions extends AdditionalField {
   method?: HTTPMethod;
   timeout?: number;
   headers?: Record<string, string>;
-  data?: Record<string, unknown>;
+  data?: Record<string, unknown> | FormData | string;
 }
 
 interface FetchRequest {
   url: string;
   options?: RequestOptions;
-}
-
-function queryStringify(data: Record<string, unknown>) {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  const keys = Object.keys(data);
-  return keys.reduce(
-    (result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`,
-    '?'
-  );
 }
 
 function getFullUrl(baseUrl: string, url: string) {
@@ -99,7 +89,12 @@ class HTTPTransport {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
 
-      xhr.open(method, isGet && !!data ? `${fullUrl}${queryStringify(data)}` : fullUrl);
+      let urlWithQuery = fullUrl;
+      if (isGet && data && typeof data === 'object' && !(data instanceof FormData)) {
+        urlWithQuery = `${fullUrl}${queryStringify(data)}`;
+      }
+
+      xhr.open(method, urlWithQuery);
       xhr.withCredentials = true;
 
       Object.keys(headers).forEach((key) => {
@@ -112,7 +107,7 @@ class HTTPTransport {
 
         const response = isJson ? JSON.parse(xhr.responseText) : xhr.responseText;
 
-        if (xhr.status >= 200 && xhr.status < 300) {
+        if (xhr.status >= httpStatus.Ok && xhr.status < httpStatus.MultipleChoices) {
           resolve(response as T);
         } else {
           // eslint-disable-next-line prefer-promise-reject-errors
@@ -120,10 +115,10 @@ class HTTPTransport {
         }
       };
 
-      xhr.onabort = reject;
-      xhr.onerror = reject;
       xhr.timeout = timeout;
-      xhr.ontimeout = reject;
+      xhr.onabort = () => reject(new Error('Request aborted'));
+      xhr.onerror = () => reject(new Error('Network error'));
+      xhr.ontimeout = () => reject(new Error('Request timed out'));
 
       if (isGet || !data) {
         xhr.send();

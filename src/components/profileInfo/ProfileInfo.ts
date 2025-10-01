@@ -1,15 +1,16 @@
 import { API_BASE_URL } from '../../consts/api';
-import userController from '../../controllers/user/userController';
-import type { ILoggedUser, IPassword, IProfile } from '../../core/api/interfaces';
+import userController from '../../services/user/userService';
 import store from '../../core/store/store';
 import TemplateBlock from '../../core/templateBlock/TemplateBlock';
-import { baseFields, basePasswordFields } from '../../mocks/profile';
+import { baseFields, basePasswordFields } from '../../consts/profile';
 import type { ProfileInfoProps, ProfilePageProps } from '../../types/chat';
 import type { IStore } from '../../types/store';
 import getDataFromInputs from '../../utils/getDataFromInputs';
 import ModalItem from '../modalItem/ModalItem';
 import ProfileInfoEdit from '../profileInfoEdit/ProfileInfoEdit';
 import ProfileInfoView from '../profileInfoView/ProfileInfoView';
+import type { ILoggedUser, IPassword, IProfile } from '../../types/api';
+import trim from '../../utils/trim';
 
 class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   private subscribe?: () => void;
@@ -55,7 +56,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
       });
       this.setProps({
         ...this.props,
-        name: `${user.second_name ?? ''} ${user.first_name ?? ''}`.trim(),
+        name: trim(`${user.second_name ?? ''} ${user.first_name ?? ''}`),
         infoFields: fields,
         avatar: {
           changeText: 'Аватар',
@@ -119,7 +120,7 @@ class ProfileInfo extends TemplateBlock<ProfileInfoProps> {
   render(): DocumentFragment {
     const { query } = store.getState();
 
-    const mode = query.editing;
+    const mode = query?.editing ?? null;
 
     const isView = mode === 'view';
     const isPass = mode === 'pass';

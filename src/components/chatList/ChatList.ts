@@ -20,8 +20,14 @@ class ChatList extends TemplateBlock<ChatListProps> {
   }
 
   render() {
-    const chats = this.props.chatList ?? [];
-    this.children.chatList = chats.map((chat) => new ChatItem(chat));
+    const chats = (this.props.chatList ?? []).filter((c) => c != null);
+
+    if (chats.length) {
+      this.children.chatList = chats.map(
+        (chat) => new ChatItem({ ...chat, settings: { withInternalID: true } })
+      );
+    }
+
     return this.compile('chatList', this.props);
   }
 }

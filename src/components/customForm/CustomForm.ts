@@ -29,7 +29,9 @@ class CustomForm extends TemplateBlock<CustomFormProps> {
 
   render() {
     this.children.customButton = new CustomButton(this.props.customButton);
-    this.children.customLink = new CustomLink(this.props.customLink);
+    if (this.props.customLink) {
+      this.children.customLink = new CustomLink(this.props.customLink);
+    }
     const items = (this.props.inputFields ?? []).map((f: InputItemProps) => new InputItem(f));
     this.children.inputFields = items;
 

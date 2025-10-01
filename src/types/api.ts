@@ -1,4 +1,4 @@
-import type { AdditionalField } from '../../../types/core';
+import type { AdditionalField } from './core';
 
 interface INewUser extends AdditionalField {
   first_name: string;
